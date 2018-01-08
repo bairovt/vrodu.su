@@ -1,11 +1,10 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      app temporary
+    <v-navigation-drawer v-if="user"
+      app
       fixed
       clipped
       v-model="drawer"
-      enable-resize-watcher
     >
       <v-list>
         <v-list-tile
@@ -23,7 +22,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-navigation-drawer
+    <v-navigation-drawer v-if="user"
       app right
       fixed
       clipped
@@ -50,16 +49,22 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn flat v-if="user" :to="`/person/${user._key}`">
+          {{user.name}}
+        </v-btn>
+        <v-btn flat v-if="user" @click.stop="logout">
+          Выход
+        </v-btn>
+      </v-toolbar-items>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>menu</v-icon>
       </v-btn>
     </v-toolbar>
 
     <v-content>
-      <v-container fluid>
         <router-view>
         </router-view>
-      </v-container>
     </v-content>
 
     <v-footer app>
@@ -79,6 +84,16 @@
         }],
         rightDrawer: false,
         title: 'ВРоду'
+      }
+    },
+    computed: {
+      user () {
+        return this.$store.getters.user
+      }
+    },
+    methods: {
+      logout () {
+        this.$store.dispatch('logout');
       }
     }
   }
