@@ -3,6 +3,7 @@ import {store} from './store/store'
 import App from './App'
 import router from './router'
 import Alert from './components/Shared/Alert.vue'
+import RightDrawer from './components/RightDrawer.vue'
 
 import {Vuetify,
     VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar,
@@ -23,6 +24,7 @@ Vue.use(Vuetify, {
 })
 
 Vue.component('app-alert', Alert)
+Vue.component('right-drawer', RightDrawer)
 
 // import '../node_modules/vuetify/src/stylus/app.styl'
 import './stylus/main.styl'

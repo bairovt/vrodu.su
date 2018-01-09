@@ -12,12 +12,10 @@ export const store = new Vuex.Store({
   state: {
     user: null,
     loading: false,
-    error: null
+    error: null,
+    rightDrawer: false
   },
-  getters: {
-    user (state) {
-      return state.user
-    },
+  getters: {    
     loading (state) {
       return state.loading
     },
@@ -41,10 +39,13 @@ export const store = new Vuex.Store({
     },
     clearError (state) {
       state.error = null
+    },
+    setRightDrawer (state, payload) {
+      state.rightDrawer = payload
     }
   },
   actions: {
-    axiosErrorHandle ({commit, dispatch}, error) {
+    axiosErrorHandle({commit, dispatch}, error) {
       commit('setLoading', false) // остановить крутилку
       if (error.response) {
         // The request was made, but the server responded with a status code

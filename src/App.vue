@@ -22,7 +22,10 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-navigation-drawer v-if="user"
+    <right-drawer v-if="user">
+    </right-drawer>
+
+    <!-- <v-navigation-drawer v-if="user"
       app right
       fixed
       clipped
@@ -40,7 +43,7 @@
           </footer>
         </blockquote>
       </v-layout>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 
     <v-toolbar fixed app
       clipped-right
@@ -82,13 +85,21 @@
           icon: 'bubble_chart',
           title: 'Inspire'
         }],
-        rightDrawer: false,
+        // rightDrawer: false,
         title: 'ВРоду'
       }
     },
     computed: {
       user () {
-        return this.$store.getters.user
+        return this.$store.state.user
+      },
+      rightDrawer: {
+        get() {
+          return this.$store.state.rightDrawer;
+        },
+        set(newVal) {
+          this.$store.commit('setRightDrawer', newVal);
+        }
       }
     },
     methods: {
