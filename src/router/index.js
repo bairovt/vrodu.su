@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
-// import Person from '@/components/Person'
+import Person from '@/components/Person/Person'
 import Signin from '@/components/User/Signin'
 import Signup from '@/components/User/Signup'
 
@@ -24,11 +24,11 @@ export default new Router({
       name: 'Signup',
       component: Signup
     },
-    // {
-    //   path: '/person/:key',
-    //   name: 'Person',
-    //   component: Person
-    // }
+    {
+      path: '/person/:key',
+      name: 'Person',
+      component: Person
+    }
   ],
   mode: 'history'
 })

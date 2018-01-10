@@ -11,11 +11,12 @@ export const store = new Vuex.Store({
   // strict: process.env.NODE_ENV !== 'production',
   state: {
     user: null,
+    person: null,
     loading: false,
     error: null,
     rightDrawer: false
   },
-  getters: {    
+  getters: {
     loading (state) {
       return state.loading
     },
@@ -27,10 +28,9 @@ export const store = new Vuex.Store({
     setUser (state, payload) {
       state.user = payload
     },
-    // setUser (state, payload=undefined) {
-    //   if (payload === null) state.user = null // unset user
-
-    // },
+    setPerson (state, payload) {
+      state.person = payload
+    },
     setLoading (state, payload) {
       state.loading = payload
     },
