@@ -6,13 +6,12 @@
     clipped
     :value="rightDrawer"
   >
-    <v-layout column v-if="person" align-center>
-      <br />
-      <v-flex xs12 class="">
-        <h4><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></h4>
+    <v-layout column v-if="person">
+      <v-flex xs12 class="pt-2 pl-2">
         <img v-if="person.image"
           width="80%"
           :src="'/static/upload/' + person._key + '/' + person.image" alt="image" class="mb-2" />
+        <h4><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></h4>
         <p>пол: {{person.gender | gender}}</p>
         <p>{{person.lifestory}}</p>
 

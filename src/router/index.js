@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Person from '@/components/Person/Person'
 import Signin from '@/components/User/Signin'
 import Signup from '@/components/User/Signup'
+import notFound from '@/components/notFound'
 
 Vue.use(Router)
 
@@ -28,6 +29,10 @@ export default new Router({
       path: '/person/:key',
       name: 'Person',
       component: Person
+    },
+    {
+      path: '*',
+      component: notFound
     }
   ],
   mode: 'history'
