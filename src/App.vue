@@ -11,6 +11,7 @@
           value="true"
           v-for="(item, i) in items"
           :key="i"
+          :to="item.url"
         >
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
@@ -24,16 +25,6 @@
 
     <right-drawer v-if="user">
     </right-drawer>
-
-    <!-- <v-navigation-drawer v-if="user"
-      app right
-      fixed
-      clipped
-      v-model="rightDrawer"
-    >
-      <v-layout column align-center>
-      </v-layout>
-    </v-navigation-drawer> -->
 
     <v-toolbar app
       fixed
@@ -73,10 +64,8 @@
       return {
         drawer: false,
         items: [{
-          icon: 'bubble_chart',
-          title: 'Inspire'
-        }],
-        // rightDrawer: false,
+          icon: 'bubble_chart', title: 'Рода', url: "/rod/all"
+        }],        
         title: 'ВРоду'
       }
     },

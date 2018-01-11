@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
+import Rods from '@/components/Rods'
 import Person from '@/components/Person/Person'
 import Signin from '@/components/User/Signin'
 import Signup from '@/components/User/Signup'
@@ -10,11 +10,15 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'HelloWorld',
-    //   component: HelloWorld
-    // },
+    {
+      path: '/',
+      redirect: '/rod/all'
+    },
+    {
+      path: '/rod/all',
+      name: 'Rods',
+      component: Rods
+    },
     {
       path: '/signin',
       name: 'Signin',

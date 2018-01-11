@@ -13,6 +13,7 @@
           :src="'/static/upload/' + person._key + '/' + person.image" alt="image" class="mb-2" />
         <h4><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></h4>
         <p>пол: {{person.gender | gender}}</p>
+        <p>{{person.about}}</p>
         <p>{{person.lifestory}}</p>
 
         <p v-if="person.rod">Род: <router-link :to="`/rod/${person.rod._key}`">{{person.rod.name}}</router-link></p>
