@@ -75,9 +75,9 @@
     data () {
       return {
         drawer: false,
-        items: [{
-          icon: 'bubble_chart', title: 'Рода', url: "/rod/all"
-        }]
+        items: [
+          {icon: 'bubble_chart', title: 'Рода', url: "/rod/all"},          
+        ]
       }
     },
     computed: {
