@@ -5,6 +5,7 @@
       fixed
       clipped
       v-model="drawer"
+      disable-route-watcher
     >
       <v-list>
         <v-list-tile
@@ -20,7 +21,19 @@
             <v-list-tile-title v-text="item.title"></v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile @click.stop="logout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Выход</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <!-- <v-btn flat v-if="user" @click.stop="logout">
+          Выход
+        </v-btn> -->
       </v-list>
+
     </v-navigation-drawer>
 
     <right-drawer v-if="user">
@@ -32,14 +45,13 @@
       clipped-left
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" tag="span" style="cursor: pointer">ВРоду</router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn flat v-if="user" :to="`/person/${user._key}`">
           {{user.name}}
-        </v-btn>
-        <v-btn flat v-if="user" @click.stop="logout">
-          Выход
         </v-btn>
       </v-toolbar-items>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
@@ -65,8 +77,7 @@
         drawer: false,
         items: [{
           icon: 'bubble_chart', title: 'Рода', url: "/rod/all"
-        }],        
-        title: 'ВРоду'
+        }]
       }
     },
     computed: {

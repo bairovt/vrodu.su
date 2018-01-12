@@ -15,13 +15,18 @@ import router from '@/router'
 
 // provide the data in the vis format
 let visOptions = {
+  // locale: 'ru'
   layout: {
     hierarchical: {
       sortMethod: "directed"
     }
   },
   nodes: {
-    brokenImage: '/static/upload/image.jpeg'
+    shape: 'icon',
+    brokenImage: '/static/upload/image.jpeg',
+    font: {
+      strokeWidth: 7
+    }
   },
   edges: {
     smooth: true,
@@ -29,12 +34,11 @@ let visOptions = {
   },
   groups: {
     0: {                      //women
-      shape: 'icon',
       icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: '#aa00ff'},
-      color: {border: '#aa00ff'}
+      color: {border: '#aa00ff'}  // arrow color
     },
 	  1: {                      //men
-      shape: 'icon',
+      // shape: 'icon',
       icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: '#2b7ce9'}
 	  }
   },
@@ -125,7 +129,6 @@ export default {
 	  }
   },
   created () {
-    console.log('created')
     this.fetchData()
   },
 	filters: {

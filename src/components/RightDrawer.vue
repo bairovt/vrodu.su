@@ -5,6 +5,7 @@
     fixed
     clipped
     :value="rightDrawer"
+    disable-route-watcher
   >
     <v-layout column v-if="person">
       <v-flex xs12 class="pt-2 pl-2">
