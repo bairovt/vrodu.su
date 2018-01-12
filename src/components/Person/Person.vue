@@ -9,6 +9,7 @@
 </template>
 
 <script>
+// todo: wrong person key -> 404 message
 import axiosInst from '@/utils/axios-instance'
 import {ancestorRelation, descendantRelation} from '@/filters'
 import router from '@/router'

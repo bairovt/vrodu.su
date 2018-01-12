@@ -76,7 +76,8 @@
       return {
         drawer: false,
         items: [
-          {icon: 'bubble_chart', title: 'Рода', url: "/rod/all"},          
+          {icon: 'bubble_chart', title: 'Рода', url: "/rod/all"},
+          {icon: 'supervisor_account', title: 'Все', url: "/person/all"}          
         ]
       }
     },
