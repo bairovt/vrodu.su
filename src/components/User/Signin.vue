@@ -51,25 +51,15 @@
       }
     },
     computed: {
-      // formIsValid () {
-      //   return this.email && this.password
-      // },
-      user () {
-        return this.$store.getters.user
-      },
       error () {
-        return this.$store.getters.error
+        return this.$store.state.error
       },
 	    loading () {
-        return this.$store.getters.loading
-	    }
-    },
-    watch: {
-      user (value) {
-        if (value !== null && value !== undefined) {
-          this.$router.push('/')
-        }
-      }
+        return this.$store.state.loading
+	    },
+			// formIsValid () {
+      //   return this.email && this.password
+      // },
     },
     methods: {
       onSignin () {

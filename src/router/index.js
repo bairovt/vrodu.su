@@ -4,6 +4,7 @@ import Rods from '@/components/Rods'
 import Rod from '@/components/Rod'
 import Person from '@/components/Person/Person'
 import AllPersons from '@/components/Person/AllPersons'
+import AddPerson from '@/components/Person/AddPerson'
 import Signin from '@/components/User/Signin'
 import Signup from '@/components/User/Signup'
 import notFound from '@/components/notFound'
@@ -45,6 +46,11 @@ export default new Router({
       path: '/person/:key',
       name: 'Person',
       component: Person
+    },
+    {
+      path: '/person/:key/add/:reltype',
+      name: 'AddPerson',
+      component: AddPerson
     },
     {
       path: '*',

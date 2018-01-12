@@ -46,7 +46,10 @@
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <router-link to="/" tag="span" style="cursor: pointer">ВРоду</router-link>
+        <router-link to="/" tag="span" style="cursor: pointer">
+          <!-- <v-icon>bubble_chart</v-icon>   -->
+          ВРоду
+        </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
@@ -55,7 +58,8 @@
         </v-btn>
       </v-toolbar-items>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>menu</v-icon>
+        <!-- <v-icon>menu</v-icon> -->
+        <v-icon>face</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -77,7 +81,7 @@
         drawer: false,
         items: [
           {icon: 'bubble_chart', title: 'Рода', url: "/rod/all"},
-          {icon: 'supervisor_account', title: 'Все', url: "/person/all"}          
+          {icon: 'supervisor_account', title: 'Все персоны', url: "/person/all"}
         ]
       }
     },
@@ -87,17 +91,20 @@
       },
       rightDrawer: {
         get() {
-          return this.$store.state.rightDrawer;
+          return this.$store.state.rightDrawer
         },
         set(newVal) {
-          this.$store.commit('setRightDrawer', newVal);
+          this.$store.commit('setRightDrawer', newVal)
         }
       }
     },
     methods: {
       logout () {
-        this.$store.dispatch('logout');
+        this.$store.dispatch('logout')
       }
+    },
+    created: function () {
+      this.$store.dispatch('fetchAllRods')
     }
   }
 </script>

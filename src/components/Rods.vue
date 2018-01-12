@@ -4,7 +4,7 @@
       <v-flex class="xs12">
         <h1>Рода</h1>
       </v-flex>
-      <v-flex class="xs12">
+      <v-flex class="xs12" v-if="rods">
         <h2><router-link to="/person/Khory">Хори</router-link> буряты</h2>
         <br />
         <p v-for="rod in rods" :key="rod._id">
@@ -19,19 +19,11 @@
 import axiosInst from '@/utils/axios-instance'
 
 export default {
-  name: 'Rods',
-  data () {
-    return {
-      rods: []
+  name: 'Rods',  
+  computed: {
+    rods () {
+      return this.$store.state.rods
     }
-  },
-  created: function () {
-    let vm = this;
-    axiosInst.get('/api/rod/all')
-      .then(resp => {
-        vm.rods = resp.data.rods;
-      })
-      .catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
   }
 }
 </script>

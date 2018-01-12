@@ -12,37 +12,21 @@ export const store = new Vuex.Store({
   state: {
     user: null,
     person: null,
+    rods: null,
     loading: false,
     error: null,
     rightDrawer: false
   },
   getters: {
-    loading (state) {
-      return state.loading
-    },
-    error (state) {
-      return state.error
-    }
   },
   mutations: {
-    setUser (state, payload) {
-      state.user = payload
-    },
-    setPerson (state, payload) {
-      state.person = payload
-    },
-    setLoading (state, payload) {
-      state.loading = payload
-    },
-    setError (state, payload) {
-      state.error = payload
-    },
-    clearError (state) {
-      state.error = null
-    },
-    setRightDrawer (state, payload) {
-      state.rightDrawer = payload
-    }
+    setUser (state, payload) {state.user = payload},
+    setPerson (state, payload) {state.person = payload},
+    setLoading (state, payload) {state.loading = payload},
+    setError (state, payload) {state.error = payload},
+    clearError (state) {state.error = null},
+    setRightDrawer (state, payload) {state.rightDrawer = payload},
+    setRods (state, payload) {state.rods = payload}
   },
   actions: {
     axiosErrorHandle({commit, dispatch}, error) {
@@ -72,13 +56,9 @@ export const store = new Vuex.Store({
           const authToken = resp.data.authToken;
           window.localStorage.setItem('authToken', authToken);
           commit('setUser', jwtDecode(authToken)); // user object
-          router.push(resp.data.location);
+          router.push(resp.data.location); // change redirecr after signin: in client
         })
-        .catch(error => {
-          dispatch('axiosErrorHandle', error)
-          // const handle = axiosErrorHandler.bind(this)
-          // handle(error)
-        })
+        .catch(error => {dispatch('axiosErrorHandle', error)})
     },
     autoSingIn ({commit}) {
       const authToken = window.localStorage.getItem('authToken')
@@ -92,6 +72,13 @@ export const store = new Vuex.Store({
       commit('setUser', null)
       window.localStorage.removeItem('authToken')
       router.push('/signin')
+    },
+    fetchAllRods ({commit, dispatch}) {
+      axiosInst.get('/api/rod/all') // загрузка всех родов при создании App
+        .then(resp => {
+          commit('setRods', resp.data.rods);
+        })
+        .catch(error => {dispatch('axiosErrorHandle', error)});
     }
   }
 })
