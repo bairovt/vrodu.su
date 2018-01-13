@@ -17,8 +17,7 @@ export const store = new Vuex.Store({
     error: null,
     rightDrawer: false
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
     setUser (state, payload) {state.user = payload},
     setPerson (state, payload) {state.person = payload},

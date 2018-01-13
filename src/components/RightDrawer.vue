@@ -47,13 +47,10 @@
 
 <script>
 import {gender} from '@/filters'
+import axiosInst from '@/utils/axios-instance'
 
 export default {
   name: 'RightDrawer',
-  data () {
-    return {
-    }
-  },
   computed: {
     rightDrawer () {
       return this.$store.state.rightDrawer;
@@ -64,6 +61,15 @@ export default {
 	  editRights: function() {
       // todo: проверка прав на редактирование персоны
       return true
+	  }
+  },
+  methods: {
+    removePerson () {
+      axiosInst.get(`/api/person/${this.person._key}/remove`)
+      .then((resp) => {
+        this.$store.commit('setPerson', null)
+        this.$router.push('/person/all')
+      }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
 	  }
   },
   filters: {
