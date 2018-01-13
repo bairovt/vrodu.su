@@ -7,13 +7,13 @@ import RightDrawer from './components/RightDrawer.vue'
 
 import {Vuetify,
     VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar,
-    VTextField, VAlert, transitions
+    VTextField, VSelect, VAlert, transitions
 } from 'vuetify'
 
 Vue.use(Vuetify, {
   components: {
     VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar,
-    VTextField, VAlert, transitions
+    VTextField, VSelect, VAlert, transitions
   },
   theme: {
     primary: '#3f51b5',
