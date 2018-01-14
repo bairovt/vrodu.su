@@ -4,8 +4,7 @@
       app
       fixed
       clipped
-      v-model="drawer"
-      disable-route-watcher
+      v-model="drawer"            
     >
       <v-list>
         <v-list-tile

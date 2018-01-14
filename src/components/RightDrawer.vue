@@ -1,4 +1,5 @@
 <template>
+  <!-- app  -->
   <v-navigation-drawer
     app
     right
@@ -6,9 +7,11 @@
     clipped
     :value="rightDrawer"
     disable-route-watcher
+    hide-overlay
   >
     <v-layout column v-if="person">
       <v-flex xs12 class="pt-2 pl-2">
+        <!-- <br /><br /><br /> -->
         <img v-if="person.image"
           width="80%"
           :src="'/static/upload/' + person._key + '/' + person.image" alt="image" class="mb-2" />
