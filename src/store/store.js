@@ -15,7 +15,10 @@ export const store = new Vuex.Store({
     rods: null,
     loading: false,
     error: null,
-    rightDrawer: false
+    rightDrawer: false,
+    rules: {
+      required: (v) => !!v || 'Обязательное поле'
+    }
   },
   getters: {},
   mutations: {

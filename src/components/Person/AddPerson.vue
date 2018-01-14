@@ -9,7 +9,7 @@
         <form @submit.prevent="addPerson">
           <v-text-field
 							id="name" name="name" label="Имя" type="text"
-							v-model="personData.name" required>
+							v-model="personData.name" required :rules="[rules.required]">
           </v-text-field>
           <v-text-field
 							id="surname" name="surname" label="Фамилия"
@@ -90,6 +90,9 @@ export default {
       let rods = this.$store.state.rods
       rods.push({_id: null, name: ''})
       return rods
+    },
+    rules () {
+      return this.$store.state.rules
     }
   },
   methods: {
