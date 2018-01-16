@@ -118,9 +118,9 @@ export default {
           let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
           router.push('/person/' + person_key)    // id: Persons/BairovTumenG
 	      }
-        let edgeId = params.edges[0];
-        if (edgeId) { // edge clicked
-		      console.log(params)
+        let edgesId = params.edges;
+        if (edgesId) { // edge clicked
+		      console.log(network)
 	      }
       });
 	  },

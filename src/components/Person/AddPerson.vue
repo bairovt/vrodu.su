@@ -5,7 +5,6 @@
         <h2>Добавить <strong>{{$route.params.reltype | translate('v')}}</strong></h2>
         <h3> для: {{person.surname}} {{person.name}} {{person.midname}}</h3>
         <br/>
-
         <form @submit.prevent="addPerson">
           <v-text-field
 							id="name" name="name" label="Имя" type="text"
@@ -23,18 +22,15 @@
 							id="maidenName" name="maidenName" label="Девичья фамилия"
 							type="text" v-model="personData.maidenName">
           </v-text-field>
-
           <!-- <input type="text" size="40" name="name" placeholder="Имя" v-model="personData.name"> -->
-          <!-- <p><input type="text" size="40" name="surname" placeholder="Фамилия" v-model="personData.surname"></p> -->
-          <!-- <p><input type="text" size="40" name="midname" placeholder="Отчество" v-model="personData.midname"></p> -->
-          <!-- <p v-if="personData.gender === 0">
-            <input type="text" size="40" name="maidenName" placeholder="Девичья фамилия" v-model="personData.maidenName">
-          </p> -->
           <v-select
-            v-bind:items="rodsNames"
+            v-bind:items="rods"
             v-model="personData.rod"
             label="Род"
             autocomplete
+            item-text="name"
+            item-value="_id"
+            auto chips clearable
           ></v-select>
           <!-- <p v-if="rods">
             <label for="rod-selector">Род</label>
@@ -56,7 +52,6 @@
 			        <v-icon light>cached</v-icon>
 			      </span>
 					</v-btn>
-          <!-- <button type="submit">Добавить {{$route.params.reltype | translate('v')}}</button> -->
         </form>
       </v-flex>
     </v-layout>
@@ -72,7 +67,6 @@ export default {
   name: 'addPerson',
   data () {
     return {
-      // a1: null,
       personData: {
         gender: ['mother', 'daughter'].includes(this.$route.params.reltype)  ? 0 : 1 // остальные свойства
       }
@@ -81,50 +75,28 @@ export default {
   computed: {
     person () {return this.$store.state.person},
     loading () {return this.$store.state.loading},
-    rodsNames () {
-      return this.rods.map( rod => {
-        return rod.name
-      })
-    },
-    rods () {
-      let rods = this.$store.state.rods
-      rods.push({_id: null, name: ''})
-      return rods
-    },
-    rules () {
-      return this.$store.state.rules
-    }
+    rods () {return this.$store.state.rods},
+    rules () {return this.$store.state.rules}
   },
   methods: {
     addPerson () {
-      let rodName = this.personData.rod
-      let rod = this.$store.state.rods.find(rod => {
-        return rod.name === rodName
-      });
-      if (rod) {
-        this.personData.rod = rod._id
-      }
+      // let rodName = this.personData.rod
+      // let rod = this.$store.state.rods.find(rod => {
+      //   return rod.name === rodName
+      // });
+      // if (rod) {
+      //   this.personData.rod = rod._id
+      // }
       axiosInst.post(`/api/person/${this.person._key}/add/${this.$route.params.reltype}`, {
         personData: this.personData
       }).then(resp => {
 		      this.$router.push('/person/' + resp.data.newPersonKey);
 		    })
 		    .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
-		},
-    /*fetchPerson () {
-      axiosInst.get(`/api/person/${this.$route.params.key}/fetch`)
-          .then(resp => {
-            this.person = resp.data.person
-          })
-          .catch(axiosErrorHandler.bind(this))
-    },*/
+		}
   },
 	filters: {
     translate
 	}
 }
 </script>
-
-
-<style scoped>
-</style>

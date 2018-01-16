@@ -7,20 +7,20 @@ import RightDrawer from './components/RightDrawer.vue'
 
 import {Vuetify,
     VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar,
-    VTextField, VSelect, VAlert, transitions
+    VTextField, VSelect, VRadioGroup, VAlert, transitions
 } from 'vuetify'
 
 Vue.use(Vuetify, {
   components: {
     VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar,
-    VTextField, VSelect, VAlert, transitions
+    VTextField, VSelect, VRadioGroup, VAlert, transitions
   },
-  theme: {
-    primary: '#3f51b5',
-    secondary: '#b0bec5',
-    accent: '#8c9eff',
-    error: '#b71c1c'
-  }
+  // theme: {
+  //   primary: '#3f51b5',
+  //   secondary: '#b0bec5',
+  //   accent: '#8c9eff',
+  //   error: '#b71c1c'
+  // }
 })
 
 Vue.component('app-alert', Alert)

@@ -1,10 +1,12 @@
 <template>
   <v-app>
+    <!-- disable-route-watcher -->
     <v-navigation-drawer v-if="user"
       app
+      temporary
       fixed
       clipped
-      v-model="drawer"            
+      v-model="drawer"
     >
       <v-list>
         <v-list-tile
@@ -28,9 +30,6 @@
             <v-list-tile-title>Выход</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <!-- <v-btn flat v-if="user" @click.stop="logout">
-          Выход
-        </v-btn> -->
       </v-list>
 
     </v-navigation-drawer>
@@ -80,7 +79,8 @@
         drawer: false,
         items: [
           {icon: 'bubble_chart', title: 'Рода', url: "/rod/all"},
-          {icon: 'supervisor_account', title: 'Все персоны', url: "/person/all"}
+          {icon: 'supervisor_account', title: 'Люди', url: "/person/all"},
+          {icon: 'add_circle', title: 'Создать', url: "/person/create"}
         ]
       }
     },
