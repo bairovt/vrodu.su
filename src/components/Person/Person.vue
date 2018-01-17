@@ -82,7 +82,7 @@ export default {
           image: item.person.image ? '/static/upload/' + item.person._key + '/' + item.person.image : undefined,
 	        group: item.person.gender
         });
-        treeData.edges.push({from: item.edge._from, to: item.edge._to});
+        treeData.edges.push({id: item.edge._id, from: item.edge._from, to: item.edge._to, addedBy: item.edge.addedBy});
       });
       this.descendants.map(item => {
         treeData.nodes.push({
@@ -92,7 +92,7 @@ export default {
           image: item.person.image ? '/static/upload/' + item.person._key + '/' +item.person.image : undefined,
           group: item.person.gender
         });
-        treeData.edges.push({from: item.edge._from, to: item.edge._to});
+        treeData.edges.push({id: item.edge._id, from: item.edge._from, to: item.edge._to, addedBy: item.edge.addedBy});
       });
       return treeData;
     }
@@ -112,17 +112,15 @@ export default {
 		},
 	  renderTree () { // initialize vis network!
       let network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
-      network.on("click", function (params) {
-        let nodes = params.nodes;
-        let nodeId = nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
-	      if (nodeId) { // node clicked
-          let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
-          router.push('/person/' + person_key)    // id: Persons/BairovTumenG
-	      }
-        let edges = params.edges;
-        if (edges.length == 1 && !nodeId) { // edge clicked
-		      console.log(edges[0])  // vis edge id
-	      }
+      network.on("selectNode", function (props) {
+        let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
+        let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
+        router.push('/person/' + person_key)    // id: Persons/BairovTumenG
+      });
+      network.on("selectEdge", function (props) {
+        let edgeId = props.edges[0]
+	      // console.log(network)
+	      console.log(network.body.data.edges._data[edgeId])
       });
 	  },
 	  removePerson () {
