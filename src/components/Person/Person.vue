@@ -113,14 +113,15 @@ export default {
 	  renderTree () { // initialize vis network!
       let network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
       network.on("click", function (params) {
-        let nodeId = params.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
+        let nodes = params.nodes;
+        let nodeId = nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
 	      if (nodeId) { // node clicked
           let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
           router.push('/person/' + person_key)    // id: Persons/BairovTumenG
 	      }
-        let edgesId = params.edges;
-        if (edgesId) { // edge clicked
-		      console.log(network)
+        let edges = params.edges;
+        if (edges.length == 1 && !nodeId) { // edge clicked
+		      console.log(edges[0])  // vis edge id
 	      }
       });
 	  },
