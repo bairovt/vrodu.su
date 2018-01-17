@@ -82,7 +82,17 @@ export default {
           image: item.person.image ? '/static/upload/' + item.person._key + '/' + item.person.image : undefined,
 	        group: item.person.gender
         });
-        treeData.edges.push({id: item.edge._id, from: item.edge._from, to: item.edge._to, addedBy: item.edge.addedBy});
+        treeData.edges.push({
+          id: item.edge._id,
+          from: item.edge._from, to: item.edge._to,
+          addedBy: item.edge.addedBy,
+          adopt: item.edge.adopt,
+          color: {  // adoptive arrow color
+            color: item.edge.adopt == 1 ? '#18bc9c' : undefined,
+            highlight: item.edge.adopt == 1 ? '#18bc9c' : undefined,
+            hover: item.edge.adopt == 1 ? '#18bc9c' : undefined
+          },
+        });
       });
       this.descendants.map(item => {
         treeData.nodes.push({
@@ -92,7 +102,17 @@ export default {
           image: item.person.image ? '/static/upload/' + item.person._key + '/' +item.person.image : undefined,
           group: item.person.gender
         });
-        treeData.edges.push({id: item.edge._id, from: item.edge._from, to: item.edge._to, addedBy: item.edge.addedBy});
+        treeData.edges.push({
+          id: item.edge._id,
+          from: item.edge._from, to: item.edge._to,
+          addedBy: item.edge.addedBy,
+          adopt: item.edge.adopt,
+          color: { // adoptive arrow color
+            color: item.edge.adopt == 1 ? '#18bc9c' : undefined,
+            highlight: item.edge.adopt == 1 ? '#18bc9c' : undefined,
+            hover: item.edge.adopt == 1 ? '#18bc9c' : undefined
+          }
+        });
       });
       return treeData;
     }
@@ -120,7 +140,7 @@ export default {
       network.on("selectEdge", function (props) {
         let edgeId = props.edges[0]
 	      // console.log(network)
-	      console.log(network.body.data.edges._data[edgeId])
+	      // console.log(network.body.data.edges._data[edgeId])
       });
 	  },
 	  removePerson () {
