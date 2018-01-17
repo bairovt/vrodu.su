@@ -23,7 +23,12 @@
         <p v-if="person.rod">Род: <router-link :to="`/rod/${person.rod._key}`">{{person.rod.name}}</router-link></p>
 
         <p>Год рождения: {{person.birthYear}}</p>
-        <p>Добавил: <router-link :to="`/person/${person.addedBy._key}`">{{person.addedBy.surname}} {{person.addedBy.name}}</router-link></p>
+        <p v-if="person.addedBy">Добавил:
+          <router-link :to="`/person/${person.addedBy._key}`">
+            {{person.addedBy.name}}
+            {{person.addedBy.surname}}
+          </router-link>
+        </p>
         <p v-if="person.gender === 0">Девичья фамилия: {{person.maidenName}}</p>
         <p>id: {{person._key}}</p>
         <br>

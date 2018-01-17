@@ -10,8 +10,8 @@
     >
       <v-list>
         <v-list-tile
-          value="true"
           v-for="(item, i) in items"
+          v-if="!item.allowed || user.hasRoles(item.allowed)"
           :key="i"
           :to="item.url"
         >
@@ -22,6 +22,7 @@
             <v-list-tile-title v-text="item.title"></v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
         <v-list-tile @click.stop="logout">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
@@ -78,9 +79,9 @@
       return {
         drawer: false,
         items: [
-          {icon: 'bubble_chart', title: 'Рода', url: "/rod/all"},
-          {icon: 'supervisor_account', title: 'Люди', url: "/person/all"},
-          {icon: 'add_circle', title: 'Создать', url: "/person/create"}
+          {icon: 'bubble_chart', title: 'Рода', url: '/rod/all'},
+          {icon: 'supervisor_account', title: 'Люди', url: '/person/all'},
+          {icon: 'add_circle', title: 'Создать', url: '/person/create', allowed: ['manager']}
         ]
       }
     },

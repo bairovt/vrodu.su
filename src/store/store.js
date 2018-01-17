@@ -22,7 +22,19 @@ export const store = new Vuex.Store({
   },
   getters: {},
   mutations: {
-    setUser (state, payload) {state.user = payload},
+    setUser (state, payload) {
+      state.user = payload
+      if (!payload) return // user set to null
+      state.user.hasRoles = function (roles) {
+        if (!state.user.roles) return false;
+        if (state.user.roles.includes('admin')) return true;
+        let allowed = false;
+        roles.forEach(role => {
+          if (state.user.roles.includes(role)) allowed = true
+        })
+        return allowed
+      }
+    },
     setPerson (state, payload) {state.person = payload},
     setLoading (state, payload) {state.loading = payload},
     setError (state, payload) {state.error = payload},
