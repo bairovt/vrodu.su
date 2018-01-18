@@ -6,6 +6,7 @@
         <h3> для: {{person.surname}} {{person.name}} {{person.midname}}</h3>
         <br/>
         <form @submit.prevent="addPerson">
+          <v-checkbox :label="labelAdopted" v-model="relation.adopted"></v-checkbox>
           <v-text-field
 							id="name" name="name" label="Имя" type="text"
 							v-model="newPerson.name" required :rules="[rules.required]">
@@ -59,7 +60,10 @@ export default {
   props: ['reltype'],
   data () {
     return {
-      newPerson: {}
+      newPerson: {},
+      relation: {
+        adopted: false
+      }
     }
   },
   computed: {
@@ -67,13 +71,22 @@ export default {
     loading () {return this.$store.state.loading},
     rods () {return this.$store.state.rods},
     rules () {return this.$store.state.rules},
-    gender () {return ['mother', 'daughter'].includes(this.reltype)  ? 0 : 1}
+    gender () {return ['mother', 'daughter'].includes(this.reltype)  ? 0 : 1},
+    labelAdopted () {
+      switch (this.reltype) {
+        case 'father': return 'приемный отец/отчим';
+        case 'mother': return 'приемная мать/мачеха';
+        case 'son': return 'приемный сын/пасынок';
+        case 'daughter': return 'приемная дочь/падчерица';
+      }
+    }
   },
   methods: {
     addPerson () {
       this.newPerson.gender = this.gender
       axiosInst.post(`/api/person/${this.person._key}/add/${this.reltype}`, {
-        personData: this.newPerson
+        personData: this.newPerson,
+        relation: this.relation
       }).then(resp => {
 		      this.$router.push('/person/' + resp.data.newPersonKey);
 		    })

@@ -86,11 +86,11 @@ export default {
           id: item.edge._id,
           from: item.edge._from, to: item.edge._to,
           addedBy: item.edge.addedBy,
-          adopt: item.edge.adopt,
-          color: {  // adoptive arrow color
-            color: item.edge.adopt == 1 ? '#18bc9c' : undefined,
-            highlight: item.edge.adopt == 1 ? '#18bc9c' : undefined,
-            hover: item.edge.adopt == 1 ? '#18bc9c' : undefined
+          adopted: item.edge.adopted,
+          color: {  // adopted arrow color
+            color: item.edge.adopted == 1 ? '#18bc9c' : undefined,
+            highlight: item.edge.adopted == 1 ? '#18bc9c' : undefined,
+            hover: item.edge.adopted == 1 ? '#18bc9c' : undefined
           },
         });
       });
@@ -106,11 +106,11 @@ export default {
           id: item.edge._id,
           from: item.edge._from, to: item.edge._to,
           addedBy: item.edge.addedBy,
-          adopt: item.edge.adopt,
-          color: { // adoptive arrow color
-            color: item.edge.adopt == 1 ? '#18bc9c' : undefined,
-            highlight: item.edge.adopt == 1 ? '#18bc9c' : undefined,
-            hover: item.edge.adopt == 1 ? '#18bc9c' : undefined
+          adopted: item.edge.adopted,
+          color: { // adopted arrow color
+            color: item.edge.adopted == 1 ? '#18bc9c' : undefined,
+            highlight: item.edge.adopted == 1 ? '#18bc9c' : undefined,
+            hover: item.edge.adopted == 1 ? '#18bc9c' : undefined
           }
         });
       });
