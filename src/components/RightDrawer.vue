@@ -20,7 +20,10 @@
         <p>{{person.about}}</p>
         <p>{{person.lifestory}}</p>
 
-        <p v-if="person.rod">Род: <router-link :to="`/rod/${person.rod._key}`">{{person.rod.name}}</router-link></p>
+        <p v-if="person.rod">
+          <router-link :to="`/person/${person._key}`">Род</router-link>: 
+          <router-link :to="`/rod/${person.rod._key}`">{{person.rod.name}}</router-link>
+        </p>
 
         <p>Год рождения: {{person.birthYear}}</p>
         <p v-if="person.addedBy">Добавил:

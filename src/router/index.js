@@ -22,7 +22,8 @@ export default new Router({
     {path: '/person/all', name: 'AllPersons', component: AllPersons},
     {path: '/person/create', name: 'CreatePerson', component: CreatePerson},
     {path: '/person/:key', name: 'Person', component: Person},
-    {path: '/person/:key/add/:reltype', name: 'AddPerson', component: AddPerson},
+    {path: '/person/:key/add/:reltype', name: 'AddPerson', component: AddPerson,
+      props: true},
     {path: '*', component: notFound}
   ],
   mode: 'history'
