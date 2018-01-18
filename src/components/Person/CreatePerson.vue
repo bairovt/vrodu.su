@@ -6,32 +6,33 @@
         <br/>
         <form @submit.prevent="createPerson">
           <v-text-field
-							id="name" name="name" label="Имя" type="text"
+  						name="_key" label="key (id)" type="text"
+  						v-model="personData._key">
+          </v-text-field>
+
+          <v-text-field
+							name="name" label="Имя" type="text"
 							v-model="personData.name" required :rules="[rules.required]">
           </v-text-field>
 
           <v-text-field
-							id="surname" name="surname" label="Фамилия"
+							name="surname" label="Фамилия"
 							type="text" v-model="personData.surname">
           </v-text-field>
 
           <v-text-field
-							id="midname" name="midname" label="Отчество"
+							name="midname" label="Отчество"
 							type="text" v-model="personData.midname">
           </v-text-field>
 
-          <!-- <p>пол:
-    				<label for="radio_man">муж</label> <input type="radio" id="radio_man" v-model="personData.gender" value="1"/>
-    			  <label for="radio_woman">жен</label> <input type="radio" id="radio_woman" v-model="personData.gender" value="0"/>
-    		  </p> -->
           <v-radio-group v-model="personData.gender">
             <v-radio label="Мужчина" :value="1"></v-radio>
             <v-radio label="Женщина" :value="0"></v-radio>
           </v-radio-group>
 
           <v-text-field v-if="personData.gender === 0"
-							id="maidenName" name="maidenName" label="Девичья фамилия"
-							type="text" v-model="personData.maidenName">
+  						name="maidenName" label="Девичья фамилия"
+  						type="text" v-model="personData.maidenName">
           </v-text-field>
 
           <v-select
@@ -48,10 +49,7 @@
             id="about" name="about" label="Краткая информация"
             type="text" v-model="personData.about">
           </v-text-field>
-          <!-- <p>
-    			  <label for="is-user">Пользователь?</label>
-    			  <input type="checkbox" id="is-user" v-model="isUser"/>
-    		  </p> -->
+
           <v-switch label="Пользователь" v-model="isUser"></v-switch>
     		  <!-- optional user properties -->
     		  <template v-if="isUser">
@@ -69,8 +67,6 @@
 							type="password"
 							required>
   					</v-text-field>
-    			  <!-- <p><input type="text" size="40" name="email" placeholder="E-mail" v-model="userData.email"></p>
-    			  <p><input type="password" size="40" name="password" placeholder="пароль" v-model="userData.password"></p> -->
     		  </template>
 
           <v-btn type="submit" class="primary"
