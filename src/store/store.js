@@ -4,6 +4,7 @@ import router from '@/router'
 import jwtDecode from 'jwt-decode'
 import axiosInst from '@/utils/axios-instance';
 import axiosErrorHandler from '@/utils/axios-error-handler';
+import rods from '@/data/rods';
 
 Vue.use(Vuex)
 
@@ -12,7 +13,7 @@ export const store = new Vuex.Store({
   state: {
     user: null,
     person: null,
-    rods: null,
+    rods: rods,
     loading: false,
     error: null,
     rightDrawer: false,
@@ -74,10 +75,10 @@ export const store = new Vuex.Store({
         })
         .catch(error => {dispatch('axiosErrorHandle', error)})
     },
-    autoSingIn ({commit}) {
+    autoSingIn ({commit, dispatch}) {
       const authToken = window.localStorage.getItem('authToken')
       if (authToken) {
-        commit('setUser', jwtDecode(authToken)) // todo: разлогинивание конкретного юзера с сервера
+        commit('setUser', jwtDecode(authToken)); // todo: разлогинивание конкретного юзера с сервера
       } else {
         router.push('/signin')
       }

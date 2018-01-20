@@ -102,9 +102,6 @@
       logout () {
         this.$store.dispatch('logout')
       }
-    },
-    created: function () {
-      this.$store.dispatch('fetchAllRods')
     }
   }
 </script>

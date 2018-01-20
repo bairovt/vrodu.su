@@ -6,21 +6,21 @@
         <h3> для: {{person.surname}} {{person.name}} {{person.midname}}</h3>
         <br/>
         <form @submit.prevent="addPerson">
-          <v-checkbox :label="labelAdopted" v-model="relation.adopted"></v-checkbox>
+          <v-checkbox :label="labelAdopted" v-model="relation.adopted" color="primary"></v-checkbox>
           <v-text-field
-							id="name" name="name" label="Имя" type="text"
+							name="name" label="Имя" type="text"
 							v-model="newPerson.name" required :rules="[rules.required]">
           </v-text-field>
           <v-text-field
-							id="surname" name="surname" label="Фамилия"
+							name="surname" label="Фамилия"
 							type="text" v-model="newPerson.surname">
           </v-text-field>
           <v-text-field
-							id="midname" name="midname" label="Отчество"
+							name="midname" label="Отчество"
 							type="text" v-model="newPerson.midname">
           </v-text-field>
           <v-text-field v-if="gender === 0"
-							id="maidenName" name="maidenName" label="Девичья фамилия"
+							name="maidenName" label="Девичья фамилия"
 							type="text" v-model="newPerson.maidenName">
           </v-text-field>
           <v-select
@@ -33,7 +33,7 @@
             auto chips clearable
           ></v-select>
           <v-text-field multi-line
-              id="about" name="about" label="Краткая информация"
+              name="about" label="Краткая информация"
               type="text" v-model="newPerson.about">
           </v-text-field>
           <v-btn type="submit" class="primary"
@@ -52,7 +52,6 @@
 
 <script>
 import axiosInst from '@/utils/axios-instance'
-import axiosErrorHandler from '@/utils/axios-error-handler'
 import {translate} from '@/filters'
 
 export default {

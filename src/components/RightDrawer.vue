@@ -16,25 +16,27 @@
           width="80%"
           :src="'/static/upload/' + person._key + '/' + person.image" alt="image" class="mb-2" />
         <h4><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></h4>
-        <p>пол: {{person.gender | gender}}</p>
-        <p>{{person.about}}</p>
-        <p>{{person.lifestory}}</p>
-
+        <p>id: {{person._key}}</p>
         <p v-if="person.rod">
-          <router-link :to="`/person/${person._key}`">Род</router-link>: 
-          <router-link :to="`/rod/${person.rod._key}`">{{person.rod.name}}</router-link>
+            <router-link :to="`/person/${person._key}`">Род</router-link>:
+            <router-link :to="`/rod/${person.rod._key}`">{{person.rod.name}}</router-link>
         </p>
-
-        <p>Год рождения: {{person.birthYear}}</p>
-        <p v-if="person.addedBy">Добавил:
+        <p v-if="person.birthYear">
+          {{person.birthYear}} г.р.
+        </p>
+        <p>
+          пол: {{person.gender | gender}}
+        </p>
+        <p>{{person.about}}</p>
+        <!-- <p>{{person.lifestory}}</p> -->
+        <p>
+          Добавил:
           <router-link :to="`/person/${person.addedBy._key}`">
             {{person.addedBy.name}}
             {{person.addedBy.surname}}
           </router-link>
         </p>
         <p v-if="person.gender === 0">Девичья фамилия: {{person.maidenName}}</p>
-        <p>id: {{person._key}}</p>
-        <br>
         <p> <!-- todo: проработать права на добавление -->
           Добавить
           <router-link :to="`/person/${person._key}/add/father`">отца</router-link> |
@@ -43,7 +45,7 @@
           <router-link :to="`/person/${person._key}/add/daughter`">дочь</router-link>
         </p>
         <p> <!-- todo: проработать права на указание -->
-          <router-link :to="`/person/${person._key}/set-relation`">Указать родителя или ребенка</router-link>
+          <router-link :to="`/person/${person._key}/set_relation`">Указать родителя или ребенка</router-link>
         </p>
 
         <br>

@@ -6,6 +6,7 @@ import Person from '@/components/Person/Person'
 import AllPersons from '@/components/Person/AllPersons'
 import CreatePerson from '@/components/Person/CreatePerson'
 import AddPerson from '@/components/Person/AddPerson'
+import SetRelation from '@/components/Person/SetRelation'
 import Signin from '@/components/User/Signin'
 import Signup from '@/components/User/Signup'
 import notFound from '@/components/notFound'
@@ -24,6 +25,7 @@ export default new Router({
     {path: '/person/:key', name: 'Person', component: Person},
     {path: '/person/:key/add/:reltype', name: 'AddPerson', component: AddPerson,
       props: true},
+    {path: '/person/:key/set_relation', name: 'SetRelation', component: SetRelation},
     {path: '*', component: notFound}
   ],
   mode: 'history'

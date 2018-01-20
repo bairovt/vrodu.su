@@ -19,11 +19,14 @@
 import axiosInst from '@/utils/axios-instance'
 
 export default {
-  name: 'Rods',  
+  name: 'Rods',
   computed: {
     rods () {
       return this.$store.state.rods
     }
+  },
+  created: function () {
+    this.$store.dispatch('fetchAllRods')
   }
 }
 </script>
