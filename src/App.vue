@@ -45,9 +45,9 @@
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <router-link to="/" tag="span" style="cursor: pointer">
+        <router-link :to="`/person/${user._key}`" tag="span" style="cursor: pointer">
           <!-- <v-icon>bubble_chart</v-icon>   -->
-          ВРоду
+          Род
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
