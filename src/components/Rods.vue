@@ -26,7 +26,7 @@ export default {
     }
   },
   created: function () {
-    this.$store.dispatch('fetchAllRods')
+    this.$store.dispatch('loadAllRods')
   }
 }
 </script>

@@ -24,7 +24,7 @@ export default {
     }
   },
   methods: {
-    fetchData: function(){
+    loadData: function(){
       axiosInst.get('/api/person/all')
           .then(resp => {
             this.persons = resp.data.persons;
@@ -33,7 +33,7 @@ export default {
     }
   },
   created: function () {
-		this.fetchData()
+		this.loadData()
   }
 }
 </script>

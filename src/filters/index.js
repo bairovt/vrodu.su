@@ -10,7 +10,7 @@ export function translate(word, padezh){
   return dict[word][padezh];
 }
 
-export function ancestorRelation(a){
+export function predokRelation(a){
   let gender = a.person.gender;
   let relation = '';
   if (gender !== 0 && gender !==1) return relation;
@@ -27,7 +27,7 @@ export function ancestorRelation(a){
   return relation;
 }
 
-export function descendantRelation(d){
+export function potomokRelation(d){
   let gender = d.person.gender;
   let relation = '';
   if (gender !== 0 && gender !==1) return relation;

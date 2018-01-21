@@ -88,7 +88,7 @@ export const store = new Vuex.Store({
       window.localStorage.removeItem('authToken')
       router.push('/signin')
     },
-    fetchAllRods ({commit, dispatch}) {
+    loadAllRods ({commit, dispatch}) {
       axiosInst.get('/api/rod/all') // загрузка всех родов при создании App
         .then(resp => {
           commit('setRods', resp.data.rods);

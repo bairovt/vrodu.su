@@ -11,7 +11,7 @@
 <script>
 // todo: wrong person key -> 404 message
 import axiosInst from '@/utils/axios-instance'
-import {ancestorRelation, descendantRelation} from '@/filters'
+import {predokRelation, potomokRelation} from '@/filters'
 import router from '@/router'
 
 // provide the data in the vis format
@@ -50,18 +50,16 @@ export default {
   name: 'person',
   data () {
     return {
-      ancestors: null,
-      descendants: null,
+      predki: null,
+      potomki: null,
       visContainer: '',  //document.getElementById('rod_tree'),
     }
   },
   computed: {
-    person () {
-      return this.$store.state.person
-    },
+    person () {return this.$store.state.person},
     visData: function(){
       const treeData = {nodes: [], edges: []};
-			if(this.person === null || this.ancestors === null || this.descendants === null) return treeData;
+			if (this.person === null || this.predki === null || this.potomki === null) return treeData;
 
       treeData.nodes.push({
 	      id: this.person._id,
@@ -74,10 +72,10 @@ export default {
         group: this.person.gender
       });
 
-      this.ancestors.map(item => {
+      this.predki.map(item => {
         treeData.nodes.push({
 	        id: item.person._id, label: item.person.surname + ' ' + item.person.name,
-          title: item.person.surname + ' ' + item.person.name + ', ' + ancestorRelation(item),
+          title: item.person.surname + ' ' + item.person.name + ', ' + predokRelation(item),
           shape: item.person.image ? 'circularImage' : 'icon',
           image: item.person.image ? '/static/upload/' + item.person._key + '/' + item.person.image : undefined,
 	        group: item.person.gender
@@ -94,10 +92,10 @@ export default {
           },
         });
       });
-      this.descendants.map(item => {
+      this.potomki.map(item => {
         treeData.nodes.push({
 	        id: item.person._id, label: `${item.person.surname} ${item.person.name}`,
-          title: item.person.surname + ' ' + item.person.name + ', ' + descendantRelation(item),
+          title: item.person.surname + ' ' + item.person.name + ', ' + potomokRelation(item),
           shape: item.person.image ? 'circularImage' : 'icon',
           image: item.person.image ? '/static/upload/' + item.person._key + '/' +item.person.image : undefined,
           group: item.person.gender
@@ -118,16 +116,16 @@ export default {
     }
   },
   watch: {
-    '$route': 'fetchData',
+    '$route': 'loadData',
 	  'visData': 'renderTree'
   },
   methods: {
-    fetchData () {
-      axiosInst.get(`/api/person/${this.$route.params.key}/get-anc-des`)
+    loadData () {
+      axiosInst.get(`/api/person/${this.$route.params.key}/predki-potomki`)
       .then(resp => {
           this.$store.commit('setPerson', resp.data.person)
-          this.ancestors = resp.data.ancestors;
-          this.descendants = resp.data.descendants;
+          this.predki = resp.data.predki;
+          this.potomki = resp.data.potomki;
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
 	  renderTree () { // initialize vis network!
@@ -151,11 +149,11 @@ export default {
 	  }
   },
   created () {
-    this.fetchData()
+    this.loadData()
   },
 	filters: {
-    ancestorRelation,
-    descendantRelation
+    predokRelation,
+    potomokRelation
 	}
 }
 </script>
