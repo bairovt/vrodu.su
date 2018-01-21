@@ -6,14 +6,14 @@ import Alert from './components/Shared/Alert.vue'
 import RightDrawer from './components/RightDrawer.vue'
 
 import {Vuetify,
-    VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar,
-    VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, transitions
+    VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
+    VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions
 } from 'vuetify'
 
 Vue.use(Vuetify, {
   components: {
-    VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar,
-    VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, transitions
+    VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
+    VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions
   },
   // theme: {
   //   primary: '#3f51b5',
