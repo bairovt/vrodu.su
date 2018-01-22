@@ -3,6 +3,7 @@ import {store} from './store/store'
 import App from './App'
 import router from './router'
 import Alert from './components/Shared/Alert.vue'
+import PersonsList from './components/Shared/PersonsList.vue'
 import RightDrawer from './components/RightDrawer.vue'
 
 import {Vuetify,
@@ -24,6 +25,7 @@ Vue.use(Vuetify, {
 })
 
 Vue.component('app-alert', Alert)
+Vue.component('persons-list', PersonsList)
 Vue.component('right-drawer', RightDrawer)
 
 // import '../node_modules/vuetify/src/stylus/app.styl'

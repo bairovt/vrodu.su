@@ -17,7 +17,7 @@ export default new Router({
   routes: [
     {path: '/', redirect: '/rod/all'},
     {path: '/rod/all', name: 'Rods', component: Rods},
-    {path: '/rod/:key', name: 'Rod', component: Rod},
+    {path: '/rod/:_key', name: 'Rod', component: Rod, props: true},
     {path: '/signin', name: 'Signin', component: Signin},
     {path: '/signup', name: 'Signup', component: Signup},
     {path: '/person/all', name: 'AllPersons', component: AllPersons},

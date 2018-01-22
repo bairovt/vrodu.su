@@ -1,7 +1,7 @@
 <template>
-		<v-alert color="warning" icon="info" dismissible @input="onClose" :value="true">
-			{{ text }}
-		</v-alert>
+	<v-alert color="warning" icon="info" dismissible @input="onClose" :value="true">
+		{{ text }}
+	</v-alert>
 </template>
 
 <script>

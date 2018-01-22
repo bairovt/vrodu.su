@@ -4,13 +4,7 @@
       <v-flex xs12>
         <h2>{{rod.name}}</h2>
         <h3>{{rod.about}}</h3>
-        <ul>
-          <li v-for="person in persons" :key="person._id">
-            <router-link :to="`/person/${person._key}`">
-              {{person.surname}} {{person.name}} {{person.midname}}
-            </router-link>
-          </li>
-  			</ul>
+        <persons-list :persons="persons" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -19,17 +13,9 @@
 <script>
 import axiosInst from '@/utils/axios-instance'
 
-function getRodPersons(rod_key, vm) {
-  axiosInst.get(`/api/rod/${rod_key}/persons`)
-      .then(resp => {
-        vm.rod = resp.data.rod;
-        vm.persons = resp.data.persons;
-      })
-      .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
-}
-
 export default {
   name: 'rods',
+  props: ['_key'],
   data () {
     return {
       rod: {},
@@ -37,20 +23,20 @@ export default {
     }
   },
   methods: {
-    getPersons: function (newRoute, oldRoute) {
-      let vm = this;
-      getRodPersons(newRoute.params.key, vm);
+    loadData () {
+      axiosInst.get(`/api/rod/${this._key}/persons`)
+        .then(resp => {
+          this.rod = resp.data.rod;
+          this.persons = resp.data.persons;
+        })
+        .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
     }
   },
-  created: function(){
-    let vm = this;
-    getRodPersons(this.$route.params.key, vm);
+  created () {
+    this.loadData()
   },
   watch: {
-    '$route': 'getPersons'
+    '$route': 'loadData'
   }
 }
 </script>
-
-<style scoped>
-</style>
