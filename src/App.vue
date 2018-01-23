@@ -95,7 +95,7 @@
     },
     mounted () {
     //  console.log(this.$vuetify.breakpoint)
-      if (this.$vuetify.breakpoint.smAndUp) {this.rightDrawer=true}
+      if (this.$vuetify.breakpoint.smAndUp) {this.rightDrawer=true}  // open rightDrawer on wide screens
     },
   }
 </script>

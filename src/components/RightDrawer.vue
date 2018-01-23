@@ -73,9 +73,8 @@ export default {
       get () {return this.$store.state.rightDrawer},
       set (newval) {this.$store.state.rightDrawer = newval} // instead of: this.$store.commit('setRightDrawer', newval)
     },
-    person () {
-      return this.$store.state.person;
-    },
+    user () {return this.$store.state.user},
+    person () {return this.$store.state.person},    
 	  editRights: function() {
       // todo: проверка прав на редактирование персоны
       return true
@@ -83,11 +82,13 @@ export default {
   },
   methods: {
     removePerson () {
-      axiosInst.get(`/api/person/${this.person._key}/remove`)
-      .then((resp) => {
-        this.$store.commit('setPerson', null)
-        this.$router.push('/person/all')
-      }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+      if (confirm(`Подтвердить удаление: ${this.person.name}?`)) {
+        axiosInst.get(`/api/person/${this.person._key}/remove`)
+        .then((resp) => {
+          this.$store.commit('setPerson', null)
+          this.$router.push(`/person/${this.user._key}`)
+        }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+      }
 	  }
   },
   filters: {
