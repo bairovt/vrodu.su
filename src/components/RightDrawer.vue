@@ -42,7 +42,7 @@
           {{person.addedBy.surname}}
         </v-btn>
       </v-flex>
-      <v-flex xs12 v-if="editRights"> <!-- todo: проработать права на добавление -->
+      <v-flex xs12 v-if="person.editable"> <!-- todo: проработать права на добавление -->
         Добавить: <br />
         <v-btn small color="accent" :to="`/person/${person._key}/add/father`">отца</v-btn>
         <v-btn small color="accent" :to="`/person/${person._key}/add/mother`">мать</v-btn>
@@ -50,11 +50,11 @@
         <v-btn small color="accent" :to="`/person/${person._key}/add/daughter`">дочь</v-btn>
       </v-flex>
       <br>
-      <v-flex xs12 v-if="editRights"> <!-- todo: проработать права на указание -->
+      <v-flex xs12 v-if="!person.disableRelPropose"> <!-- todo: проработать права на указание -->
         <v-btn small :to="`/person/${person._key}/set_relation`">Указать родителя или ребенка</v-btn>
       </v-flex>
       <br>
-      <v-flex xs12 v-if="editRights">
+      <v-flex xs12 v-if="person.editable">
         <v-btn small color="warning" @click.prevent="removePerson">Удалить</v-btn>
         <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn>
       </v-flex>
@@ -74,7 +74,7 @@ export default {
       set (newval) {this.$store.state.rightDrawer = newval} // instead of: this.$store.commit('setRightDrawer', newval)
     },
     user () {return this.$store.state.user},
-    person () {return this.$store.state.person},    
+    person () {return this.$store.state.person},
 	  editRights: function() {
       // todo: проверка прав на редактирование персоны
       return true
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     removePerson () {
-      if (confirm(`Подтвердить удаление: ${this.person.name}?`)) {
+      if (confirm(`Подтвердить удаление: ${this.person.name}?`)) { // todo: сделать красиво
         axiosInst.get(`/api/person/${this.person._key}/remove`)
         .then((resp) => {
           this.$store.commit('setPerson', null)

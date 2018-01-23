@@ -3,13 +3,14 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <template v-if="person">
-          <h2>Указать для {{person.surname}} {{person.name}} {{person.midname}}</h2>
+          <h2>Указать</h2>
           <v-radio-group v-model="reltype" row>
             <v-radio label="родителя" value="parent" color="primary"></v-radio>
             <v-radio label="ребенка" value="child" color="primary"></v-radio>
           </v-radio-group>
           <v-checkbox label="приемный" v-model="adopted" color="primary"></v-checkbox>
-
+          <h3>для {{person.surname}} {{person.name}} {{person.midname}}</h3>
+          <br />
       	  <form @submit.prevent="setRelation">
             <v-text-field
   						name="id" label="Идентификатор" type="text"

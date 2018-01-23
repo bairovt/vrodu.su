@@ -26,8 +26,8 @@
           </v-text-field>
 
           <v-radio-group v-model="personData.gender">
-            <v-radio label="Мужчина" :value="1"></v-radio>
-            <v-radio label="Женщина" :value="0"></v-radio>
+            <v-radio label="Мужчина" :value="1" color="primary"></v-radio>
+            <v-radio label="Женщина" :value="0" color="primary"></v-radio>
           </v-radio-group>
 
           <v-text-field v-if="personData.gender === 0"
@@ -50,7 +50,7 @@
             type="text" v-model="personData.about">
           </v-text-field>
 
-          <v-switch label="Пользователь" v-model="isUser"></v-switch>
+          <v-switch label="Пользователь" v-model="isUser" color="primary"></v-switch>
     		  <!-- optional user properties -->
     		  <template v-if="isUser">
             <v-text-field
