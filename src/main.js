@@ -16,12 +16,12 @@ Vue.use(Vuetify, {
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
     VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions
   },
-  // theme: {
-  //   primary: '#3f51b5',
-  //   secondary: '#b0bec5',
-  //   accent: '#8c9eff',
-  //   error: '#b71c1c'
-  // }
+  theme: {
+    primary: '#3f51b5',
+    secondary: '#b0bec5',
+    accent: '#8c9eff',
+    error: '#b71c1c'
+  }
 })
 
 Vue.component('app-alert', Alert)

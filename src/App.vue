@@ -91,12 +91,11 @@
       }
     },
     methods: {
-      logout () {
-        this.$store.dispatch('logout')
-      }
+      logout () {this.$store.dispatch('logout')}
     },
     mounted () {
     //  console.log(this.$vuetify.breakpoint)
+      if (this.$vuetify.breakpoint.smAndUp) {this.rightDrawer=true}
     },
   }
 </script>

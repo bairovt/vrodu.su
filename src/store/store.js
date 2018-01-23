@@ -50,7 +50,7 @@ export const store = new Vuex.Store({
         // The request was made, but the server responded with a status code
         // that falls out of the range of 2xx
         if (error.response.data.location) {
-          this.$router.push(error.response.data.location) // todo: ??? доделать редирект с сервера
+          router.push(error.response.data.location) // todo: ??? доделать редирект с сервера
         } else if (error.response.status === 401) { // ie. invalid jwt token
           commit('setError', {message: 'Ошибка аутентификации'})
           // console.error(error.response.data.message);

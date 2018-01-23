@@ -8,50 +8,55 @@
     v-model="rightDrawer"
     :disable-route-watcher="$vuetify.breakpoint.smAndUp"
   >
-    <v-layout column v-if="person">
-      <v-flex xs12 class="pt-2 pl-2">
-        <!-- <br /><br /><br /> -->
+    <v-layout column v-if="person" class="pt-2 pl-2">
+      <v-flex xs12>
         <img v-if="person.image"
           width="80%"
-          :src="'/static/upload/' + person._key + '/' + person.image" alt="image" class="mb-2" />
-        <h4><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></h4>
-        <p>id: {{person._key}}</p>
-        <p v-if="person.rod">
-            <router-link :to="`/person/${person._key}`">Род</router-link>:
-            <router-link :to="`/rod/${person.rod._key}`">{{person.rod.name}}</router-link>
-        </p>
-        <p v-if="person.birthYear">
-          {{person.birthYear}} г.р.
-        </p>
-        <p>
-          пол: {{person.gender | gender}}
-        </p>
-        <p>{{person.about}}</p>
-        <!-- <p>{{person.lifestory}}</p> -->
-        <p>
-          Добавил:
-          <router-link :to="`/person/${person.addedBy._key}`">
-            {{person.addedBy.name}}
-            {{person.addedBy.surname}}
-          </router-link>
-        </p>
-        <p v-if="person.gender === 0">Девичья фамилия: {{person.maidenName}}</p>
-        <p> <!-- todo: проработать права на добавление -->
-          Добавить
-          <router-link :to="`/person/${person._key}/add/father`">отца</router-link> |
-          <router-link :to="`/person/${person._key}/add/mother`">мать</router-link> |
-          <router-link :to="`/person/${person._key}/add/son`">сына</router-link> |
-          <router-link :to="`/person/${person._key}/add/daughter`">дочь</router-link>
-        </p>
-        <p> <!-- todo: проработать права на указание -->
-          <router-link :to="`/person/${person._key}/set_relation`">Указать родителя или ребенка</router-link>
-        </p>
+          :src="'/static/upload/' + person._key + '/' + person.image" alt="image" class="mb-2"
+        />
+      </v-flex>
+      <v-flex xs12 class="mb-2">
+        <div><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></div>
+        <div v-if="person.gender === 0">Дев. фамилия: {{person.maidenName}}</div>
+        <div v-if="person.birthYear">{{person.birthYear}} г.р.</div>
+      </v-flex>
+      <v-flex xs12 class="mb-2">
+        id: {{person._key}}
+      </v-flex>
+      <v-flex xs12 v-if="person.rod" class="mb-2">
+          Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>
+      </v-flex>
 
-        <br>
-        <p>
-          <button type="button" @click.prevent="removePerson">Удалить</button>
-          <router-link v-if="editRights" :to="`/person/${person._key}/update`">Изменить</router-link>
-        </p>
+        <!-- <p>
+          пол: {{person.gender | gender}}
+        </p> -->
+
+      <v-flex xs12 class="mb-2">
+        {{person.about}}
+      </v-flex>
+      <!-- <p>{{person.lifestory}}</p> -->
+      <v-flex xs12 class="mt-2 mb-2">
+        Добавил:
+        <v-btn round color="accent" small :to="`/person/${person.addedBy._key}`">
+          {{person.addedBy.name}}
+          {{person.addedBy.surname}}
+        </v-btn>
+      </v-flex>
+      <v-flex xs12 v-if="editRights"> <!-- todo: проработать права на добавление -->
+        Добавить: <br />
+        <v-btn small color="accent" :to="`/person/${person._key}/add/father`">отца</v-btn>
+        <v-btn small color="accent" :to="`/person/${person._key}/add/mother`">мать</v-btn>
+        <v-btn small color="accent" :to="`/person/${person._key}/add/son`">сына</v-btn>
+        <v-btn small color="accent" :to="`/person/${person._key}/add/daughter`">дочь</v-btn>
+      </v-flex>
+      <br>
+      <v-flex xs12 v-if="editRights"> <!-- todo: проработать права на указание -->
+        <v-btn small :to="`/person/${person._key}/set_relation`">Указать родителя или ребенка</v-btn>
+      </v-flex>
+      <br>
+      <v-flex xs12 v-if="editRights">
+        <v-btn small color="warning" @click.prevent="removePerson">Удалить</v-btn>
+        <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn>
       </v-flex>
     </v-layout>
   </v-navigation-drawer>
@@ -63,7 +68,7 @@ import axiosInst from '@/utils/axios-instance'
 
 export default {
   name: 'RightDrawer',
-  computed: {    
+  computed: {
     rightDrawer: {
       get () {return this.$store.state.rightDrawer},
       set (newval) {this.$store.state.rightDrawer = newval} // instead of: this.$store.commit('setRightDrawer', newval)
