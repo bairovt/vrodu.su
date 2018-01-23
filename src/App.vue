@@ -1,7 +1,5 @@
 <template>
   <v-app>
-    <!-- disable-route-watcher -->
-    <!-- temporary -->
     <!-- :disable-route-watcher="$vuetify.breakpoint.smAndUp" -->
     <v-navigation-drawer v-if="user"
       app
@@ -88,27 +86,17 @@
       user () {return this.$store.state.user},
       person () {return this.$store.state.person},
       rightDrawer: {
-        get() {
-          return this.$store.state.rightDrawer
-        },
-        set(newVal) {
-          this.$store.commit('setRightDrawer', newVal)
-        }
+        get() { return this.$store.state.rightDrawer},
+        set(newval) {this.$store.state.rightDrawer = newval}
       }
     },
     methods: {
       logout () {
         this.$store.dispatch('logout')
-      },
-      // <v-btn icon @click="switchRightDrawer">
-      // switchRightDrawer () {
-      //   console.log('switchRightDrawer')
-      //   if (this.$store.state.rightDrawer) {this.$store.commit('setRightDrawer', false)}
-      //   else {this.$store.commit('setRightDrawer', true)}
-      // }
+      }
     },
     mounted () {
     //  console.log(this.$vuetify.breakpoint)
-   },
+    },
   }
 </script>

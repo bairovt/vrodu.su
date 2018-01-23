@@ -5,7 +5,7 @@
     right
     fixed
     clipped
-    :value="rightDrawer"
+    v-model="rightDrawer"
     :disable-route-watcher="$vuetify.breakpoint.smAndUp"
   >
     <v-layout column v-if="person">
@@ -63,9 +63,10 @@ import axiosInst from '@/utils/axios-instance'
 
 export default {
   name: 'RightDrawer',
-  computed: {
-    rightDrawer () {
-      return this.$store.state.rightDrawer;
+  computed: {    
+    rightDrawer: {
+      get () {return this.$store.state.rightDrawer},
+      set (newval) {this.$store.state.rightDrawer = newval} // instead of: this.$store.commit('setRightDrawer', newval)
     },
     person () {
       return this.$store.state.person;
