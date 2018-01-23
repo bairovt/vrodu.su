@@ -1,12 +1,14 @@
 <template>
   <v-app>
     <!-- disable-route-watcher -->
+    <!-- temporary -->
+    <!-- :disable-route-watcher="$vuetify.breakpoint.smAndUp" -->
     <v-navigation-drawer v-if="user"
       app
-      temporary
       fixed
       clipped
       v-model="drawer"
+      temporary
     >
       <v-list>
         <v-list-tile
@@ -32,7 +34,6 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-
     </v-navigation-drawer>
 
     <right-drawer v-if="user">
@@ -45,29 +46,28 @@
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <router-link v-if="user" :to="`/person/${user._key}`" tag="span" style="cursor: pointer">          
+        <router-link v-if="user" :to="`/person/${user._key}`" tag="span" style="cursor: pointer">
           Род
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat v-if="user" :to="`/person/${user._key}`">
-          {{user.name}}
+        <v-btn flat v-if="person" :to="`/person/${person._key}`">
+          {{person.name}}
         </v-btn>
       </v-toolbar-items>
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <!-- <v-icon>menu</v-icon> -->
+      <v-btn icon @click="rightDrawer = !rightDrawer">
         <v-icon>face</v-icon>
       </v-btn>
     </v-toolbar>
 
     <v-content>
-        <router-view>
-        </router-view>
+      <router-view>
+      </router-view>
     </v-content>
 
     <v-footer app>
-      <span>&copy; 2017</span>
+      <span>&copy; 2018</span>
     </v-footer>
   </v-app>
 </template>
@@ -85,9 +85,8 @@
       }
     },
     computed: {
-      user () {
-        return this.$store.state.user
-      },
+      user () {return this.$store.state.user},
+      person () {return this.$store.state.person},
       rightDrawer: {
         get() {
           return this.$store.state.rightDrawer
@@ -100,7 +99,16 @@
     methods: {
       logout () {
         this.$store.dispatch('logout')
-      }
-    }
+      },
+      // <v-btn icon @click="switchRightDrawer">
+      // switchRightDrawer () {
+      //   console.log('switchRightDrawer')
+      //   if (this.$store.state.rightDrawer) {this.$store.commit('setRightDrawer', false)}
+      //   else {this.$store.commit('setRightDrawer', true)}
+      // }
+    },
+    mounted () {
+    //  console.log(this.$vuetify.breakpoint)
+   },
   }
 </script>

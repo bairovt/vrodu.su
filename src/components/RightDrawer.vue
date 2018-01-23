@@ -1,13 +1,12 @@
 <template>
-  <!-- app  -->
+  <!-- hide-overlay -->
   <v-navigation-drawer
     app
     right
     fixed
     clipped
     :value="rightDrawer"
-    disable-route-watcher
-    hide-overlay
+    :disable-route-watcher="$vuetify.breakpoint.smAndUp"
   >
     <v-layout column v-if="person">
       <v-flex xs12 class="pt-2 pl-2">

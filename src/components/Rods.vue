@@ -2,10 +2,10 @@
   <v-container>
     <v-layout row wrap>
       <v-flex class="xs12">
-        <h1>Рода</h1>
+        <h2>Рода</h2>
       </v-flex>
       <v-flex class="xs12" v-if="rods">
-        <h2><router-link to="/person/Khory">Хори</router-link> буряты</h2>
+        <h3><router-link to="/person/Khory">Хори</router-link> буряты</h3>
         <br />
         <p v-for="rod in rods" :key="rod._id">
           <router-link :to="`/rod/${rod._key}`">{{ rod.name }} <span class="small">{{ rod.count }}</span></router-link>
