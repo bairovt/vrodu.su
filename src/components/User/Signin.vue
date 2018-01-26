@@ -51,12 +51,8 @@
       }
     },
     computed: {
-      error () {
-        return this.$store.state.error
-      },
-	    loading () {
-        return this.$store.state.loading
-	    },
+      error () {return this.$store.state.error},
+	    loading () {return this.$store.state.loading},
 			// formIsValid () {
       //   return this.email && this.password
       // },

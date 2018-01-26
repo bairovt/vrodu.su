@@ -69,6 +69,8 @@
   					</v-text-field>
     		  </template>
 
+          <input type="file" name="pic"/>
+
           <v-btn type="submit" class="primary"
 					       :disabled="loading"
                  :loading="loading"
@@ -105,11 +107,14 @@ export default {
   },
   methods: {
     createPerson: function () {
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
       axiosInst.post(`/api/person/create`, {
         personData: this.personData,
         isUser: this.isUser,
         userData: this.userData
-      })
+      }, config)
 	      .then(resp => {
 	        this.$router.push('/person/' + resp.data.newPersonKey)
 	      })
