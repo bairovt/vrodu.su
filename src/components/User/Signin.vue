@@ -9,7 +9,7 @@
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
 				<h1 class="mb-4">Авторизация</h1>
-				<form @submit.prevent="onSignin">
+				<form @submit.prevent="signUserIn">
 					<v-text-field
 							name="email"
 							label="e-mail"
@@ -43,28 +43,39 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        email: '',
-        password: ''
-      }
-    },
-    computed: {
-      error () {return this.$store.state.error},
-	    loading () {return this.$store.state.loading},
-			// formIsValid () {
-      //   return this.email && this.password
-      // },
-    },
-    methods: {
-      onSignin () {
-        this.$store.commit('setLoading', true)
-        this.$store.dispatch('signUserIn', {email: this.email, password: this.password})
-      },
-      onDismissed () {
-        this.$store.commit('clearError')
-      }
+import axiosInst from '@/utils/axios-instance'
+import jwtDecode from 'jwt-decode'
+
+export default {
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  computed: {
+    error () {return this.$store.state.error},
+    loading () {return this.$store.state.loading},
+		// formIsValid () {
+    //   return this.email && this.password
+    // },
+  },
+  methods: {
+		signUserIn () {
+			this.$store.commit('setLoading', true)
+      axiosInst.post('/api/user/signin', {email: this.email, password: this.password})
+        .then(resp => {
+					this.$store.commit('setLoading', false);
+          const {authToken, person_key} = resp.data;
+          window.localStorage.setItem('authToken', authToken);
+          this.$store.commit('setUser', jwtDecode(authToken)); // user object
+          this.$router.push('/person/' + person_key);
+        })
+        .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+    },    
+    onDismissed () {
+      this.$store.commit('clearError')
     }
   }
+}
 </script>

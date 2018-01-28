@@ -64,17 +64,7 @@ export const store = new Vuex.Store({
         console.error('Something happened in setting up the request: ' + error);
       }
     },
-    signUserIn ({commit, dispatch}, payload) {
-      axiosInst.post('/api/user/signin', {email: payload.email, password: payload.password})
-        .then(resp => {
-          commit('setLoading', false)
-          const authToken = resp.data.authToken;
-          window.localStorage.setItem('authToken', authToken);
-          commit('setUser', jwtDecode(authToken)); // user object
-          router.push(resp.data.location); // change redirecr after signin: in client
-        })
-        .catch(error => {dispatch('axiosErrorHandle', error)})
-    },
+    
     autoSingIn ({commit, dispatch}) {
       const authToken = window.localStorage.getItem('authToken')
       if (authToken) {

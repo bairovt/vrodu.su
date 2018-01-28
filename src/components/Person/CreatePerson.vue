@@ -108,13 +108,13 @@ export default {
   methods: {
     createPerson: function () {
       const config = {
-        headers: { 'content-type': 'multipart/form-data' }
+        // headers: { 'content-type': 'multipart/form-data' }
       }
       axiosInst.post(`/api/person/create`, {
         personData: this.personData,
         isUser: this.isUser,
         userData: this.userData
-      }, config)
+      }) // config
 	      .then(resp => {
 	        this.$router.push('/person/' + resp.data.newPersonKey)
 	      })
