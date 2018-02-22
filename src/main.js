@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Croppa from 'vue-croppa'
 import {store} from './store/store'
 import App from './App'
 import router from './router'
@@ -8,13 +9,17 @@ import RightDrawer from './components/RightDrawer.vue'
 
 import {Vuetify,
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
-    VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions
+    VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions,
+    VDialog, VCard
 } from 'vuetify'
+
+Vue.use(Croppa)
 
 Vue.use(Vuetify, {
   components: {
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
-    VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions
+    VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions,
+    VDialog, VCard
   },
   theme: {
     primary: '#2b7ce9', //'#3f51b5'

@@ -11,9 +11,12 @@
     <v-layout column v-if="person" class="pa-2">
       <v-flex class="text-xs-center">
         <img v-if="person.image"
-          width="200px"
+          width="250px"
           :src="'/static/upload/' + person._key + '/' + person.image" alt="image" class="mb-2"
         />
+        <div v-else-if="person.editable">
+          <v-btn @click.stop="openCroppaDialog">Загрузить фото</v-btn>
+        </div>
       </v-flex>
       <v-flex class="mb-2">
         <div><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></div>
@@ -59,15 +62,52 @@
         <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn>
       </v-flex>
     </v-layout>
+
+    <v-dialog v-model="croppaDialog" max-width="400px">
+        <v-card>
+          <!-- <v-card-title>
+            Загрузить фото
+          </v-card-title> -->
+          <v-card-text>
+            <croppa v-model="myCroppa"
+                    :width="300"
+                    :height="300"
+                    placeholder="Выбрать фото"
+                    :zoom-speed="10"
+                    accept="image/*"
+                    :file-size-limit="0"
+                    :prevent-white-space="true"
+                    remove-button-color="grey"
+                    :remove-button-size="25"
+                    :input-attrs="{capture: true}"
+                    :quality="3"
+                    :show-loading="true"
+            ></croppa>
+            <br />
+            выберите область фото
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" @click.stop="uploadCroppedImage">Загрузить</v-btn>
+            <v-btn flat @click.stop="croppaDialog=false">Отмена</v-btn>
+          </v-card-actions>
+        </v-card>
+    </v-dialog>
   </v-navigation-drawer>
 </template>
 
 <script>
 import {gender} from '@/filters'
 import axiosInst from '@/utils/axios-instance'
+import 'vue-croppa/dist/vue-croppa.css'
 
 export default {
   name: 'RightDrawer',
+  data () {
+    return {
+      croppaDialog: false,
+      myCroppa: {}
+    }
+  },
   computed: {
     rightDrawer: {
       get () {return this.$store.state.rightDrawer},
@@ -81,6 +121,24 @@ export default {
 	  }
   },
   methods: {
+    openCroppaDialog () {
+      this.myCroppa.chooseFile()
+      this.croppaDialog = true
+    },
+    uploadCroppedImage() {
+      var formData = new FormData();
+      this.myCroppa.generateBlob((blob) => {
+        // console.log(blob)
+        formData.append("pic", blob);
+        axiosInst.post("/api/upload/pic/" + this.person._key, formData)
+        .then(resp => {
+          console.log("response: " + resp.data)
+          this.croppaDialog = false
+        })
+        .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+        // write code to upload the cropped image file (a file is a blob)
+      }, 'image/jpeg', 0.8) // 0.8 - 80% compressed jpeg file
+    },
     removePerson () {
       if (confirm(`Подтвердить удаление: ${this.person.name}?`)) { // todo: сделать красиво
         axiosInst.delete(`/api/person/${this.person._key}`)
