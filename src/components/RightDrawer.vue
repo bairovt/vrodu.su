@@ -11,7 +11,7 @@
     <v-layout column v-if="person" class="pa-2">
       <v-flex class="text-xs-center">
         <img v-if="person.pic"
-          width="250px"
+          width="200px"
           :src="'/static/upload/' + person._key + '/' + person.pic" alt="pic" class="mb-2"
         />
         <div v-else-if="person.editable">
@@ -29,10 +29,6 @@
       <v-flex v-if="person.rod" class="mb-2">
           Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>
       </v-flex>
-
-        <!-- <p>
-          пол: {{person.gender | gender}}
-        </p> -->
 
       <v-flex class="mb-2">
         {{person.about}}
@@ -70,8 +66,8 @@
           </v-card-title> -->
           <v-card-text>
             <croppa v-model="myCroppa"
-                    :width="300"
-                    :height="300"
+                    :width="250"
+                    :height="250"
                     placeholder="Выбрать фото"
                     :zoom-speed="10"
                     accept="image/*"
@@ -79,8 +75,7 @@
                     :prevent-white-space="true"
                     remove-button-color="grey"
                     :remove-button-size="25"
-                    :input-attrs="{capture: true}"
-                    :quality="3"
+                    :quality="2"
                     :show-loading="true"
             ></croppa>
             <br />
