@@ -37,6 +37,7 @@ export const store = new Vuex.Store({
       }
     },
     setPerson (state, payload) {state.person = payload},
+    setPersonPic (state, payload) {state.person.pic = payload},
     setLoading (state, payload) {state.loading = payload},
     setError (state, payload) {state.error = payload},
     clearError (state) {state.error = null},
@@ -64,7 +65,7 @@ export const store = new Vuex.Store({
         console.error('Something happened in setting up the request: ' + error);
       }
     },
-    
+
     autoSingIn ({commit, dispatch}) {
       const authToken = window.localStorage.getItem('authToken')
       if (authToken) {

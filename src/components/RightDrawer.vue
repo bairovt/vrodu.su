@@ -127,7 +127,8 @@ export default {
         formData.append("pic", blob);
         axiosInst.post("/api/upload/pic/" + this.person._key, formData)
         .then(resp => {
-          console.log("response: " + resp.data)
+          console.log("response: " + resp.data.pic)
+          this.$store.commit('setPersonPic', resp.data.pic)
           this.croppaDialog = false
         })
         .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
