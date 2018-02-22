@@ -65,8 +65,8 @@ export default {
 	      id: this.person._id,
 	      label: this.person.surname + ' ' + this.person.name,
 	      title: this.person.surname + ' ' + this.person.name,
-	      shape: this.person.image ? 'circularImage' : 'icon',
-	      image: this.person.image ? '/static/upload/' + this.person._key + '/' + this.person.image : undefined,
+	      shape: this.person.pic ? 'circularImage' : 'icon',
+	      image: this.person.pic ? '/static/upload/' + this.person._key + '/' + this.person.pic : undefined,
 	      icon: {face: 'FontAwesome', code: '\uf2be', size: 50}, //color: '#18BC9C'
         borderWidth: 4,
         group: this.person.gender
@@ -76,8 +76,8 @@ export default {
         treeData.nodes.push({
 	        id: item.person._id, label: item.person.surname + ' ' + item.person.name,
           title: item.person.surname + ' ' + item.person.name + ', ' + predokRelation(item),
-          shape: item.person.image ? 'circularImage' : 'icon',
-          image: item.person.image ? '/static/upload/' + item.person._key + '/' + item.person.image : undefined,
+          shape: item.person.pic ? 'circularImage' : 'icon',
+          image: item.person.pic ? '/static/upload/' + item.person._key + '/' + item.person.pic : undefined,
 	        group: item.person.gender
         });
         treeData.edges.push({
@@ -96,8 +96,8 @@ export default {
         treeData.nodes.push({
 	        id: item.person._id, label: `${item.person.surname} ${item.person.name}`,
           title: item.person.surname + ' ' + item.person.name + ', ' + potomokRelation(item),
-          shape: item.person.image ? 'circularImage' : 'icon',
-          image: item.person.image ? '/static/upload/' + item.person._key + '/' +item.person.image : undefined,
+          shape: item.person.pic ? 'circularImage' : 'icon',
+          image: item.person.pic ? '/static/upload/' + item.person._key + '/' +item.person.pic : undefined,
           group: item.person.gender
         });
         treeData.edges.push({

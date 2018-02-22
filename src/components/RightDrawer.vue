@@ -10,9 +10,9 @@
   >
     <v-layout column v-if="person" class="pa-2">
       <v-flex class="text-xs-center">
-        <img v-if="person.image"
+        <img v-if="person.pic"
           width="250px"
-          :src="'/static/upload/' + person._key + '/' + person.image" alt="image" class="mb-2"
+          :src="'/static/upload/' + person._key + '/' + person.pic" alt="pic" class="mb-2"
         />
         <div v-else-if="person.editable">
           <v-btn @click.stop="openCroppaDialog">Загрузить фото</v-btn>
@@ -63,7 +63,7 @@
       </v-flex>
     </v-layout>
 
-    <v-dialog v-model="croppaDialog" max-width="400px">
+    <v-dialog v-model="croppaDialog" max-width="350px">
         <v-card>
           <!-- <v-card-title>
             Загрузить фото

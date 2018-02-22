@@ -3,7 +3,7 @@
 		<template v-for="p in persons">
 			<v-list-tile avatar :key="p.title" :to="`/person/${p._key}`">
 				<v-list-tile-avatar>
-					<img v-if="p.image" :src="`/static/upload/${p._key}/${p.image}`">
+					<img v-if="p.pic" :src="`/static/upload/${p._key}/${p.pic}`">
 				</v-list-tile-avatar>
 				<v-list-tile-content>
 					<v-list-tile-title>{{p.surname}} {{p.name}} {{p.midname}}</v-list-tile-title>
