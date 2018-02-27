@@ -77,7 +77,7 @@
         drawer: false,
         items: [
           {icon: 'bubble_chart', title: 'Рода', url: '/rod/all'},
-          {icon: 'supervisor_account', title: 'Люди', url: '/person/all'},
+          {icon: 'supervisor_account', title: 'Поиск', url: '/person/find'},
           {icon: 'add_circle', title: 'Создать', url: '/person/create', allowed: ['manager']}
         ]
       }
