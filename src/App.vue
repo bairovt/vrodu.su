@@ -11,10 +11,11 @@
       <v-list>
         <v-list-tile
           v-for="(item, i) in items"
-          v-if="!item.allowed || user.hasRoles(item.allowed)"
+          v-if="user.hasRoles(item.allowed)"
           :key="i"
           :to="item.url"
         >
+        <!-- v-if="!item.allowed || user.hasRoles(item.allowed)" -->
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
           </v-list-tile-action>

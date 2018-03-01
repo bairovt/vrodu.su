@@ -26,6 +26,7 @@ export const store = new Vuex.Store({
       state.user = payload
       if (!payload) return // user set to null
       state.user.hasRoles = function (roles) {
+        if (roles === undefined) return true // все имеют пустую роль
         if (!state.user.roles) return false;
         if (state.user.roles.includes('admin')) return true;
         let allowed = false;
