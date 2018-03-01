@@ -33,8 +33,8 @@
             auto chips clearable
           ></v-select>
           <v-text-field multi-line
-              name="about" label="Краткая информация"
-              type="text" v-model="newPerson.about">
+              name="info" label="Краткая информация"
+              type="text" v-model="newPerson.info">
           </v-text-field>
           <v-btn type="submit" class="primary"
 					       :disabled="loading" :loading="loading"

@@ -31,8 +31,9 @@
       </v-flex>
 
       <v-flex class="mb-2">
-        {{person.about}}
+        {{person.info}}
       </v-flex>
+
       <!-- <p>{{person.lifestory}}</p> -->
       <v-flex class="mt-2 mb-2">
         Добавил:

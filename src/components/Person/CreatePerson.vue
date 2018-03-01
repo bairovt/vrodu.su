@@ -46,8 +46,8 @@
           ></v-select>
 
           <v-text-field multi-line
-            id="about" name="about" label="Краткая информация"
-            type="text" v-model="personData.about">
+            id="info" name="info" label="Краткая информация"
+            type="text" v-model="personData.info">
           </v-text-field>
 
           <v-switch label="Пользователь" v-model="isUser" color="primary"></v-switch>
