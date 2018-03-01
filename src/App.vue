@@ -50,6 +50,11 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-xs-only">
+        <v-btn flat to="/person/find">
+          Поиск
+        </v-btn>
+      </v-toolbar-items>
       <v-toolbar-items>
         <v-btn flat v-if="person" :to="`/person/${person._key}`">
           {{person.name}}
