@@ -24,7 +24,7 @@
         <div v-if="person.birthYear">{{person.birthYear}} г.р.</div>
       </v-flex>
       <v-flex class="mb-2">
-        id: {{person._key}}
+        ключ: {{person._key}}
       </v-flex>
       <v-flex v-if="person.rod" class="mb-2">
           Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>

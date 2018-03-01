@@ -1,6 +1,9 @@
 <template>
   <v-container fluid class="pa-0">
-    <v-layout>
+    <v-layout row wrap>
+      <v-flex xs12 class="text-sm-center">
+        <v-progress-circular v-if="loading" indeterminate :size="32" color="primary"></v-progress-circular>
+      </v-flex>
       <v-flex class="xs12">
         <div id="rod_tree"></div>
       </v-flex>
@@ -27,24 +30,26 @@ let visOptions = {
     brokenImage: '/static/upload/image.jpeg',
     font: {
       strokeWidth: 7
-    }
+    },
+    // borderWidthSelected: 5
   },
   edges: {
     smooth: true,
     arrows: {to : true }
   },
   groups: {
-    0: {                      //women
+    0: { //women
       icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: '#aa00ff'},
       color: {border: '#aa00ff'}  // arrow color
     },
-	  1: {                      //men
+	  1: { //men
       // shape: 'icon',
       icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: '#2b7ce9'}
 	  }
   },
 	interaction:{hover:true}
 };
+let network;
 
 export default {
   name: 'person',
@@ -57,6 +62,7 @@ export default {
   },
   computed: {
     person () {return this.$store.state.person},
+    loading () {return this.$store.state.loading},
     visData: function(){
       const treeData = {nodes: [], edges: []};
 			if (this.person === null || this.predki === null || this.potomki === null) return treeData;
@@ -118,18 +124,21 @@ export default {
   watch: {
     '$route': 'loadData',
 	  'visData': 'renderTree'
+	  // 'visData': 'setVisData'
   },
   methods: {
     loadData () {
+      this.$store.commit('setLoading', true)
       axiosInst.get(`/api/person/${this.$route.params.key}/predki-potomki`)
       .then(resp => {
           this.$store.commit('setPerson', resp.data.person)
           this.predki = resp.data.predki;
           this.potomki = resp.data.potomki;
+          this.$store.commit('setLoading', false)
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
 	  renderTree () { // initialize vis network!
-      let network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
+      network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
       network.on("selectNode", function (props) {
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
         let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
@@ -141,6 +150,10 @@ export default {
 	      // console.log(network.body.data.edges._data[edgeId])
       });
 	  },
+    // setVisData () {
+    //   if (!network) this.renderTree()
+    //   network.setData(this.visData)
+    // },
 	  removePerson () {
       axiosInst.get(`/api/person/${this.person._key}/remove`)
       .then((resp) => {
@@ -163,4 +176,7 @@ export default {
 		height: 800px;
 		/*border: 1px solid lightgray;*/
 	}
+  .progress-circular {
+    margin: 1rem
+  }
 </style>

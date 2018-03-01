@@ -13,7 +13,7 @@
           <br />
       	  <form @submit.prevent="setRelation">
             <v-text-field
-  						name="id" label="Идентификатор" type="text"
+  						name="id" label="ключ" type="text"
   						v-model="end_key" required :rules="[rules.required]">
             </v-text-field>
 
