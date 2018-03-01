@@ -21,7 +21,7 @@
       <v-flex class="mb-2">
         <div><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></div>
         <div v-if="person.gender === 0">Дев. фамилия: {{person.maidenName}}</div>
-        <div v-if="person.birthYear">{{person.birthYear}} г.р.</div>
+        <div v-if="person.born">{{person.born}} г.р.</div>
       </v-flex>
       <v-flex class="mb-2">
         ключ: {{person._key}}
