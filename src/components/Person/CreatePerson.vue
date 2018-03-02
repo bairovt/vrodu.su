@@ -7,37 +7,37 @@
         <form @submit.prevent="createPerson">
           <v-text-field
   						name="_key" label="key (id)" type="text"
-  						v-model="personData._key">
+  						v-model="newPerson._key">
           </v-text-field>
 
           <v-text-field
 							name="name" label="Имя" type="text"
-							v-model="personData.name" required :rules="[rules.required]">
+							v-model="newPerson.name" required :rules="[rules.required]">
           </v-text-field>
 
           <v-text-field
 							name="surname" label="Фамилия"
-							type="text" v-model="personData.surname">
+							type="text" v-model="newPerson.surname">
           </v-text-field>
 
           <v-text-field
 							name="midname" label="Отчество"
-							type="text" v-model="personData.midname">
+							type="text" v-model="newPerson.midname">
           </v-text-field>
 
-          <v-radio-group v-model="personData.gender">
+          <v-radio-group v-model="newPerson.gender">
             <v-radio label="Мужчина" :value="1" color="primary"></v-radio>
             <v-radio label="Женщина" :value="0" color="primary"></v-radio>
           </v-radio-group>
 
-          <v-text-field v-if="personData.gender === 0"
+          <v-text-field v-if="newPerson.gender === 0"
   						name="maidenName" label="Девичья фамилия"
-  						type="text" v-model="personData.maidenName">
+  						type="text" v-model="newPerson.maidenName">
           </v-text-field>
 
           <v-select
             v-bind:items="rods"
-            v-model="personData.rod"
+            v-model="newPerson.rod"
             label="Род"
             autocomplete
             item-text="name"
@@ -45,9 +45,23 @@
             auto chips clearable
           ></v-select>
 
+          Годы жизни:
+          <v-container>
+            <v-layout>
+              <v-flex xs3>
+                <v-text-field label="год рожд-я" v-model="newPerson.born" mask="####"></v-text-field>
+              </v-flex>
+              <v-flex xs2>
+              </v-flex>
+              <v-flex xs3>
+                <v-text-field label="год смерти" v-model="newPerson.died" mask="####"></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+
           <v-text-field multi-line
-            id="info" name="info" label="Краткая информация"
-            type="text" v-model="personData.info">
+            id="info" name="info" label="Информация"
+            type="text" v-model="newPerson.info">
           </v-text-field>
 
           <v-switch label="Пользователь" v-model="isUser" color="primary"></v-switch>
@@ -68,9 +82,7 @@
 							required>
   					</v-text-field>
     		  </template>
-
-          <input type="file" name="pic"/>
-
+          
           <v-btn type="submit" class="primary"
 					       :disabled="loading"
                  :loading="loading"
@@ -93,7 +105,7 @@ export default {
   name: 'createPerson',
   data () {
     return {
-      personData: {
+      newPerson: {
         gender: 1
       },
 	    isUser: false,
@@ -111,7 +123,7 @@ export default {
         // headers: { 'content-type': 'multipart/form-data' }
       }
       axiosInst.post(`/api/person/create`, {
-        personData: this.personData,
+        personData: this.newPerson,
         isUser: this.isUser,
         userData: this.userData
       }) // config

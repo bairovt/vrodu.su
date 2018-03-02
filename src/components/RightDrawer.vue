@@ -20,11 +20,16 @@
       </v-flex>
       <v-flex class="mb-2">
         <div><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></div>
-        <div v-if="person.gender === 0">Дев. фамилия: {{person.maidenName}}</div>
-        <div v-if="person.born">{{person.born}} г.р.</div>
+        <div>
+          <span v-if="person.born">{{person.born}}</span>
+          <span v-if="person.died">- {{person.died}}</span>
+        </div>
       </v-flex>
       <v-flex class="mb-2">
         ключ: {{person._key}}
+      </v-flex>
+      <v-flex class="mb-2" v-if="person.maidenName">
+        <div >дев. фамилия: {{person.maidenName}}</div>
       </v-flex>
       <v-flex v-if="person.rod" class="mb-2">
           Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>

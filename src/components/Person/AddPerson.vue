@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout>
+    <v-layout row>
       <v-flex v-if="person" xs12 sm6 offset-sm3>
         <h2>Добавить <strong>{{reltype | translate('v')}}</strong></h2>
         <h3> для: {{person.surname}} {{person.name}} {{person.midname}}</h3>
@@ -8,7 +8,7 @@
         <form @submit.prevent="addPerson">
           <v-checkbox :label="labelAdopted" v-model="relation.adopted" color="primary"></v-checkbox>
           <v-text-field
-							name="name" label="Имя" type="text"
+							name="name" label="Имя" type="text" autofocus
 							v-model="newPerson.name" required :rules="[rules.required]">
           </v-text-field>
           <v-text-field
@@ -32,8 +32,22 @@
             item-value="_id"
             auto chips clearable
           ></v-select>
+          Годы жизни:
+          <v-container>
+            <v-layout>
+              <v-flex xs3>
+                <v-text-field label="год рожд-я" v-model="newPerson.born" mask="####"></v-text-field>
+              </v-flex>
+              <v-flex xs2>
+              </v-flex>
+              <v-flex xs3>
+                <v-text-field label="год смерти" v-model="newPerson.died" mask="####"></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+
           <v-text-field multi-line
-              name="info" label="Краткая информация"
+              name="info" label="Информация"
               type="text" v-model="newPerson.info">
           </v-text-field>
           <v-btn type="submit" class="primary"

@@ -10,6 +10,12 @@ export function translate(word, padezh){
   return dict[word][padezh];
 }
 
+export function surName(person){
+  if (person.surname) return person.surname + ' ' + person.name
+  // if (person.surname) return person.name + ' ' + person.surname
+  return person.name
+}
+
 export function predokRelation(a){
   let gender = a.person.gender;
   let relation = '';

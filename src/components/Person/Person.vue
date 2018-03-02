@@ -14,10 +14,12 @@
 <script>
 // todo: wrong person key -> 404 message
 import axiosInst from '@/utils/axios-instance'
-import {predokRelation, potomokRelation} from '@/filters'
+import {predokRelation, potomokRelation, surName} from '@/filters'
 import router from '@/router'
 
 // provide the data in the vis format
+const menColor = '#2b7ce9'
+const womenColor = '#aa00ff'
 let visOptions = {
   // locale: 'ru'
   layout: {
@@ -31,6 +33,7 @@ let visOptions = {
     font: {
       strokeWidth: 7
     },
+    borderWidth: 0
     // borderWidthSelected: 5
   },
   edges: {
@@ -39,12 +42,12 @@ let visOptions = {
   },
   groups: {
     0: { //women
-      icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: '#aa00ff'},
-      color: {border: '#aa00ff'}  // arrow color
+      icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: womenColor},
+      color: {border: womenColor}  // arrow color
     },
 	  1: { //men
       // shape: 'icon',
-      icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: '#2b7ce9'}
+      icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: menColor}
 	  }
   },
 	interaction:{hover:true}
@@ -69,19 +72,22 @@ export default {
 
       treeData.nodes.push({
 	      id: this.person._id,
-	      label: this.person.surname + ' ' + this.person.name,
-	      title: this.person.surname + ' ' + this.person.name,
+	      label: surName(this.person),
+	      title: surName(this.person),
 	      shape: this.person.pic ? 'circularImage' : 'icon',
 	      image: this.person.pic ? '/static/upload/' + this.person._key + '/' + this.person.pic : undefined,
-	      icon: {face: 'FontAwesome', code: '\uf2be', size: 50}, //color: '#18BC9C'
-        borderWidth: 4,
-        group: this.person.gender
+        icon: {face: 'FontAwesome', code: '\uf2be', size: 50, color: this.person.gender == 0 ? womenColor : menColor},
+        color: {border: this.person.gender == 0 ? womenColor : menColor},  // arrows color
+        borderWidth: 5,
+        // group: this.person.gender, // bug: why group settings are prior over the node's?
       });
 
       this.predki.map(item => {
         treeData.nodes.push({
-	        id: item.person._id, label: item.person.surname + ' ' + item.person.name,
-          title: item.person.surname + ' ' + item.person.name + ', ' + predokRelation(item),
+	        id: item.person._id,
+          // label: `${item.person.surname || ''} ${item.person.name}`,
+          label: surName(item.person),
+          title: surName(item.person) + ', ' + predokRelation(item),
           shape: item.person.pic ? 'circularImage' : 'icon',
           image: item.person.pic ? '/static/upload/' + item.person._key + '/' + item.person.pic : undefined,
 	        group: item.person.gender
@@ -100,8 +106,9 @@ export default {
       });
       this.potomki.map(item => {
         treeData.nodes.push({
-	        id: item.person._id, label: `${item.person.surname} ${item.person.name}`,
-          title: item.person.surname + ' ' + item.person.name + ', ' + potomokRelation(item),
+	        id: item.person._id,
+          label: surName(item.person),
+          title: surName(item.person) + ', ' + potomokRelation(item),
           shape: item.person.pic ? 'circularImage' : 'icon',
           image: item.person.pic ? '/static/upload/' + item.person._key + '/' +item.person.pic : undefined,
           group: item.person.gender
