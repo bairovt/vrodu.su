@@ -32,15 +32,15 @@
             item-value="_id"
             auto chips clearable
           ></v-select>
-          Годы жизни:
-          <v-container>
+          <v-btn small @click.prevent="lifetime = !lifetime">Годы жизни</v-btn>
+          <v-container class="pa-0" v-if="lifetime">
             <v-layout>
-              <v-flex xs3>
+              <v-flex xs5 sm3>
                 <v-text-field label="год рожд-я" v-model="newPerson.born" mask="####"></v-text-field>
               </v-flex>
-              <v-flex xs2>
+              <v-flex xs1 sm2>
               </v-flex>
-              <v-flex xs3>
+              <v-flex xs5 sm3>
                 <v-text-field label="год смерти" v-model="newPerson.died" mask="####"></v-text-field>
               </v-flex>
             </v-layout>
@@ -76,7 +76,8 @@ export default {
       newPerson: {},
       relation: {
         adopted: false
-      }
+      },
+      lifetime: false
     }
   },
   computed: {
