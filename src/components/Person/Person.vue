@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-0">
     <v-layout row wrap>
-      <v-flex xs12 class="text-sm-center">
+      <v-flex xs12 class="text-xs-center">
         <v-progress-circular v-if="loading" indeterminate :size="32" color="primary"></v-progress-circular>
       </v-flex>
       <v-flex class="xs12">
@@ -50,7 +50,11 @@ let visOptions = {
       icon: {face: 'FontAwesome', code: '\uf007', size: 50, color: menColor}
 	  }
   },
-	interaction:{hover:true}
+	interaction: {
+    hover:true,
+    keyboard: true,
+    tooltipDelay: 100 // 300 ms default
+  }
 };
 let network;
 

@@ -46,14 +46,14 @@
           ></v-select>
 
           Годы жизни:
-          <v-container>
+          <v-container class="pa-0">
             <v-layout>
-              <v-flex xs3>
+              <v-flex xs5 sm3>
                 <v-text-field label="год рожд-я" v-model="newPerson.born" mask="####"></v-text-field>
               </v-flex>
-              <v-flex xs2>
+              <v-flex xs1 sm2>
               </v-flex>
-              <v-flex xs3>
+              <v-flex xs5 sm3>
                 <v-text-field label="год смерти" v-model="newPerson.died" mask="####"></v-text-field>
               </v-flex>
             </v-layout>
@@ -82,7 +82,7 @@
 							required>
   					</v-text-field>
     		  </template>
-          
+
           <v-btn type="submit" class="primary"
 					       :disabled="loading"
                  :loading="loading"
