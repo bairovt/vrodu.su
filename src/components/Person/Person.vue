@@ -149,6 +149,7 @@ export default {
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
 	  renderTree () { // initialize vis network!
+      let start = Date.now()
       network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
       network.on("selectNode", function (props) {
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
@@ -157,20 +158,16 @@ export default {
       });
       network.on("selectEdge", function (props) {
         let edgeId = props.edges[0]
-	      // console.log(network)
 	      // console.log(network.body.data.edges._data[edgeId])
       });
+      network.on("afterDrawing", function () {
+        // console.log('render time: ' + (Date.now() - start))
+      })
 	  },
     // setVisData () {
     //   if (!network) this.renderTree()
     //   network.setData(this.visData)
-    // },
-	  removePerson () {
-      axiosInst.get(`/api/person/${this.person._key}/remove`)
-      .then((resp) => {
-        this.$router.push('/person/all')
-      }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
-	  }
+    // },    
   },
   created () {
     this.loadData()

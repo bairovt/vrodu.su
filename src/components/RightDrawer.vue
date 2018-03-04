@@ -61,7 +61,7 @@
       <br>
       <v-flex v-if="person.editable">
         <v-btn small color="warning" @click.prevent="removePerson">Удалить</v-btn>
-        <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn>
+        <!-- <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn> -->
       </v-flex>
     </v-layout>
 
@@ -146,7 +146,8 @@ export default {
         axiosInst.delete(`/api/person/${this.person._key}`)
         .then((resp) => {
           this.$store.commit('setPerson', null)
-          this.$router.push(`/person/${this.user._key}`)
+          // this.$router.push(`/person/${this.user._key}`)
+          this.$router.push('/person/' + resp.data.onlyRel) // переход на единственного
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
 	  }
