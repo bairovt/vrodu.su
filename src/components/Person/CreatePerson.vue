@@ -9,7 +9,7 @@
   						name="_key" label="key (id)" type="text"
   						v-model="newPerson._key">
           </v-text-field>
-
+          <p>Ө ө Ү ү Һ һ</p>
           <v-text-field
 							name="name" label="Имя" type="text"
 							v-model="newPerson.name" required :rules="[rules.required]">

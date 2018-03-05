@@ -21,11 +21,21 @@ import router from '@/router'
 const menColor = '#2b7ce9'
 const womenColor = '#aa00ff'
 let visOptions = {
-  // locale: 'ru'
+  locale: 'ru',
   layout: {
+    // improvedLayout: false,
     hierarchical: {
-      sortMethod: "directed"
+      // enabled: false, // def true if any attribute enable
+      // levelSeparation: 200, // def 150
+      sortMethod: "directed", //"hubsize"
+      // parentCentralization: false, // def true
+      // edgeMinimization: false, // def true
+      // blockShifting: false, // def true
+      // nodeSpacing: 200 // def 100
     }
+  },
+  physics: {
+    // enabled: false, // def true. Быстрый рендеринг если false
   },
   nodes: {
     shape: 'icon',
@@ -52,11 +62,16 @@ let visOptions = {
   },
 	interaction: {
     hover:true,
-    keyboard: true,
+    keyboard: {
+      enabled: false, // если включено появляется голубая рамка
+      bindToWindow: false // если true не работают кнопки - = х ъ
+    },
     tooltipDelay: 100 // 300 ms default
   }
 };
+
 let network;
+// let temp = 'temp'
 
 export default {
   name: 'person',
@@ -72,7 +87,15 @@ export default {
     loading () {return this.$store.state.loading},
     visData: function(){
       const treeData = {nodes: [], edges: []};
-			if (this.person === null || this.predki === null || this.potomki === null) return treeData;
+      if (this.person === null || this.predki === null || this.potomki === null) return treeData;
+
+      // nodesIds, edgesIds - массивы для проверки уникальности nodes и edges в treeData.
+      // Для избежания ошибок дублирования vis в случае откл. uniqueVertices: "global" на сервере
+      // когда идет кровосмешение
+      // Error: Cannot add item: item with id Persons/50799218 already exists
+      // Error: Cannot add item: item with id child/50799770 already exists
+      const nodesIds = [] // для сбора id, для исключения повторов
+      const edgesIds = [] // для сбора id, для исключения повторов
 
       treeData.nodes.push({
 	      id: this.person._id,
@@ -85,49 +108,62 @@ export default {
         borderWidth: 5,
         // group: this.person.gender, // bug: why group settings are prior over the node's?
       });
+      nodesIds.push(this.person._id)
 
       this.predki.map(item => {
-        treeData.nodes.push({
-	        id: item.person._id,
-          // label: `${item.person.surname || ''} ${item.person.name}`,
-          label: surName(item.person),
-          title: surName(item.person) + ', ' + predokRelation(item),
-          shape: item.person.pic ? 'circularImage' : 'icon',
-          image: item.person.pic ? '/static/upload/' + item.person._key + '/' + item.person.pic : undefined,
-	        group: item.person.gender
-        });
-        treeData.edges.push({
-          id: item.edge._id,
-          from: item.edge._from, to: item.edge._to,
-          addedBy: item.edge.addedBy,
-          adopted: item.edge.adopted,
-          color: {  // adopted arrow color
-            color: item.edge.adopted == 1 ? '#18bc9c' : undefined,
-            highlight: item.edge.adopted == 1 ? '#18bc9c' : undefined,
-            hover: item.edge.adopted == 1 ? '#18bc9c' : undefined
-          },
-        });
+        if (nodesIds.indexOf(item.person._id) === -1) { // добавляем без повторов
+          treeData.nodes.push({
+  	        id: item.person._id,
+            label: surName(item.person),
+            title: surName(item.person) + ', ' + predokRelation(item),
+            shape: item.person.pic ? 'circularImage' : 'icon',
+            image: item.person.pic ? '/static/upload/' + item.person._key + '/' + item.person.pic : undefined,
+  	        group: item.person.gender
+          });
+          nodesIds.push(item.person._id)
+        }
+        if (edgesIds.indexOf(item.edge._id) === -1) { // добавляем без повторов
+          treeData.edges.push({
+            id: item.edge._id,
+            from: item.edge._from, to: item.edge._to,
+            addedBy: item.edge.addedBy,
+            adopted: item.edge.adopted,
+            color: {  // adopted arrow color
+              color: item.edge.adopted == 1 ? '#18bc9c' : undefined,
+              highlight: item.edge.adopted == 1 ? '#18bc9c' : undefined,
+              hover: item.edge.adopted == 1 ? '#18bc9c' : undefined
+            },
+          });
+          edgesIds.push(item.edge._id)
+        }
       });
+
       this.potomki.map(item => {
-        treeData.nodes.push({
-	        id: item.person._id,
-          label: surName(item.person),
-          title: surName(item.person) + ', ' + potomokRelation(item),
-          shape: item.person.pic ? 'circularImage' : 'icon',
-          image: item.person.pic ? '/static/upload/' + item.person._key + '/' +item.person.pic : undefined,
-          group: item.person.gender
-        });
-        treeData.edges.push({
-          id: item.edge._id,
-          from: item.edge._from, to: item.edge._to,
-          addedBy: item.edge.addedBy,
-          adopted: item.edge.adopted,
-          color: { // adopted arrow color
-            color: item.edge.adopted == 1 ? '#18bc9c' : undefined,
-            highlight: item.edge.adopted == 1 ? '#18bc9c' : undefined,
-            hover: item.edge.adopted == 1 ? '#18bc9c' : undefined
-          }
-        });
+        if (nodesIds.indexOf(item.person._id) === -1) { // добавляем в treeData.nodes если person._id еще не добавлен
+          treeData.nodes.push({
+  	        id: item.person._id,
+            label: surName(item.person),
+            title: surName(item.person) + ', ' + potomokRelation(item),
+            shape: item.person.pic ? 'circularImage' : 'icon',
+            image: item.person.pic ? '/static/upload/' + item.person._key + '/' +item.person.pic : undefined,
+            group: item.person.gender
+          });
+          nodesIds.push(item.person._id)
+        }
+        if (edgesIds.indexOf(item.edge._id) === -1) { // добавляем без повторов
+          treeData.edges.push({
+            id: item.edge._id,
+            from: item.edge._from, to: item.edge._to,
+            addedBy: item.edge.addedBy,
+            adopted: item.edge.adopted,
+            color: { // adopted arrow color
+              color: item.edge.adopted == 1 ? '#18bc9c' : undefined,
+              highlight: item.edge.adopted == 1 ? '#18bc9c' : undefined,
+              hover: item.edge.adopted == 1 ? '#18bc9c' : undefined
+            }
+          });
+          edgesIds.push(item.edge._id)
+        }
       });
       return treeData;
     }
@@ -135,7 +171,6 @@ export default {
   watch: {
     '$route': 'loadData',
 	  'visData': 'renderTree'
-	  // 'visData': 'setVisData'
   },
   methods: {
     loadData () {
@@ -160,14 +195,10 @@ export default {
         let edgeId = props.edges[0]
 	      // console.log(network.body.data.edges._data[edgeId])
       });
-      network.on("afterDrawing", function () {
-        // console.log('render time: ' + (Date.now() - start))
+      network.once("afterDrawing", function () {
+        console.log('render time: ' + (Date.now() - start)) // log render time
       })
 	  },
-    // setVisData () {
-    //   if (!network) this.renderTree()
-    //   network.setData(this.visData)
-    // },    
   },
   created () {
     this.loadData()

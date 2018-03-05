@@ -7,6 +7,7 @@
         <br/>
         <form @submit.prevent="addPerson">
           <v-checkbox :label="labelAdopted" v-model="relation.adopted" color="primary"></v-checkbox>
+          <p>Ө ө Ү ү Һ һ</p>
           <v-text-field
 							name="name" label="Имя" type="text" autofocus
 							v-model="newPerson.name" required :rules="[rules.required]">

@@ -47,7 +47,7 @@ export const store = new Vuex.Store({
   actions: {
     axiosErrorHandle({commit, dispatch}, error) {
       commit('setLoading', false) // остановить крутилку
-      alert(JSON.stringify(error))
+      alert(JSON.stringify(error.response.data))
       if (error.response) {
         // The request was made, but the server responded with a status code
         // that falls out of the range of 2xx
