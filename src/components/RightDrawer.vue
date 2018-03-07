@@ -41,7 +41,7 @@
 
       <!-- <p>{{person.lifestory}}</p> -->
       <v-flex class="mt-2 mb-2">
-        Добавил:
+        <span>Добавил(а):</span>
         <v-btn round color="accent" small :to="`/person/${person.addedBy._key}`">
           {{person.addedBy.name}}
           {{person.addedBy.surname}}
