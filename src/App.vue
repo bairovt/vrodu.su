@@ -46,7 +46,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link v-if="user" :to="`/person/${user._key}`" tag="span" style="cursor: pointer">
-          Род
+          Мой Род
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>

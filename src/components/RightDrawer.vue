@@ -60,7 +60,7 @@
       </v-flex>
       <br>
       <v-flex v-if="person.editable">
-        <v-btn small color="warning" @click.prevent="removePerson">Удалить</v-btn>
+        <v-btn small color="warning" @click.prevent="deletePerson">Удалить</v-btn>
         <!-- <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn> -->
       </v-flex>
     </v-layout>
@@ -141,13 +141,13 @@ export default {
         // write code to upload the cropped image file (a file is a blob)
       }, 'image/jpeg', 0.8) // 0.8 - 80% compressed jpeg file
     },
-    removePerson () {
+    deletePerson () {
       if (confirm(`Подтвердить удаление: ${this.person.name}?`)) { // todo: сделать красиво
         axiosInst.delete(`/api/person/${this.person._key}`)
         .then((resp) => {
           this.$store.commit('setPerson', null)
           // this.$router.push(`/person/${this.user._key}`)
-          this.$router.push('/person/' + resp.data.onlyRel) // переход на единственного
+          this.$router.push('/person/' + resp.data.closest) // переход на единственного
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
 	  }
