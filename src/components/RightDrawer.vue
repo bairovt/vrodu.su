@@ -56,11 +56,11 @@
       </v-flex>
       <br>
       <v-flex v-if="!person.disableRelPropose"> <!-- todo: проработать права на указание -->
-        <v-btn small :to="`/person/${person._key}/set_relation`">Указать родителя или ребенка</v-btn>
+        <v-btn small color="warning" :to="`/person/${person._key}/set_relation`">Соединить</v-btn>
       </v-flex>
       <br>
       <v-flex v-if="person.editable">
-        <v-btn small color="warning" @click.prevent="deletePerson">Удалить</v-btn>
+        <v-btn small @click.prevent="deletePerson">Удалить</v-btn>
         <!-- <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn> -->
       </v-flex>
     </v-layout>
@@ -147,7 +147,7 @@ export default {
         .then((resp) => {
           this.$store.commit('setPerson', null)
           // this.$router.push(`/person/${this.user._key}`)
-          this.$router.push('/person/' + resp.data.closest) // переход на единственного
+          this.$router.push('/person/' + resp.data.redirKey) // переход на единственного rel (либо на user)
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
 	  }

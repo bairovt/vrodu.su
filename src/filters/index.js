@@ -6,6 +6,8 @@ export function translate(word, padezh){
     'father': {i: 'отец', v: 'отца'},
     'son': {i: 'сын', v: 'сына'},
     'daughter': {i: 'дочь', v: 'дочь'},
+    'parent': {v: 'родителя'},
+    'child': {v: 'ребенка'},
   }
   return dict[word][padezh];
 }

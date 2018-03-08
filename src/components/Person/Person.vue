@@ -185,6 +185,10 @@ export default {
 		},
 	  renderTree () { // initialize vis network!
       let start = Date.now()
+      // отключение физики при большом количестве потомков для ускорения отрисовки
+      if (this.potomki.length > 100) visOptions.physics.enabled = false
+      else visOptions.physics.enabled = true
+
       network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
       network.on("selectNode", function (props) {
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'

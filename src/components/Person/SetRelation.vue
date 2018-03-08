@@ -3,28 +3,38 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <template v-if="person">
-          <h2>Указать</h2>
-          <v-radio-group v-model="reltype" row>
-            <v-radio label="родителя" value="parent" color="primary"></v-radio>
-            <v-radio label="ребенка" value="child" color="primary"></v-radio>
-          </v-radio-group>
-          <v-checkbox label="приемный" v-model="adopted" color="primary"></v-checkbox>
-          <h3>для {{person.surname}} {{person.name}} {{person.midname}}</h3>
+          <h2>Соединить:</h2>
           <br />
+          <h3><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong> c</h3>
+          <v-radio-group v-model="reltype" row>
+            <v-radio label="родителем" value="parent" color="primary"></v-radio>
+            <v-radio label="ребенком" value="child" color="primary"></v-radio>
+          </v-radio-group>
+          <v-checkbox label="приемный/отданный" v-model="adopted" color="primary"></v-checkbox>
       	  <form @submit.prevent="setRelation">
-            <v-text-field
-  						name="id" label="ключ" type="text"
-  						v-model="end_key" required :rules="[rules.required]">
-            </v-text-field>
-
-            <v-btn type="submit" class="primary"
-  					       :disabled="loading" :loading="loading"
-            >
-  						Установить связь
-  						<span slot="loader" class="custom-loader">
-  			        <v-icon light>cached</v-icon>
-  			      </span>
-  					</v-btn>
+            <v-container fluid class="pa-0">
+              <v-layout row wrap>
+                <v-flex xs12 sm6>
+                  <!-- <v-subheader>Укажите ключ {{ reltype | translate('v')}}</v-subheader> -->
+                  Укажите ключ {{ reltype | translate('v')}}
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    name="id" label="ключ" type="text"
+                    v-model="end_key" required :rules="[rules.required]">
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                  <v-btn type="submit" class="primary"
+                  :disabled="loading" :loading="loading">
+                    Соединить
+                    <span slot="loader" class="custom-loader">
+                      <v-icon light>cached</v-icon>
+                    </span>
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
       	  </form>
         </template>
         <template v-else>
@@ -37,6 +47,7 @@
 
 <script>
 import axiosInst from '@/utils/axios-instance'
+import {translate} from '@/filters'
 
 export default {
   name: 'setRelation',
@@ -65,6 +76,9 @@ export default {
 	      })
 	      .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
 		}
+  },
+  filters: {
+    translate
   }
 }
 </script>

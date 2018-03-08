@@ -10,7 +10,7 @@ import RightDrawer from './components/RightDrawer.vue'
 import {Vuetify,
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
     VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions,
-    VDialog, VCard, VProgressCircular
+    VDialog, VCard, VProgressCircular, VSubheader
 } from 'vuetify'
 
 Vue.use(Croppa)
@@ -19,7 +19,7 @@ Vue.use(Vuetify, {
   components: {
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
     VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions,
-    VDialog, VCard, VProgressCircular
+    VDialog, VCard, VProgressCircular, VSubheader
   },
   theme: {
     primary: '#2b7ce9', //'#3f51b5'
