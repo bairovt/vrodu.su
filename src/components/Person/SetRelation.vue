@@ -3,9 +3,10 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <template v-if="person">
-          <h2>Соединить:</h2>
+          <h2>Соединить</h2>
           <br />
-          <h3><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong> c</h3>
+          <h3><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></h3>
+          <h3>c:</h3>
           <v-radio-group v-model="reltype" row>
             <v-radio label="родителем" value="parent" color="primary"></v-radio>
             <v-radio label="ребенком" value="child" color="primary"></v-radio>
@@ -65,7 +66,7 @@ export default {
   },
   methods: {
     setRelation () {
-      axiosInst.post('/api/person/set_relation', {
+      axiosInst.post('/api/child/set_relation', {
         start_key: this.person._key,
         end_key: this.end_key,
 	      reltype: this.reltype,

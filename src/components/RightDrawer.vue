@@ -56,6 +56,7 @@
       </v-flex>
       <br>
       <v-flex v-if="!person.disableRelPropose"> <!-- todo: проработать права на указание -->
+        <!-- todo refactor ? to the dialog box -->
         <v-btn small color="warning" :to="`/person/${person._key}/set_relation`">Соединить</v-btn>
       </v-flex>
       <br>

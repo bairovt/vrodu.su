@@ -30,7 +30,7 @@ export function predokRelation(a){
     case 3:
       relation = gender === 0 ?  'прабабушка' : 'прадед'; break;
     default:
-      relation = a.pathLength + "-е " + "колено"; break;
+      relation = 'предок ' + a.pathLength + '-е ' + 'колено'; break;
   }
   return relation;
 }
@@ -49,11 +49,15 @@ export function potomokRelation(d){
       relation = gender === 0 ?  'правнучка' : 'правнук'; break;
     default:
       // relation = d.edges.length + "-е " + "колено"; break;
-      relation = d.pathLength + "-е " + "колено"; break;
+      relation = 'потомок ' + d.pathLength + '-е ' + 'колено'; break;
   }
   return relation
 }
 
 export function gender(gen){
   return {'0': 'жен', '1': 'муж', '2': ''}[gen];
+}
+
+export function keyFromId(id){
+  return id.split('/')[1]
 }

@@ -3,13 +3,17 @@
     <v-layout row wrap>
       <v-flex class="xs12">
         <h2>Рода</h2>
+        <br />
       </v-flex>
       <v-flex class="xs12" v-if="rods">
-        <h3><router-link to="/person/Khory">Хори</router-link> буряты</h3>
+        <h3>
+          <!-- <router-link to="/person/Khory">Хори</router-link> буряты -->
+          Хори буряты
+        </h3>
         <br />
-        <p v-for="rod in rods" :key="rod._id">
+        <span v-for="rod in rods" :key="rod._id" class="pa-2">
           <router-link :to="`/rod/${rod._key}`">{{ rod.name }} <span class="small">{{ rod.count }}</span></router-link>
-        </p>
+        </span>
       </v-flex>
     </v-layout>
   </v-container>

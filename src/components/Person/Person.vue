@@ -8,13 +8,33 @@
         <div id="rod_tree"></div>
       </v-flex>
     </v-layout>
+
+    <v-dialog v-model="edgeDialog" persistent max-width="500px">
+        <v-card v-if="edge">
+          <v-card-title>
+            {{edge.id}}
+          </v-card-title>
+          <v-card-text class="pt-0 pb-0">
+            Связь: {{edge.from | keyFromId}} -> {{edge.to | keyFromId}}
+            <br />
+            <v-btn @click.stop="deleteChildEdge">удалить</v-btn>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn class="primary" small flat
+            @click.native.stop="closeEdgeDialog">
+              Закрыть
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 // todo: wrong person key -> 404 message
 import axiosInst from '@/utils/axios-instance'
-import {predokRelation, potomokRelation, surName} from '@/filters'
+import {predokRelation, potomokRelation, surName, keyFromId} from '@/filters'
 import router from '@/router'
 
 // provide the data in the vis format
@@ -66,6 +86,7 @@ let visOptions = {
       enabled: false, // если включено появляется голубая рамка
       bindToWindow: false // если true не работают кнопки - = х ъ
     },
+    selectConnectedEdges: false,
     tooltipDelay: 100 // 300 ms default
   }
 };
@@ -80,6 +101,8 @@ export default {
       predki: null,
       potomki: null,
       visContainer: '',  //document.getElementById('rod_tree'),
+      edgeDialog: false,
+      edge: null
     }
   },
   computed: {
@@ -195,21 +218,31 @@ export default {
         let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
         router.push('/person/' + person_key)    // id: Persons/BairovTumenG
       });
-      network.on("selectEdge", function (props) {
+      network.on("selectEdge", (props) => {
         let edgeId = props.edges[0]
-	      // console.log(network.body.data.edges._data[edgeId])
+	      // console.log(network.body.data.edges)
+	      this.edge = network.body.data.edges._data[edgeId]
+        this.edgeDialog = true
       });
       network.once("afterDrawing", function () {
         console.log('render time: ' + (Date.now() - start)) // log render time
       })
 	  },
+    closeEdgeDialog () {
+      network.unselectAll()
+      this.edgeDialog = false
+    },
+    deleteChildEdge () {
+      console.log('del child edge')
+    }
   },
   created () {
     this.loadData()
   },
 	filters: {
     predokRelation,
-    potomokRelation
+    potomokRelation,
+    keyFromId
 	}
 }
 </script>
