@@ -12,7 +12,7 @@
     <v-dialog v-model="edgeDialog" persistent max-width="500px">
         <v-card v-if="edge">
           <v-card-title>
-            {{edge.id}}
+            {{edge.id}} added by {{edge.addedBy | keyFromId}}
           </v-card-title>
           <v-card-text class="pt-0 pb-0">
             Связь: {{edge.from | keyFromId}} -> {{edge.to | keyFromId}}
@@ -233,7 +233,15 @@ export default {
       this.edgeDialog = false
     },
     deleteChildEdge () {
-      console.log('del child edge')
+      this.$store.commit('setLoading', true)
+      axiosInst.delete(`/api/child/${keyFromId(this.edge.id)}`)
+      .then(resp => {
+        console.log('child edge deleted')
+        this.$store.commit('setLoading', false)
+        network.deleteSelected()
+        router.push('/person/' + resp.data.parent_key)
+        this.closeEdgeDialog()
+      }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
     }
   },
   created () {
