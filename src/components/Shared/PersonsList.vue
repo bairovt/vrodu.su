@@ -16,7 +16,12 @@
 </template>
 
 <script>
+	import {keyFromId} from '@/filters'
+
 	export default {
-	  props: ['persons']
+	  props: ['persons'],
+		filters: {
+			keyFromId
+		}
 	}
 </script>
