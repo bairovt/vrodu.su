@@ -258,7 +258,7 @@ export default {
 <style scoped>
 	#rod_tree {
 		height: 800px;
-		/*border: 1px solid lightgray;*/
+		border: 1px solid lightgray;
 	}
   .progress-circular {
     margin: 1rem

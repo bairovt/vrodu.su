@@ -5,12 +5,13 @@
         <form @submit.prevent="find">
           <v-container>
             <v-layout row wrap>
+              <v-flex xs0 sm1></v-flex> <!-- отступ -->
               <v-flex xs12 sm8>
         				<v-text-field autofocus clearable label="Поиск по ФИО"
         					v-model="search">
         				</v-text-field>
         			</v-flex>
-              <v-flex xs4>
+              <v-flex xs4 sm2>
         				<v-btn type="submit" class="primary" :disabled="loading" :loading="loading">
                   Найти
                   <span slot="loader" class="custom-loader">
