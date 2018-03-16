@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Rods from '@/components/Rods'
 import Rod from '@/components/Rod'
-import Person from '@/components/Person/Person'
+import Tree from '@/components/Person/Tree'
+import Profile from '@/components/Person/Profile'
 import FindPersons from '@/components/Person/FindPersons'
 import CreatePerson from '@/components/Person/CreatePerson'
 import AddPerson from '@/components/Person/AddPerson'
@@ -20,9 +21,10 @@ export default new Router({
     {path: '/rod/:_key', name: 'Rod', component: Rod, props: true},
     {path: '/signin', name: 'Signin', component: Signin},
     {path: '/signup', name: 'Signup', component: Signup},
+    {path: '/profile/:key', name: 'Profile', component: Profile},
     {path: '/person/find', name: 'FindPersons', component: FindPersons},
     {path: '/person/create', name: 'CreatePerson', component: CreatePerson},
-    {path: '/person/:key', name: 'Person', component: Person},
+    {path: '/tree/:key', name: 'Tree', component: Tree},
     {path: '/person/:key/add/:reltype', name: 'AddPerson', component: AddPerson,
       props: true},
     {path: '/person/:key/set_relation', name: 'SetRelation', component: SetRelation},

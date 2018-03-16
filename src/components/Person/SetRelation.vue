@@ -73,7 +73,7 @@ export default {
         adopted: this.adopted
       })
 	      .then(resp => {
-	        this.$router.push('/person/' + this.person._key)
+	        this.$router.push('/tree/' + this.person._key)
 	      })
 	      .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
 		}

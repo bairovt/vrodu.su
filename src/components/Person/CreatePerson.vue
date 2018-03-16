@@ -128,7 +128,7 @@ export default {
         userData: this.userData
       }) // config
 	      .then(resp => {
-	        this.$router.push('/person/' + resp.data.newPersonKey)
+	        this.$router.push('/tree/' + resp.data.newPersonKey)
 	      })
 	      .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
 		}

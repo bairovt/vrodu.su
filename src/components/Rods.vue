@@ -7,8 +7,8 @@
       </v-flex>
       <v-flex class="xs12" v-if="rods">
         <h3>
-          <!-- <router-link to="/person/Khory">Хори</router-link> буряты -->
-          Хори буряты
+          <router-link to="/tree/Khory">Хори</router-link> буряты
+          <!-- Хори буряты -->
         </h3>
         <br />
         <span v-for="rod in rods" :key="rod._id" class="pa-2">

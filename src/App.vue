@@ -45,8 +45,8 @@
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <router-link v-if="user" :to="`/person/${user._key}`" tag="span" style="cursor: pointer">
-          МойРод
+        <router-link v-if="user" :to="`/tree/${user._key}`" tag="span" style="cursor: pointer">
+          Род
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -56,7 +56,7 @@
         </v-btn>
       </v-toolbar-items>
       <v-toolbar-items>
-        <v-btn flat v-if="person" :to="`/person/${person._key}`">
+        <v-btn flat v-if="person" :to="`/profile/${person._key}`">
           {{person.name}}
         </v-btn>
       </v-toolbar-items>

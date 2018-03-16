@@ -103,7 +103,7 @@ export default {
         personData: this.newPerson,
         relation: this.relation
       }).then(resp => {
-		      this.$router.push('/person/' + resp.data.newPersonKey);
+		      this.$router.push('/tree/' + resp.data.newPersonKey);
 		    })
 		    .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
 		}

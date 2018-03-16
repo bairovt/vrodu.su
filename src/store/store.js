@@ -35,6 +35,7 @@ export const store = new Vuex.Store({
         })
         return allowed
       }
+      // state.person = state.user // predefine person for templaate can render ...
     },
     setPerson (state, payload) {state.person = payload},
     setPersonPic (state, payload) {state.person.pic = payload},

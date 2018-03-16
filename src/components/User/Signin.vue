@@ -69,10 +69,10 @@ export default {
           const {authToken, person_key} = resp.data;
           window.localStorage.setItem('authToken', authToken);
           this.$store.commit('setUser', jwtDecode(authToken)); // user object
-          this.$router.push('/person/' + person_key);
+          this.$router.push('/tree/' + person_key);
         })
         .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
-    },    
+    },
     onDismissed () {
       this.$store.commit('clearError')
     }

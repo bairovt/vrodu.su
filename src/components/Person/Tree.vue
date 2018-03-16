@@ -95,7 +95,7 @@ let network;
 // let temp = 'temp'
 
 export default {
-  name: 'person',
+  name: 'Tree',
   data () {
     return {
       predki: null,
@@ -216,7 +216,7 @@ export default {
       network.on("selectNode", function (props) {
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
         let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
-        router.push('/person/' + person_key)    // id: Persons/BairovTumenG
+        router.push('/tree/' + person_key)    // id: Persons/BairovTumenG
       });
       network.on("selectEdge", (props) => {
         let edgeId = props.edges[0]
@@ -239,7 +239,7 @@ export default {
         console.log('child edge deleted')
         this.$store.commit('setLoading', false)
         network.deleteSelected()
-        router.push('/person/' + resp.data.parent_key)
+        router.push('/tree/' + resp.data.parent_key)
         this.closeEdgeDialog()
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
     }

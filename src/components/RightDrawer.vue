@@ -19,7 +19,12 @@
         </div>
       </v-flex>
       <v-flex class="mb-2">
-        <div><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></div>
+        <div>
+          <router-link :to="`/profile/${person}`">
+            <!-- <strong>{{person.surname}} {{person.name}} {{person.midname}}</strong> -->
+            {{person.surname}} {{person.name}} {{person.midname}}
+          </router-link>
+        </div>
         <div>
           <span v-if="person.born">{{person.born}}</span>
           <span v-if="person.died">- {{person.died}}</span>
@@ -42,7 +47,7 @@
       <!-- <p>{{person.lifestory}}</p> -->
       <v-flex class="mt-2 mb-2">
         <span>Добавил(а):</span>
-        <v-btn round color="accent" small :to="`/person/${person.addedBy._key}`">
+        <v-btn round color="accent" small :to="`/tree/${person.addedBy._key}`">
           {{person.addedBy.name}}
           {{person.addedBy.surname}}
         </v-btn>
@@ -116,11 +121,7 @@ export default {
       set (newval) {this.$store.state.rightDrawer = newval} // instead of: this.$store.commit('setRightDrawer', newval)
     },
     user () {return this.$store.state.user},
-    person () {return this.$store.state.person},
-	  editRights: function() {
-      // todo: проверка прав на редактирование персоны
-      return true
-	  }
+    person () {return this.$store.state.person}
   },
   methods: {
     openCroppaDialog () {
@@ -148,7 +149,7 @@ export default {
         .then((resp) => {
           this.$store.commit('setPerson', null)
           // this.$router.push(`/person/${this.user._key}`)
-          this.$router.push('/person/' + resp.data.redirKey) // переход на единственного rel (либо на user)
+          this.$router.push('/tree/' + resp.data.redirKey) // переход на единственного rel (либо на user)
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
 	  }
