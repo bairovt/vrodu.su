@@ -21,8 +21,7 @@
       <v-flex class="mb-2">
         <div>
           <router-link :to="`/profile/${person}`">
-            <!-- <strong>{{person.surname}} {{person.name}} {{person.midname}}</strong> -->
-            {{person.surname}} {{person.name}} {{person.midname}}
+            <strong>{{person.surname}} {{person.name}} {{person.midname}}</strong>
           </router-link>
         </div>
         <div>
@@ -47,7 +46,7 @@
       <!-- <p>{{person.lifestory}}</p> -->
       <v-flex class="mt-2 mb-2">
         <span>Добавил(а):</span>
-        <v-btn round color="accent" small :to="`/tree/${person.addedBy._key}`">
+        <v-btn round small :to="`/tree/${person.addedBy._key}`">
           {{person.addedBy.name}}
           {{person.addedBy.surname}}
         </v-btn>

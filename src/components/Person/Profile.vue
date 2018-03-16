@@ -4,10 +4,7 @@
       <v-flex xs12 class="mb-3">
         <h3>Профиль</h3>
         <h2><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></h2>
-      </v-flex>
-
-      <v-flex v-if="person.maidenName">
-        <div >дев. фамилия: {{person.maidenName}}</div>
+        <div v-if="person.maidenName">дев. фамилия: {{person.maidenName}}</div>
       </v-flex>
 
       <v-flex xs12 sm3 class="text-xs-center">
@@ -15,28 +12,21 @@
           width="250px"
           :src="'/static/upload/' + person._key + '/' + person.pic" alt="pic" class="mb-2"
         />
-        <div v-else-if="person.editable">
-          <v-btn @click.stop="openCroppaDialog">Загрузить фото</v-btn>
-        </div>
-        <div>
+        <div class="mt-3 mb-3">
           ключ: {{person._key}}
+        </div>
+        <div class="mb-3">
+          <v-btn round color="success" :to="`/tree/${person._key}`">ДРЕВО</v-btn>
         </div>
         <div v-if="person.rod">
           Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>
         </div>
         <div class="pt-2 pb-2">
           <span>Добавил(а):</span>
-          <v-btn round color="accent" small :to="`/tree/${person.addedBy._key}`">
+          <v-btn round small :to="`/tree/${person.addedBy._key}`">
             {{person.addedBy.name}}
             {{person.addedBy.surname}}
           </v-btn>
-        </div>
-        <div v-if="person.editable"> <!-- todo: проработать права на добавление -->
-          Добавить: <br />
-          <v-btn small color="accent" :to="`/person/${person._key}/add/father`">отца</v-btn>
-          <v-btn small color="accent" :to="`/person/${person._key}/add/mother`">мать</v-btn>
-          <v-btn small color="accent" :to="`/person/${person._key}/add/son`">сына</v-btn>
-          <v-btn small color="accent" :to="`/person/${person._key}/add/daughter`">дочь</v-btn>
         </div>
         <br />
         <div v-if="!person.disableRelPropose">
@@ -76,6 +66,14 @@ export default {
     person () {return this.$store.state.person}
   },
   methods: {
+    loadProfile () {
+      this.$store.commit('setLoading', true)
+      axiosInst.get(`/api/person/profile/${this.$route.params.key}`)
+      .then(resp => {
+          this.$store.commit('setPerson', resp.data.profile)
+          this.$store.commit('setLoading', false)
+      }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
+		},
     deletePerson () {
       if (confirm(`Подтвердить удаление: ${this.person.name}?`)) { // todo: сделать красиво
         axiosInst.delete(`/api/person/${this.person._key}`)
@@ -89,6 +87,9 @@ export default {
   },
   filters: {
 		gender
-	}
+	},
+  created () {
+    if (!this.person) this.loadProfile()
+  }
 }
 </script>
