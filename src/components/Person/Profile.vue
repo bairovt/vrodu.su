@@ -87,7 +87,10 @@ export default {
           this.$router.push('/tree/' + resp.data.redirKey) // переход на единственного rel (либо на user)
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
-	  }
+	  },
+    editPerson () {
+      
+    }
   },
   filters: {
 		gender
