@@ -51,7 +51,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat to="/person/find">
+        <v-btn flat v-if="user" to="/person/find">
           Поиск
         </v-btn>
       </v-toolbar-items>
@@ -60,8 +60,8 @@
           {{person.name}}
         </v-btn>
       </v-toolbar-items>
-      <v-btn icon @click="rightDrawer = !rightDrawer">
-        <v-icon>face</v-icon>
+      <v-btn v-if="user" :depressed="rightDrawer" @click="rightDrawer = !rightDrawer">
+        <img class="sidebar-right-icon" src="../static/assets/right.png" alt="toggle right bar">
       </v-btn>
     </v-toolbar>
 
@@ -105,3 +105,9 @@
     },
   }
 </script>
+
+<style>
+.sidebar-right-icon {
+  height: 20px;
+}
+</style>
