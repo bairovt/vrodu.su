@@ -10,7 +10,7 @@
     >
       <v-list>
         <v-list-tile
-          v-for="(item, i) in items"
+          v-for="(item, i) in leftBarItems"
           v-if="user.hasRoles(item.allowed)"
           :key="i"
           :to="item.url"
@@ -46,7 +46,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link v-if="user" :to="`/tree/${user._key}`" tag="span" style="cursor: pointer">
-          Род
+          Мой Род
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -81,9 +81,9 @@
     data () {
       return {
         drawer: false,
-        items: [
-          {icon: 'bubble_chart', title: 'Рода', url: '/rod/all'},
-          {icon: 'supervisor_account', title: 'Поиск', url: '/person/find'},
+        leftBarItems: [
+          {icon: 'supervisor_account', title: 'Рода', url: '/rod/all'},
+          {icon: 'search', title: 'Поиск', url: '/person/find'},
           {icon: 'add_circle', title: 'Создать', url: '/person/create', allowed: ['manager']}
         ]
       }
