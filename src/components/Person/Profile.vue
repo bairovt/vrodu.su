@@ -36,7 +36,7 @@
         </div>
         <br />
         <div v-if="person.editable">
-          <v-btn color="accent" class="white--text" small @click.prevent="editPerson">Изменить</v-btn>
+          <v-btn color="accent" class="white--text" small @click.stop="editDialog=true">Изменить</v-btn>
         </div>
         <br />
         <div v-if="person.editable">
@@ -54,8 +54,27 @@
           {{person.info}}
         </div>
       </v-flex>
-
     </v-layout>
+
+    <v-dialog v-if="person" v-model="editDialog" max-width="600px"
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+    >
+      <v-card>
+        <v-card-text>
+          <person-fields :person="person" :info="true"></person-fields>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click.stop="updatePerson" class="primary"
+          :disabled="loading" :loading="loading">
+            Сохранить
+            <span slot="loader" class="custom-loader">
+              <v-icon light>cached</v-icon>
+            </span>
+          </v-btn>
+          <v-btn class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -64,10 +83,16 @@ import {gender} from '@/filters'
 import axiosInst from '@/utils/axios-instance'
 
 export default {
+  data () {
+    return {
+      editDialog: false
+    }
+  },
   name: 'Profile',
   computed: {
     user () {return this.$store.state.user},
-    person () {return this.$store.state.person}
+    person () {return this.$store.state.person},
+    loading () {return this.$store.state.loading}
   },
   methods: {
     loadProfile () {
@@ -88,8 +113,15 @@ export default {
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
 	  },
-    editPerson () {
-      
+    updatePerson () {
+      this.$store.commit('setLoading', true)
+      axiosInst.post(`/api/person/update/${this.person._key}`, {
+        person: this.person
+      })
+      .then((resp) => {
+        this.$store.commit('setLoading', false)
+        this.editDialog = false
+      }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
     }
   },
   filters: {
