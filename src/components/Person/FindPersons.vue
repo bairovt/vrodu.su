@@ -25,7 +25,7 @@
       </v-flex>
 
       <v-flex xs12>
-        <persons-list :persons="persons" />
+        <persons-list v-if="persons" :persons="persons" />
       </v-flex>
     </v-layout>
   </v-container>
