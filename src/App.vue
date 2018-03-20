@@ -60,7 +60,7 @@
           {{person.name}}
         </v-btn>
       </v-toolbar-items>
-      <v-btn v-if="user" :depressed="rightDrawer" @click="rightDrawer = !rightDrawer">
+      <v-btn v-if="user" icon @click="rightDrawer = !rightDrawer">
         <img class="sidebar-right-icon" src="../static/assets/right.png" alt="toggle right bar">
       </v-btn>
     </v-toolbar>
