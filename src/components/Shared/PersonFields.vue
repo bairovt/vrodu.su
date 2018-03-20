@@ -45,7 +45,7 @@
       </v-layout>
     </v-container>
 
-    <v-text-field multi-line
+    <v-text-field v-if="info" multi-line
       id="info" name="info" label="Информация"
       type="text" v-model="person.info">
     </v-text-field>
@@ -59,7 +59,15 @@
         lifetime: false
       }
     },
-    props: ['person'],
+    props: {
+      person: {
+        type: Object
+      },
+      info: {
+        type: Boolean,
+        default: true
+      }
+    },
     computed: {
       rods () {return this.$store.state.rods},
       rules () {return this.$store.state.rules}
