@@ -93,7 +93,7 @@
       person () {return this.$store.state.person},
       rightDrawer: {
         get() { return this.$store.state.rightDrawer},
-        set(newval) {this.$store.state.rightDrawer = newval}
+        set(newval) {this.$store.commit('setRightDrawer', newval)}
       }
     },
     methods: {
@@ -101,7 +101,7 @@
     },
     mounted () {
       // console.log(this.$vuetify.breakpoint)
-      if (this.$vuetify.breakpoint.smAndUp) {this.rightDrawer=true}  // open rightDrawer on wide screens
+      if (this.$vuetify.breakpoint.smAndUp) {this.$store.commit('setRightDrawer', true)}  // open rightDrawer on wide screens
     },
   }
 </script>
