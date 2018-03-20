@@ -25,7 +25,7 @@
       </v-flex>
 
       <v-flex xs12>
-        <persons-list v-if="persons" :persons="persons" />
+        <persons-list v-if="persons.length" :persons="persons" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -38,7 +38,7 @@ export default {
   name: 'all-persons',
   data () {
     return {
-      persons: null,
+      persons: [],
       search: ''
     }
   },
