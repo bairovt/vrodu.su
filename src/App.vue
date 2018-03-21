@@ -50,14 +50,14 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat v-if="user" to="/person/find">
+      <v-toolbar-items>
+        <v-btn flat v-if="user" to="/person/find" class="hidden-xs-only">
+          <v-icon class="menu-icon">search</v-icon>
           Поиск
         </v-btn>
-      </v-toolbar-items>
-      <v-toolbar-items>
         <v-btn flat v-if="person" :to="`/profile/${person._key}`">
-          {{person.name}}
+          <v-icon class="menu-icon">face</v-icon>
+          <span class="hidden-xs-only">{{person.name}}</span>
         </v-btn>
       </v-toolbar-items>
       <v-btn v-if="user" icon @click="rightDrawer = !rightDrawer">
@@ -70,7 +70,7 @@
       </router-view>
     </v-content>
 
-    <v-footer app>
+    <v-footer app class="hidden-xs-only">
       <span>&copy; 2018</span>
     </v-footer>
   </v-app>
@@ -109,5 +109,8 @@
 <style>
 .sidebar-right-icon {
   height: 20px;
+}
+.menu-icon {
+  margin-right: 5px;
 }
 </style>
