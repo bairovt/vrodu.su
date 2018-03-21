@@ -1,4 +1,5 @@
 'use strict';
+import {store} from '@/store/store'
 
 export function translate(word, padezh){
   const dict = {
@@ -60,4 +61,11 @@ export function gender(gen){
 
 export function keyFromId(id){
   return id.split('/')[1]
+}
+
+export function rodName(_id) {
+  const rod =  store.state.rods.find((el) => {
+    return el._id === _id
+  })
+  if (rod) return rod.name
 }
