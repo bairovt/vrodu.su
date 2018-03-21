@@ -44,24 +44,27 @@
       clipped-left
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>
-        <router-link v-if="user" :to="`/tree/${user._key}`" tag="span" style="cursor: pointer">
-          Мой Род
-        </router-link>
-      </v-toolbar-title>
+
+      <v-toolbar-items>
+        <v-btn flat :to="`/tree/${user._key}`">
+          <img class="menu-tree-icon" src="/static/assets/tree-03.png">
+          <span class="hidden-xs-only menu-title">Мой Род</span>
+        </v-btn>
+      </v-toolbar-items>
+
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn flat v-if="user" to="/person/find" class="hidden-xs-only">
-          <v-icon class="menu-icon">search</v-icon>
-          Поиск
+          <v-icon>search</v-icon>
+          <span class="menu-title">Поиск</span>
         </v-btn>
         <v-btn flat v-if="person" :to="`/profile/${person._key}`">
-          <v-icon class="menu-icon">face</v-icon>
-          <span class="hidden-xs-only">{{person.name}}</span>
+          <v-icon>face</v-icon>
+          <span class="hidden-xs-only menu-title">{{person.name}}</span>
         </v-btn>
       </v-toolbar-items>
       <v-btn v-if="user" icon @click="rightDrawer = !rightDrawer">
-        <img class="sidebar-right-icon" src="../static/assets/right.png" alt="toggle right bar">
+        <img class="sidebar-right-icon" src="/static/assets/right.png" alt="toggle right bar">
       </v-btn>
     </v-toolbar>
 
@@ -110,7 +113,10 @@
 .sidebar-right-icon {
   height: 20px;
 }
-.menu-icon {
-  margin-right: 5px;
+.menu-tree-icon {
+  height: 38px;
+}
+.menu-title {
+  margin-left: 5px;
 }
 </style>
