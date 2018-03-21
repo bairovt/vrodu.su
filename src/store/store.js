@@ -2,8 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router'
 import jwtDecode from 'jwt-decode'
-import axiosInst from '@/utils/axios-instance';
-import rods from '@/data/rods';
+import axiosInst from '@/utils/axios-instance'
 
 Vue.use(Vuex)
 
@@ -12,7 +11,7 @@ export const store = new Vuex.Store({
   state: {
     user: null,
     person: null,
-    rods: rods,
+    rods: [],
     loading: false,
     error: null,
     rightDrawer: false,

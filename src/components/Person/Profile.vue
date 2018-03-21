@@ -19,7 +19,7 @@
           <v-btn round color="success" :to="`/tree/${person._key}`">ДРЕВО</v-btn>
         </div>
         <div v-if="person.rod">
-          Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>
+          Род: <v-btn small round :to="`/rod/${person.rod.split('/')[1]}`">{{person.rod | rodName}}</v-btn>
         </div>
         <div class="pt-2 pb-2">
           <span>Добавил(а):</span>
@@ -41,7 +41,6 @@
         <br />
         <div v-if="person.editable">
           <v-btn small @click.prevent="deletePerson">Удалить</v-btn>
-          <!-- <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn> -->
         </div>
       </v-flex>
 
@@ -79,7 +78,6 @@
 </template>
 
 <script>
-import {gender} from '@/filters'
 import axiosInst from '@/utils/axios-instance'
 
 export default {
@@ -108,7 +106,6 @@ export default {
         axiosInst.delete(`/api/person/${this.person._key}`)
         .then((resp) => {
           this.$store.commit('setPerson', null)
-          // this.$router.push(`/person/${this.user._key}`)
           this.$router.push('/tree/' + resp.data.redirKey) // переход на единственного rel (либо на user)
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
@@ -124,9 +121,6 @@ export default {
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
     }
   },
-  filters: {
-		gender
-	},
   created () {
     if (!this.person) this.loadProfile()
   }

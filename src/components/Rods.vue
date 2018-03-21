@@ -5,14 +5,15 @@
         <h2>Рода</h2>
         <br />
       </v-flex>
-      <v-flex class="xs12" v-if="rods">
+      <v-flex class="xs12" v-if="rods.length">
         <h3>
           <router-link to="/tree/Khory">Хори</router-link> буряты
           <!-- Хори буряты -->
         </h3>
         <br />
         <span v-for="rod in rods" :key="rod._id" class="pa-2">
-          <router-link :to="`/rod/${rod._key}`">{{ rod.name }} <span class="small">{{ rod.count }}</span></router-link>
+          <!-- <router-link :to="`/rod/${rod._key}`">{{ rod.name }} <span class="small">{{ rod.count }}</span></router-link> -->
+          <v-btn round :to="`/rod/${rod._key}`">{{ rod.name }}</v-btn>
         </span>
       </v-flex>
     </v-layout>
@@ -28,9 +29,6 @@ export default {
     rods () {
       return this.$store.state.rods
     }
-  },
-  created: function () {
-    this.$store.dispatch('loadAllRods')
   }
 }
 </script>

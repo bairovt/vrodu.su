@@ -36,7 +36,7 @@
         <div >дев. фамилия: {{person.maidenName}}</div>
       </v-flex>
       <v-flex v-if="person.rod" class="mb-2">
-          Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>
+          Род: <v-btn small round :to="`/rod/${person.rod.split('/')[1]}`">{{person.rod | rodName}}</v-btn>
       </v-flex>
 
       <v-flex class="mb-2">
@@ -64,10 +64,6 @@
         <v-btn small color="warning" :to="`/person/${person._key}/set_relation`">Соединить</v-btn>
       </v-flex>
       <br>
-      <v-flex v-if="person.editable">
-        <v-btn small @click.prevent="deletePerson">Удалить</v-btn>
-        <!-- <v-btn small :to="`/person/${person._key}/update`">Изменить</v-btn> -->
-      </v-flex>
     </v-layout>
 
     <v-dialog v-model="croppaDialog" max-width="350px">
@@ -102,7 +98,6 @@
 </template>
 
 <script>
-import {gender} from '@/filters'
 import axiosInst from '@/utils/axios-instance'
 import 'vue-croppa/dist/vue-croppa.css'
 
@@ -141,20 +136,7 @@ export default {
         .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
         // write code to upload the cropped image file (a file is a blob)
       }, 'image/jpeg', 0.8) // 0.8 - 80% compressed jpeg file
-    },
-    deletePerson () {
-      if (confirm(`Подтвердить удаление: ${this.person.name}?`)) { // todo: сделать красиво
-        axiosInst.delete(`/api/person/${this.person._key}`)
-        .then((resp) => {
-          this.$store.commit('setPerson', null)
-          // this.$router.push(`/person/${this.user._key}`)
-          this.$router.push('/tree/' + resp.data.redirKey) // переход на единственного rel (либо на user)
-        }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
-      }
-	  }
-  },
-  filters: {
-		gender
-	}
+    }
+  }
 }
 </script>
