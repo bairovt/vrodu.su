@@ -7,6 +7,7 @@ import Alert from './components/Shared/Alert.vue'
 import PersonsList from './components/Shared/PersonsList.vue'
 import PersonFields from './components/Shared/PersonFields.vue'
 import RightDrawer from './components/RightDrawer.vue'
+import {gender, rodName} from '@/filters'
 
 import {Vuetify,
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
@@ -36,6 +37,9 @@ Vue.component('persons-list', PersonsList)
 Vue.component('right-drawer', RightDrawer)
 Vue.component('person-fields', PersonFields)
 
+Vue.filter('rodName', rodName)
+Vue.filter('gender', gender)
+
 // import '../node_modules/vuetify/src/stylus/app.styl'
 import './stylus/main.styl'
 import './stylus/theme.styl'
@@ -50,5 +54,6 @@ new Vue({
   render: h => h(App),
   created () {
     this.$store.dispatch('autoSingIn')
+    this.$store.dispatch('loadAllRods')
   }
 })
