@@ -20,7 +20,7 @@
       </v-flex>
       <v-flex class="mb-2">
         <div>
-          <router-link :to="`/profile/${person}`">
+          <router-link :to="`/profile/${person._key}`" class="name-profile-link">
             <strong>{{person.surname}} {{person.name}} {{person.midname}}</strong>
           </router-link>
         </div>
@@ -140,3 +140,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.name-profile-link {
+  text-decoration: none;
+}
+</style>
