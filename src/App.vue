@@ -47,7 +47,7 @@
 
       <v-toolbar-items>
         <v-btn flat :to="`/tree/${user._key}`">
-          <img class="menu-tree-icon" src="/static/assets/tree-03.png">
+          <img class="menu-tree-icon" src="/static/assets/tree-icon.png">
           <span class="hidden-xs-only menu-title">Мой Род</span>
         </v-btn>
       </v-toolbar-items>
