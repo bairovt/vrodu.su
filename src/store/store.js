@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
     loading: false,
     error: null,
     rightDrawer: false,
+    chosenForRel: null,
     rules: {
       required: (v) => !!v || 'Обязательное поле'
     }
@@ -42,6 +43,7 @@ export const store = new Vuex.Store({
     setError (state, payload) {state.error = payload},
     clearError (state) {state.error = null},
     setRightDrawer (state, payload) {state.rightDrawer = payload},
+    setChosenForRel (state, payload) {state.chosenForRel = payload},
     setRods (state, payload) {state.rods = payload}
   },
   actions: {
@@ -66,7 +68,6 @@ export const store = new Vuex.Store({
         console.error('Something happened in setting up the request: ' + error);
       }
     },
-
     autoSingIn ({commit, dispatch}) {
       const authToken = window.localStorage.getItem('authToken')
       if (authToken) {

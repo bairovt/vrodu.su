@@ -59,9 +59,20 @@
         <v-btn small color="accent" :to="`/person/${person._key}/add/daughter`">дочь</v-btn>
       </v-flex>
       <br>
-      <v-flex v-if="!person.disableRelPropose"> <!-- todo: проработать права на указание -->
-        <!-- todo refactor ? to the dialog box -->
-        <v-btn small color="warning" :to="`/person/${person._key}/set_relation`">Соединить</v-btn>
+      <v-flex>
+        Соединение персон: <br />
+        <v-btn small @click.stop="chooseForSetRelation"
+        :disabled="isChosenForRel"
+        >
+          <span v-if="isChosenForRel">Выбран для соединения</span>
+          <span v-else>Выбрать для соединения</span>
+
+        </v-btn>
+       <!-- todo: проработать права на указание -->
+        <v-btn v-if="!person.disableRelPropose" small color="warning"
+        :to="`/person/${person._key}/set_relation`">
+          Соединить
+        </v-btn>
       </v-flex>
       <br>
     </v-layout>
@@ -71,19 +82,12 @@
           <!-- <v-card-title>
             Загрузить фото
           </v-card-title> -->
+          <!-- todo: align -->
           <v-card-text>
-            <croppa v-model="myCroppa"
-                    :width="250"
-                    :height="250"
-                    placeholder="Выбрать фото"
-                    :zoom-speed="10"
-                    accept="image/*"
-                    :file-size-limit="0"
-                    :prevent-white-space="true"
-                    remove-button-color="grey"
-                    :remove-button-size="25"
-                    :quality="2"
-                    :show-loading="true"
+            <croppa v-model="myCroppa" :width="250" :height="250" placeholder="Выбрать фото"
+                    :zoom-speed="10" accept="image/*" :file-size-limit="0"
+                    :prevent-white-space="true" remove-button-color="grey"
+                    :remove-button-size="25" :quality="2" :show-loading="true"
             ></croppa>
             <br />
             выберите область фото
@@ -94,6 +98,7 @@
           </v-card-actions>
         </v-card>
     </v-dialog>
+
   </v-navigation-drawer>
 </template>
 
@@ -112,12 +117,22 @@ export default {
   computed: {
     rightDrawer: {
       get () {return this.$store.state.rightDrawer},
-      set (newval) {this.$store.state.rightDrawer = newval} // instead of: this.$store.commit('setRightDrawer', newval)
+      set (newval) {this.$store.state.rightDrawer = newval}
     },
     user () {return this.$store.state.user},
-    person () {return this.$store.state.person}
+    person () {return this.$store.state.person},
+    isChosenForRel () {
+      const chosenForRel = this.$store.state.chosenForRel
+      if (chosenForRel) {
+        return this.person._id === chosenForRel._id
+      }
+      return false
+    }
   },
   methods: {
+    chooseForSetRelation () {
+      this.$store.commit('setChosenForRel', this.person)
+    },
     openCroppaDialog () {
       this.myCroppa.chooseFile()
       this.croppaDialog = true
