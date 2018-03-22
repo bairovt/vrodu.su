@@ -54,6 +54,5 @@ new Vue({
   render: h => h(App),
   created () {
     this.$store.dispatch('autoSingIn')
-    this.$store.dispatch('loadAllRods')
   }
 })

@@ -46,7 +46,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 
       <v-toolbar-items>
-        <v-btn flat :to="`/tree/${user._key}`">
+        <v-btn v-if="user" flat :to="`/tree/${user._key}`">
           <img class="menu-tree-icon" src="/static/assets/tree-icon.png">
           <span class="hidden-xs-only menu-title">Мой Род</span>
         </v-btn>
@@ -100,11 +100,13 @@
       }
     },
     methods: {
-      logout () {this.$store.dispatch('logout')}
+      logout () {this.$store.dispatch('logout')}  // todo? обнулять ли значения store.state
     },
     mounted () {
       // console.log(this.$vuetify.breakpoint)
       if (this.$vuetify.breakpoint.smAndUp) {this.$store.commit('setRightDrawer', true)}  // open rightDrawer on wide screens
+      // подгрузка родов после обновлении любой страницы, когда user loged in
+      if (this.$store.state.user) this.$store.dispatch('loadAllRods') //todo? переместить в другое место
     },
   }
 </script>
