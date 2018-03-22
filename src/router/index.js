@@ -19,7 +19,7 @@ export default new Router({
     {path: '/', redirect: '/rod/all'},
     {path: '/rod/all', name: 'Rods', component: Rods},
     {path: '/rod/:_key', name: 'Rod', component: Rod, props: true},
-    {path: '/signin', name: 'Signin', component: Signin},
+    {path: '/signin', name: 'Signin', component: Signin}, // todo: redirect на страницу user если уже signed in
     {path: '/signup', name: 'Signup', component: Signup},
     {path: '/profile/:key', name: 'Profile', component: Profile},
     {path: '/person/find', name: 'FindPersons', component: FindPersons},

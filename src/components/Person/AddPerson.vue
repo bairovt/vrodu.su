@@ -33,7 +33,6 @@ export default {
   props: ['reltype'],
   data () {
     return {
-      newPerson: {},
       relation: {
         adopted: false
       }
@@ -41,9 +40,18 @@ export default {
   },
   computed: {
     person () {return this.$store.state.person},
+    newPerson: {
+      get: function () {
+        return {
+          gender: ['mother', 'daughter'].includes(this.reltype) ? 0 : 1
+        }
+      },
+      set: function (newVal) {
+        return newVal
+      }
+    },
     loading () {return this.$store.state.loading},
     rules () {return this.$store.state.rules},
-    gender () {return ['mother', 'daughter'].includes(this.reltype)  ? 0 : 1},
     labelAdopted () {
       switch (this.reltype) {
         case 'father': return 'приемный отец/отчим';
@@ -55,7 +63,6 @@ export default {
   },
   methods: {
     addPerson () {
-      this.newPerson.gender = this.gender
       axiosInst.post(`/api/person/${this.person._key}/add/${this.reltype}`, {
         personData: this.newPerson,
         relation: this.relation
