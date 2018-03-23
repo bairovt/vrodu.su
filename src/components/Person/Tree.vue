@@ -207,7 +207,7 @@ export default {
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
 	  renderTree () { // initialize vis network!
-      let start = Date.now()
+      // let start = Date.now()
       // отключение физики при большом количестве потомков для ускорения отрисовки
       if (this.potomki.length > 100) visOptions.physics.enabled = false
       else visOptions.physics.enabled = true
@@ -224,9 +224,9 @@ export default {
 	      this.edge = network.body.data.edges._data[edgeId]
         this.edgeDialog = true
       });
-      network.once("afterDrawing", function () {
-        console.log('render time: ' + (Date.now() - start)) // log render time
-      })
+      // network.once("afterDrawing", function () {
+      //   console.log('render time: ' + (Date.now() - start)) // log render time
+      // })
 	  },
     closeEdgeDialog () {
       network.unselectAll()
