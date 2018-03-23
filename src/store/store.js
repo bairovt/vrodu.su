@@ -15,7 +15,8 @@ export const store = new Vuex.Store({
     loading: false,
     error: null,
     rightDrawer: false,
-    chosenForRel: null,
+    personForRel: null,
+    relateDialog: false,
     rules: {
       required: (v) => !!v || 'Обязательное поле'
     }
@@ -35,7 +36,6 @@ export const store = new Vuex.Store({
         })
         return allowed
       }
-      // state.person = state.user // predefine person for templaate can render ...
     },
     setPerson (state, payload) {state.person = payload},
     setPersonPic (state, payload) {state.person.pic = payload},
@@ -43,7 +43,7 @@ export const store = new Vuex.Store({
     setError (state, payload) {state.error = payload},
     clearError (state) {state.error = null},
     setRightDrawer (state, payload) {state.rightDrawer = payload},
-    setChosenForRel (state, payload) {state.chosenForRel = payload},
+    setPersonForRel (state, payload) {state.personForRel = payload},
     setRods (state, payload) {state.rods = payload}
   },
   actions: {

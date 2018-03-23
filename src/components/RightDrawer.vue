@@ -29,9 +29,7 @@
           <span v-if="person.died">- {{person.died}}</span>
         </div>
       </v-flex>
-      <v-flex class="mb-2">
-        ключ: {{person._key}}
-      </v-flex>
+
       <v-flex class="mb-2" v-if="person.maidenName">
         <div >дев. фамилия: {{person.maidenName}}</div>
       </v-flex>
@@ -61,16 +59,17 @@
       <br>
       <v-flex>
         Соединение персон: <br />
-        <v-btn small @click.stop="chooseForSetRelation"
-        :disabled="isChosenForRel"
+        <v-btn small @click.stop="pickForRel"
+        :disabled="isPersonPickedForRel"
         >
-          <span v-if="isChosenForRel">Выбран для соединения</span>
+          <span v-if="isPersonPickedForRel">Выбран для соединения</span>
           <span v-else>Выбрать для соединения</span>
 
         </v-btn>
-       <!-- todo: проработать права на указание -->
-        <v-btn v-if="!person.disableRelPropose" small color="warning"
-        :to="`/person/${person._key}/set_relation`">
+       <!-- todo: проработать права на указание; v-if="!person.disableRelPropose" -->
+        <v-btn v-if="!isPersonPickedForRel && personForRel" small color="warning"
+        @click.stop="relateDialog=true"
+        >
           Соединить
         </v-btn>
       </v-flex>
@@ -79,9 +78,6 @@
 
     <v-dialog v-model="croppaDialog" max-width="350px">
         <v-card>
-          <!-- <v-card-title>
-            Загрузить фото
-          </v-card-title> -->
           <!-- todo: align -->
           <v-card-text>
             <croppa v-model="myCroppa" :width="250" :height="250" placeholder="Выбрать фото"
@@ -97,6 +93,11 @@
             <v-btn flat @click.stop="croppaDialog=false">Отмена</v-btn>
           </v-card-actions>
         </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="relateDialog" max-width="500px">
+      <set-relation-dialog v-if="personForRel">
+      </set-relation-dialog>
     </v-dialog>
 
   </v-navigation-drawer>
@@ -119,20 +120,26 @@ export default {
       get () {return this.$store.state.rightDrawer},
       set (newval) {this.$store.state.rightDrawer = newval}
     },
+    relateDialog: {
+      get () {return this.$store.state.relateDialog},
+      set (newval) {this.$store.state.relateDialog = newval}
+    },
     user () {return this.$store.state.user},
     person () {return this.$store.state.person},
-    isChosenForRel () {
-      const chosenForRel = this.$store.state.chosenForRel
-      if (chosenForRel) {
-        return this.person._id === chosenForRel._id
+    personForRel () {return this.$store.state.personForRel},
+    isPersonPickedForRel () {
+      const personForRel = this.$store.state.personForRel
+      if (personForRel) {
+        return this.person._id === personForRel._id
       }
       return false
     }
   },
   methods: {
-    chooseForSetRelation () {
-      this.$store.commit('setChosenForRel', this.person)
+    pickForRel () {
+      this.$store.commit('setPersonForRel', this.person)
     },
+
     openCroppaDialog () {
       this.myCroppa.chooseFile()
       this.croppaDialog = true

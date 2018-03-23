@@ -7,6 +7,7 @@ import Alert from './components/Shared/Alert.vue'
 import PersonsList from './components/Shared/PersonsList.vue'
 import PersonFields from './components/Shared/PersonFields.vue'
 import RightDrawer from './components/RightDrawer.vue'
+import RelateDialog from './components/Person/RelateDialog.vue'
 import {gender, rodName} from '@/filters'
 
 import {Vuetify,
@@ -36,6 +37,7 @@ Vue.component('app-alert', Alert)
 Vue.component('persons-list', PersonsList)
 Vue.component('right-drawer', RightDrawer)
 Vue.component('person-fields', PersonFields)
+Vue.component('set-relation-dialog', RelateDialog)
 
 Vue.filter('rodName', rodName)
 Vue.filter('gender', gender)
