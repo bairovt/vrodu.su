@@ -8,6 +8,12 @@
         <form @submit.prevent="addPerson">
           <v-checkbox :label="labelAdopted" v-model="relation.adopted" color="primary"></v-checkbox>
 
+          <!-- todo fix: :rules="[rules.required]" highlited on input in inner fields (in person-fields cmp)-->
+          <!-- <v-text-field
+              name="name" label="test" type="text"
+              v-model="test" required :rules="[rules.required]">
+          </v-text-field> -->
+
           <person-fields :person="newPerson"></person-fields>
 
           <v-btn type="submit" class="primary"
@@ -35,7 +41,8 @@ export default {
     return {
       relation: {
         adopted: false
-      }
+      },
+      test: undefined
     }
   },
   computed: {
