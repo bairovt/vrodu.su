@@ -37,7 +37,7 @@ Vue.component('app-alert', Alert)
 Vue.component('persons-list', PersonsList)
 Vue.component('right-drawer', RightDrawer)
 Vue.component('person-fields', PersonFields)
-Vue.component('set-relation-dialog', RelateDialog)
+Vue.component('relate-dialog', RelateDialog)
 
 Vue.filter('rodName', rodName)
 Vue.filter('gender', gender)

@@ -96,8 +96,8 @@
     </v-dialog>
 
     <v-dialog v-model="relateDialog" max-width="500px">
-      <set-relation-dialog v-if="personForRel">
-      </set-relation-dialog>
+      <relate-dialog v-if="personForRel">
+      </relate-dialog>
     </v-dialog>
 
   </v-navigation-drawer>
