@@ -11,12 +11,9 @@
         <img v-if="person.pic"
           width="250px"
           :src="'/static/upload/' + person._key + '/' + person.pic" alt="pic" class="mb-2"
-        />
+        />        
         <div class="mb-2">
-          ключ: {{person._key}}
-        </div>
-        <div class="mb-2">
-          <v-btn round color="success" :to="`/tree/${person._key}`">ДРЕВО</v-btn>
+          <v-btn small round color="success" :to="`/tree/${person._key}`">ДРЕВО</v-btn>
         </div>
         <div v-if="person.rod">
           Род: <v-btn small round :to="`/rod/${person.rod.split('/')[1]}`">{{person.rod | rodName}}</v-btn>
@@ -27,20 +24,11 @@
             {{person.addedBy.name}}
             {{person.addedBy.surname}}
           </v-btn>
-        </div>
+        </div>        
         <br />
-        <div v-if="!person.disableRelPropose">
-          <!-- todo: проработать права на указание -->
-          <!-- todo refactor ? to the dialog box -->
-          <v-btn small color="warning" :to="`/person/${person._key}/set_relation`">Соединить</v-btn>
-        </div>
-        <br />
-        <div v-if="person.editable">
-          <v-btn color="accent" class="white--text" small @click.stop="editDialog=true">Изменить</v-btn>
-        </div>
-        <br />
-        <div v-if="person.editable">
-          <v-btn small @click.prevent="deletePerson">Удалить</v-btn>
+        <div v-if="person.editable">          
+          <v-btn flat outline small @click.prevent="deletePerson">Удалить</v-btn>          <!-- todo: скрыть в подменю -->
+          <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
         </div>
       </v-flex>
 
