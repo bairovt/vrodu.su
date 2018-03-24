@@ -60,8 +60,8 @@ export default {
       })
 	      .then(resp => {
           this.$store.commit('setPersonForRel', null)
-          this.$store.state.relateDialog = false
-	        this.$router.push('/tree/' + this.person._key)
+          this.$store.state.relateDialog = false	        
+	        this.$emit('related')
 	      })
 	      .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
 		},

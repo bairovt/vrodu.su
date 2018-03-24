@@ -93,12 +93,7 @@
             <v-btn flat @click.stop="croppaDialog=false">Отмена</v-btn>
           </v-card-actions>
         </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="relateDialog" max-width="500px">
-      <relate-dialog v-if="personForRel">
-      </relate-dialog>
-    </v-dialog>
+    </v-dialog>    
 
   </v-navigation-drawer>
 </template>
