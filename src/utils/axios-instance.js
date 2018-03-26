@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const axiosInst = axios.create({
   baseURL: process.env.API_URL,
-  timeout: 5000
+  timeout: process.env.NODE_ENV === 'development' ? 100000 : 10000
   // withCredentials: true
 });
 
