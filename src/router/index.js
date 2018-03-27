@@ -22,7 +22,7 @@ export default new Router({
     {path: '/signup', name: 'Signup', component: Signup},
     {path: '/profile/:key', name: 'Profile', component: Profile},
     {path: '/person/find', name: 'SearchPersons', component: SearchPersons},
-    {path: '/person/create', name: 'CreatePerson', component: CreatePerson},
+    {path: '/person/create', name: 'CreatePerson', component: CreatePerson},  // manager role only, todo: forbid for others
     {path: '/tree/:key', name: 'Tree', component: Tree},
     {path: '/person/:key/add/:reltype', name: 'AddPerson', component: AddPerson,
       props: true},

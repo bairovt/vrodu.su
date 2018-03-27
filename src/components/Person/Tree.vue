@@ -21,7 +21,7 @@
           </v-card-title>
           <v-card-text class="pt-0 pb-0">
             Связь: {{edge.from | keyFromId}} -> {{edge.to | keyFromId}}
-            <br />
+            <br />            
             <v-btn @click.stop="deleteChildEdge">удалить</v-btn>
           </v-card-text>
           <v-card-actions>

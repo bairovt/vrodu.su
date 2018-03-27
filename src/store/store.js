@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
     user: null,
     person: null,
     rods: [],
-    loading: false,
+    loading: false,    
     error: null,
     rightDrawer: false,
     personForRel: null,
@@ -21,7 +21,12 @@ export const store = new Vuex.Store({
       required: (v) => !!v || 'Обязательное поле'
     }
   },
-  getters: {},
+  getters: {
+    errorDialog (state) {
+      if (state.error && state.error.dialog) return true
+      else return false
+    }
+  },
   mutations: {
     setUser (state, payload) {
       state.user = payload
@@ -40,7 +45,11 @@ export const store = new Vuex.Store({
     setPerson (state, payload) {state.person = payload},
     setPersonPic (state, payload) {state.person.pic = payload},
     setLoading (state, payload) {state.loading = payload},
-    setError (state, payload) {state.error = payload},
+    setError (state, payload) {
+      state.error = payload.appError
+      if (!state.error.text) Vue.set(state.error, 'text', payload.defText)
+      if (payload.dialog) Vue.set(state.error, 'dialog', true)
+    },
     clearError (state) {state.error = null},
     setRightDrawer (state, payload) {state.rightDrawer = payload},
     setPersonForRel (state, payload) {state.personForRel = payload},
@@ -48,20 +57,43 @@ export const store = new Vuex.Store({
   },
   actions: {
     axiosErrorHandle({commit, dispatch}, error) {
-      commit('setLoading', false) // остановить крутилку
-      alert(JSON.stringify(error.response.data))
+      commit('setLoading', false) // остановить крутилку      
       if (error.response) {
         // The request was made, but the server responded with a status code
         // that falls out of the range of 2xx
-        if (error.response.data.location) {
-          router.push(error.response.data.location) // todo: ??? доделать редирект с сервера
-        } else if (error.response.status === 401) { // ie. invalid jwt token
-          commit('setError', {message: 'Ошибка аутентификации'})
-          // console.error(error.response.data.message);
-          // dispatch('logout');
-        } else {
-          console.error('data: ', error.response.data);
-          // console.log('headers: ', error.response.headers);
+        console.log(error.response)
+        let appError = {
+          status: error.response.status,
+          text: error.response.data.errorMsg || null
+        }
+        switch(error.response.status) {
+          // bad request
+          case 400:
+            commit('setError', {appError, defText: 'bad request', dialog: true})
+            break
+          // auth error: ie. invalid jwt token
+          case 401:
+            if (router.history.current.path !== '/signin') {
+              console.error('auth error: redirect to signin')
+              dispatch('logout')
+            } else {
+              // if (!error.text) error.text = 'Ошибка авторизации'
+              commit('setError', {appError, defText: 'Ошибка авторизации'})
+            }
+            break
+          case 403:
+            // if (!error.text) error.text = 'Запрещено'
+            commit('setError', {appError, defText: 'Запрещено', dialog: true})
+            break
+          case 404:
+            router.replace('/404')
+            break
+          default:            // should never get this
+            try {
+              alert(JSON.stringify(error.response.data))
+            } catch(err) {
+              alert(error.response)
+            }            
         }
       } else {
         // Something happened in setting up the request that triggered an Error
@@ -78,6 +110,7 @@ export const store = new Vuex.Store({
     },
     logout ({commit}) {
       commit('setUser', null)
+      commit('setPerson', null)
       window.localStorage.removeItem('authToken')
       router.push('/signin')
     },

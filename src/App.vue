@@ -76,6 +76,23 @@
     <v-footer app class="hidden-xs-only">
       <span>&copy; 2018</span>
     </v-footer>
+
+    <v-dialog v-model="errorDialog" max-width="500">
+      <v-card>
+        <v-card-title>Ошибка</v-card-title>
+        <v-card-text>
+          <v-alert v-if="error" type="error" :value="true">
+            {{error.text}}
+          </v-alert>          
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <!-- <v-btn color="accent" small @click.stop="errorDialog=false">Закрыть</v-btn> -->
+          <v-btn color="accent" small @click.stop="errorDialog=false">Закрыть</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-app>
 </template>
 
@@ -87,7 +104,7 @@
         leftBarItems: [
           {icon: 'supervisor_account', title: 'Рода', url: '/rod/all'},
           {icon: 'search', title: 'Поиск', url: '/person/find'},
-          {icon: 'add_circle', title: 'Создать', url: '/person/create', allowed: ['manager']}
+          {icon: 'add_circle', title: 'Создать', url: '/person/create', allowed: ['manager']}          
         ]
       }
     },
@@ -95,8 +112,13 @@
       user () {return this.$store.state.user},
       person () {return this.$store.state.person},
       rightDrawer: {
-        get() { return this.$store.state.rightDrawer},
-        set(newval) {this.$store.commit('setRightDrawer', newval)}
+        get () {return this.$store.state.rightDrawer},
+        set (newval) {this.$store.commit('setRightDrawer', newval)}
+      },
+      error () {return this.$store.state.error},
+      errorDialog: {
+        get () {return this.$store.getters.errorDialog},
+        set (newval) {this.$store.commit('clearError')}
       }
     },
     methods: {

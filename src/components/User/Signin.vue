@@ -2,13 +2,13 @@
 	<v-container>
 		<v-layout row v-if="error">
 			<v-flex xs12 sm6 offset-sm3>
-				<app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+				<app-alert></app-alert>
 			</v-flex>
 		</v-layout>
 
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
-				<h1 class="mb-4">Авторизация</h1>
+				<h2 class="mb-4">Вход</h2>
 				<form @submit.prevent="signUserIn">
 					<v-text-field
 							name="email"
@@ -74,9 +74,6 @@ export default {
           this.$router.push('/tree/' + person_key);
         })
         .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
-    },
-    onDismissed () {
-      this.$store.commit('clearError')
     }
   }
 }

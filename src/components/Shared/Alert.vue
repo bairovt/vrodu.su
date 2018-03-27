@@ -1,15 +1,17 @@
 <template>
-	<v-alert color="warning" icon="info" dismissible @input="onClose" :value="true">
-		{{ text }}
+	<v-alert v-if="error" type="error" dismissible @input="onClose" :value="true">
+		{{ error.text }}
 	</v-alert>
 </template>
 
 <script>
-	export default {
-	  props: ['text'],
+	export default {		
+	  computed: {
+			error () {return this.$store.state.error}
+		},
 		methods: {
-	    onClose () {
-	      this.$emit('dismissed')
+	    onClose () {				
+	      this.$store.commit('clearError')
 	    }
 		}
 	}
