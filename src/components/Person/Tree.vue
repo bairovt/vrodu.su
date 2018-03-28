@@ -21,10 +21,13 @@
           </v-card-title>
           <v-card-text class="pt-0 pb-0">
             Связь: {{edge.from | keyFromId}} -> {{edge.to | keyFromId}}
-            <br />            
-            <v-btn @click.stop="deleteChildEdge">удалить</v-btn>
+            <br>
+            <br>
           </v-card-text>
           <v-card-actions>
+            <v-btn @click.stop="deleteChildEdge" :loading="loading">
+              удалить
+            </v-btn>
             <v-spacer></v-spacer>
             <v-btn class="primary" small flat
             @click.native.stop="closeEdgeDialog">
@@ -153,14 +156,12 @@ export default {
 	  'visData': 'renderTree'
   },
   methods: {
-    loadData () {
-      this.$store.commit('setLoading', true)
+    loadData () {      
       axiosInst.get(`/api/person/${this.$route.params.key}/predki-potomki`)
       .then(resp => {
           this.$store.commit('setPerson', resp.data.person)
           this.predki = resp.data.predki;
-          this.potomki = resp.data.potomki;
-          this.$store.commit('setLoading', false)
+          this.potomki = resp.data.potomki;          
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
 	  renderTree () { // initialize vis network!
@@ -189,12 +190,10 @@ export default {
       network.unselectAll()
       this.edgeDialog = false
     },
-    deleteChildEdge () {
-      this.$store.commit('setLoading', true)
+    deleteChildEdge () {      
       axiosInst.delete(`/api/child/${keyFromId(this.edge.id)}`)
       .then(resp => {
-        console.log('child edge deleted')
-        this.$store.commit('setLoading', false)
+        console.log('child edge deleted')        
         network.deleteSelected()
         router.push('/tree/' + resp.data.parent_key)
         this.closeEdgeDialog()

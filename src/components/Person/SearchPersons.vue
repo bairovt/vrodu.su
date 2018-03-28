@@ -12,11 +12,8 @@
         				</v-text-field>
         			</v-flex>
               <v-flex xs4 sm2>
-        				<v-btn type="submit" class="primary" :disabled="loading" :loading="loading">
-                  Найти
-                  <span slot="loader" class="custom-loader">
-      			        <v-icon light>cached</v-icon>
-      			      </span>
+        				<v-btn type="submit" class="primary" :loading="loading">
+                  Найти                  
                 </v-btn>
         			</v-flex>
             </v-layout>
@@ -26,7 +23,9 @@
 
       <v-flex xs12>
         <persons-list v-if="persons.length" :persons="persons" />
+        <p class="text-xs-center" v-if="noResults">Не найдено</p>
       </v-flex>
+      
     </v-layout>
   </v-container>
 </template>
@@ -39,19 +38,20 @@ export default {
   data () {
     return {
       persons: [],
-      search: ''
+      search: '',
+      noResults: false
     }
   },
   computed: {
     loading () {return this.$store.state.loading},
   },
   methods: {
-    find () {
-      this.$store.commit('setLoading', true)
+    find () {      
+      this.noResults = false
       axiosInst.get('/api/person/find/' + this.search.trim())
-        .then(resp => {
-          this.$store.commit('setLoading', false)
+        .then(resp => {          
           this.persons = resp.data.persons;
+          if (!this.persons.length) this.noResults = true
         })
         .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
     }

@@ -43,8 +43,9 @@ export const store = new Vuex.Store({
       }
     },
     setPerson (state, payload) {state.person = payload},
-    setPersonPic (state, payload) {state.person.pic = payload},
-    setLoading (state, payload) {state.loading = payload},
+    setPersonPic (state, payload) {state.person.pic = payload},    
+    setLoading (state) {state.loading = true},
+    resetLoading (state) {state.loading = false},
     setError (state, payload) {
       state.error = payload.appError
       if (!state.error.text) Vue.set(state.error, 'text', payload.defText)
@@ -57,7 +58,7 @@ export const store = new Vuex.Store({
   },
   actions: {
     axiosErrorHandle({commit, dispatch}, error) {
-      commit('setLoading', false) // остановить крутилку      
+      commit('resetLoading') // остановить крутилку. resp interceptor does not hit when error
       if (error.response) {
         // The request was made, but the server responded with a status code
         // that falls out of the range of 2xx
@@ -95,8 +96,8 @@ export const store = new Vuex.Store({
               alert(error.response)
             }            
         }
-      } else {
-        // Something happened in setting up the request that triggered an Error
+      } else {        
+        // Something happened in setting up the request that triggered an Error (when cancel too)
         console.error('Something happened in setting up the request: ' + error);
       }
     },

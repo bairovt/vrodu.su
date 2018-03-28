@@ -44,8 +44,7 @@
     </v-layout>
 
     <v-dialog v-if="person" v-model="editDialog" max-width="600px"
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-    >
+    :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card>
         <v-card-text>
           <person-fields :person="person" :info="true"></person-fields>
@@ -81,12 +80,10 @@ export default {
     loading () {return this.$store.state.loading}
   },
   methods: {
-    loadProfile () {
-      this.$store.commit('setLoading', true)
+    loadProfile () {      
       axiosInst.get(`/api/person/profile/${this.$route.params.key}`)
       .then(resp => {
-          this.$store.commit('setPerson', resp.data.profile)
-          this.$store.commit('setLoading', false)
+          this.$store.commit('setPerson', resp.data.profile)          
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
     deletePerson () {
@@ -98,13 +95,11 @@ export default {
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
 	  },
-    updatePerson () {
-      this.$store.commit('setLoading', true)
+    updatePerson () {      
       axiosInst.post(`/api/person/update/${this.person._key}`, {
         person: this.person
       })
-      .then((resp) => {
-        this.$store.commit('setLoading', false)
+      .then((resp) => {        
         this.editDialog = false
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
     }

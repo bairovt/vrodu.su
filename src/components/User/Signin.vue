@@ -26,15 +26,12 @@
 							v-model="password"
 							required>
 					</v-text-field>
-					<v-btn type="submit"
-					       class="primary"
-					       :disabled="loading"
-					       :loading="loading"
+					<v-btn type="submit" class="primary" :loading="loading"
 					>
 						Войти
-						<span slot="loader" class="custom-loader">
+						<!-- <span slot="loader" class="custom-loader">
 			        <v-icon light>cached</v-icon>
-			      </span>
+			      </span> -->
 					</v-btn>
 				</form>
 			</v-flex>
@@ -61,11 +58,9 @@ export default {
     // },
   },
   methods: {
-		signUserIn () {
-			this.$store.commit('setLoading', true)
+		signUserIn () {			
       axiosInst.post('/api/user/signin', {email: this.email, password: this.password})
-        .then(resp => {
-					this.$store.commit('setLoading', false);
+        .then(resp => {					
           const {authToken, person_key} = resp.data;
           window.localStorage.setItem('authToken', authToken);
           this.$store.commit('setUser', jwtDecode(authToken)); // user object

@@ -82,8 +82,7 @@
 			}
 		},
 		methods: {
-      onSignup () {
-        this.$store.commit('setLoading', true)
+      onSignup () {        
 				this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
       },
 			onDismissed () {
