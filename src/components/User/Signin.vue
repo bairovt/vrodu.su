@@ -60,7 +60,8 @@ export default {
   methods: {
 		signUserIn () {			
       axiosInst.post('/api/user/signin', {email: this.email, password: this.password})
-        .then(resp => {					
+        .then(resp => {
+					this.$store.commit('clearError')
           const {authToken, person_key} = resp.data;
           window.localStorage.setItem('authToken', authToken);
           this.$store.commit('setUser', jwtDecode(authToken)); // user object
