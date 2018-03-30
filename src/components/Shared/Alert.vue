@@ -5,14 +5,14 @@
 </template>
 
 <script>
-	export default {		
+	export default {
 	  computed: {
 			error () {return this.$store.state.error}
 		},
 		methods: {
-	    onClose () {				
-	      this.$store.commit('clearError')
-	    }
+			onClose () {
+				this.$store.commit('clearError')
+			}
 		}
 	}
 

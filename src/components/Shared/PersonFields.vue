@@ -23,7 +23,7 @@
     </v-text-field>
 
     <v-select
-      v-bind:items="rods"
+      :items="rods"
       v-model="person.rod"
       label="Род"
       autocomplete
