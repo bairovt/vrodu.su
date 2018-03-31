@@ -18,7 +18,8 @@ export const store = new Vuex.Store({
     personForRel: null,
     relateDialog: false,
     rules: {
-      required: (v) => !!v || 'Обязательное поле'
+      required: (v) => !!v || 'Обязательное поле',
+      email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid'
     }
   },
   getters: {

@@ -1,10 +1,10 @@
 <template>
   <div>
     <p>Ө ө Ү ү Һ һ</p>
-    <!-- todo fix: :rules="[rules.required]" highlited on input-->
+    
     <v-text-field
         name="name" label="Имя" type="text"
-        v-model="person.name" required>
+        v-model="person.name" :rules="[rules.required]" required>
     </v-text-field>
 
     <v-text-field

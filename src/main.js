@@ -13,7 +13,7 @@ import {gender, rodName} from '@/filters'
 import {Vuetify,
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
     VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions,
-    VDialog, VCard, VProgressCircular, VSubheader
+    VDialog, VCard, VProgressCircular, VSubheader, VForm
 } from 'vuetify'
 
 Vue.use(Croppa)
@@ -22,7 +22,7 @@ Vue.use(Vuetify, {
   components: {
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
     VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions,
-    VDialog, VCard, VProgressCircular, VSubheader
+    VDialog, VCard, VProgressCircular, VSubheader, VForm
   },
   theme: {
     primary: '#2b7ce9', //'#3f51b5'

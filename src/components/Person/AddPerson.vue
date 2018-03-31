@@ -5,26 +5,17 @@
         <h2>Добавить <strong>{{reltype | translate('v')}}</strong></h2>
         <h3> для: {{person.surname}} {{person.name}} {{person.midname}}</h3>
         <br/>
-        <form @submit.prevent="addPerson">
-          <v-checkbox :label="labelAdopted" v-model="relation.adopted" color="primary"></v-checkbox>
-
-          <!-- todo fix: :rules="[rules.required]" highlited on input in inner fields (in person-fields cmp)-->
-          <!-- <v-text-field
-              name="name" label="test" type="text"
-              v-model="test" required :rules="[rules.required]">
-          </v-text-field> -->
+        <v-form ref="addPersonForm" v-model="valid">
+          <v-checkbox :label="labelAdopted" v-model="relation.adopted" color="primary"></v-checkbox>          
 
           <person-fields :person="newPerson"></person-fields>
 
-          <v-btn type="submit" class="primary"
+          <v-btn @click.stop="submitAddPerson" class="primary"
 					       :disabled="loading" :loading="loading"
           >
-						Добавить {{reltype | translate('v')}}
-						<span slot="loader" class="custom-loader">
-			        <v-icon light>cached</v-icon>
-			      </span>
+						Добавить {{reltype | translate('v')}}						
 					</v-btn>
-        </form>
+        </v-form>
       </v-flex>
     </v-layout>
   </v-container>
@@ -39,24 +30,18 @@ export default {
   props: ['reltype'],
   data () {
     return {
+      newPerson: {
+        gender: ['mother', 'daughter'].includes(this.reltype) ? 0 : 1
+      },
       relation: {
         adopted: false
       },
-      test: undefined
+      test: undefined,
+      valid: true
     }
   },
   computed: {
-    person () {return this.$store.state.person},
-    newPerson: {
-      get: function () {
-        return {
-          gender: ['mother', 'daughter'].includes(this.reltype) ? 0 : 1
-        }
-      },
-      set: function (newVal) {
-        return newVal
-      }
-    },
+    person () {return this.$store.state.person},    
     loading () {return this.$store.state.loading},
     rules () {return this.$store.state.rules},
     labelAdopted () {
@@ -69,14 +54,17 @@ export default {
     }
   },
   methods: {
-    addPerson () {
-      axiosInst.post(`/api/person/${this.person._key}/add/${this.reltype}`, {
-        personData: this.newPerson,
-        relation: this.relation
-      }).then(resp => {
-		      this.$router.push('/tree/' + resp.data.newPersonKey);
-		    })
-		    .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+    submitAddPerson () {
+      if (this.$refs.addPersonForm.validate()) {      
+        axiosInst.post(`/api/person/${this.person._key}/add/${this.reltype}`, {
+          personData: this.newPerson,
+          relation: this.relation
+        })
+        .then(resp => {
+          this.$router.push('/tree/' + resp.data.newPersonKey);
+        })
+        .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+      }
 		}
   },
 	filters: {

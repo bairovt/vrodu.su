@@ -3,8 +3,8 @@
     <v-layout>
       <v-flex xs12 sm6 offset-sm3>
         <h2>Создать персону</h2>
-        <br/>
-        <form @submit.prevent="createPerson">
+        <br/>        
+        <v-form ref="createPersonForm" v-model="valid">
           <v-text-field
   						name="_key" label="key (id)" type="text"
   						v-model="newPerson._key">
@@ -21,11 +21,10 @@
     		  <!-- optional user properties -->
     		  <template v-if="isUser">
             <v-text-field
-							name="email"
-							label="e-mail"
-							type="email"
-							v-model="userData.email"
-							required>
+							type="email" name="email" label="e-mail"
+							v-model="userData.email" required
+              :rules="[rules.required, rules.email]"
+						>
   					</v-text-field>
   					<v-text-field
 							name="password"
@@ -36,16 +35,10 @@
   					</v-text-field>
     		  </template>
 
-          <v-btn type="submit" class="primary"
-					       :disabled="loading"
-                 :loading="loading"
-          >
+          <v-btn @click.stop="submitCreatePerson" class="primary" :loading="loading"> <!-- :disabled="!valid" -->            
 						Создать персону
-						<span slot="loader" class="custom-loader">
-			        <v-icon light>cached</v-icon>
-			      </span>
 					</v-btn>
-        </form>
+        </v-form>
       </v-flex>
     </v-layout>
   </v-container>
@@ -62,24 +55,27 @@ export default {
         gender: 1
       },
 	    isUser: false,
-	    userData: {}
+      userData: {},
+      valid: true
     }
   },
   computed: {
     loading () {return this.$store.state.loading},
-    // rules () {return this.$store.state.rules}
+    rules () {return this.$store.state.rules}
   },
-  methods: {
-    createPerson: function () {
-      axiosInst.post(`/api/person/create`, {
-        personData: this.newPerson,
-        isUser: this.isUser,
-        userData: this.userData
-      }) // config
-	      .then(resp => {
-	        this.$router.push('/tree/' + resp.data.newPersonKey)
-	      })
-	      .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+  methods: {    
+    submitCreatePerson: function () {
+      if (this.$refs.createPersonForm.validate()) {
+        axiosInst.post(`/api/person/create`, {
+          personData: this.newPerson,
+          isUser: this.isUser,
+          userData: this.userData
+        }) // config
+        .then(resp => {
+          this.$router.push('/tree/' + resp.data.newPersonKey)
+        })
+        .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+      }
 		}
   }
 }
