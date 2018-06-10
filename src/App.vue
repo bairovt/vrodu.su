@@ -78,10 +78,10 @@
     </v-footer>
 
     <v-dialog v-model="errorDialog" max-width="500">
-      <v-card>
-        <v-card-title>Ошибка</v-card-title>
+      <v-card v-if="error">
+        <v-card-title>Ошибка {{error.status}}</v-card-title>
         <v-card-text>
-          <v-alert v-if="error" type="error" :value="true">
+          <v-alert type="error" :value="true">
             {{error.text}}
           </v-alert>          
         </v-card-text>

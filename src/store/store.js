@@ -91,11 +91,7 @@ export const store = new Vuex.Store({
             router.replace('/404')
             break
           default:            // should never get this
-            try {
-              alert(JSON.stringify(error.response.data))
-            } catch(err) {
-              alert(error.response)
-            }            
+            commit('setError', {appError, defText: 'Ошибка сервера', dialog: true})            
         }
       } else {        
         // Something happened in setting up the request that triggered an Error (when cancel too)

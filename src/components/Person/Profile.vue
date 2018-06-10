@@ -29,6 +29,8 @@
         <div v-if="person.editable">          
           <v-btn flat outline small @click.prevent="deletePerson">Удалить</v-btn>          <!-- todo: скрыть в подменю -->
           <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
+          <br>
+          <v-btn v-if="user.hasRoles(['manager'])" small @click.stop="inviteDialog=true">Пригластиь</v-btn>
         </div>
       </v-flex>
 
@@ -49,18 +51,46 @@
         <v-card-text>
           <person-fields :person="person" :info="true"></person-fields>
         </v-card-text>
+        
         <v-card-actions>
           <v-btn @click.stop="updatePerson" class="primary"
-          :disabled="loading" :loading="loading">
-            Сохранить
-            <span slot="loader" class="custom-loader">
-              <v-icon light>cached</v-icon>
-            </span>
+          :loading="loading">
+            Сохранить            
           </v-btn>
           <v-btn class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    
+    <v-dialog v-if="person" v-model="inviteDialog" max-width="600px"
+    :fullscreen="$vuetify.breakpoint.xsOnly">
+      <v-card>
+        <v-card-title>
+          Отправить приглашение
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="inviteForm" v-model="inviteFormValid">
+            <v-alert v-if="alertText" type="info" :value="alertText">
+              {{alertText}}
+            </v-alert>
+            Введите e-mail, принадлежащий <strong>{{person.name}} {{person.surname}}</strong>:
+            <v-text-field name="email" label="e-mail" type="email"
+            v-model="email" required :rules="[rules.required, rules.email]">
+            </v-text-field>
+          </v-form>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn @click.stop="submitInviteForm" class="primary"
+          :loading="loading" :disabled="!!alertText">
+            Пригласить            
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn @click.stop="inviteDialog=false">Отмена</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-container>
 </template>
 
@@ -68,16 +98,21 @@
 import axiosInst from '@/utils/axios-instance'
 
 export default {
+  name: 'Profile',
   data () {
     return {
-      editDialog: false
+      editDialog: false,
+      inviteDialog: false,
+      inviteFormValid: true,
+      email: null,
+      alertText: null
     }
-  },
-  name: 'Profile',
+  },  
   computed: {
     user () {return this.$store.state.user},
     person () {return this.$store.state.person},
-    loading () {return this.$store.state.loading}
+    loading () {return this.$store.state.loading},
+    rules () {return this.$store.state.rules}
   },
   methods: {
     loadProfile () {      
@@ -102,6 +137,16 @@ export default {
       .then((resp) => {        
         this.editDialog = false
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+    },
+    submitInviteForm () {
+      if (this.$refs.inviteForm.validate()) {
+        axiosInst.post(`/api/user/invite/${this.person._key}`, {
+          email: this.email
+        })
+        .then((resp) => {        
+          this.alertText = 'Приглашение отправлено'
+        }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
+      }
     }
   },
   created () {
