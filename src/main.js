@@ -6,6 +6,7 @@ import router from './router'
 import Alert from './components/Shared/Alert.vue'
 import PersonsList from './components/Shared/PersonsList.vue'
 import PersonFields from './components/Shared/PersonFields.vue'
+import ImageUploadCroppa from './components/Shared/ImageUploadCroppa.vue'
 import RightDrawer from './components/RightDrawer.vue'
 import RelateDialog from './components/Person/RelateDialog.vue'
 import {gender, rodName} from '@/filters'
@@ -22,7 +23,7 @@ Vue.use(Vuetify, {
   components: {
     VApp, VNavigationDrawer, VFooter, VList, VDivider, VBtn, VIcon, VGrid, VToolbar,
     VTextField, VSelect, VRadioGroup, VSwitch, VCheckbox, VAlert, VAvatar, transitions,
-    VDialog, VCard, VProgressCircular, VSubheader, VForm
+    VDialog, VCard, VProgressCircular, VSubheader, VForm, ImageUploadCroppa
   },
   theme: {
     primary: '#2b7ce9', //'#3f51b5'
@@ -38,6 +39,7 @@ Vue.component('persons-list', PersonsList)
 Vue.component('right-drawer', RightDrawer)
 Vue.component('person-fields', PersonFields)
 Vue.component('relate-dialog', RelateDialog)
+Vue.component('image-upload-croppa', ImageUploadCroppa)
 
 Vue.filter('rodName', rodName)
 Vue.filter('gender', gender)
