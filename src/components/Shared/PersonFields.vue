@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Ө ө Ү ү Һ һ</p>
-    
+
     <v-text-field
         name="name" label="Имя" type="text"
         v-model="person.name" :rules="[rules.required]" required>
@@ -41,7 +41,8 @@
         <v-flex xs1 sm2>
         </v-flex>
         <v-flex xs5 sm3>
-          <v-text-field label="год смерти" v-model="person.died" mask="####"></v-text-field>
+        <!--todo: не влезает по длине-->
+          <v-text-field label="год ухода из жизни" v-model="person.died" mask="####"></v-text-field>
         </v-flex>
       </v-layout>
     </v-container>

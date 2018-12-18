@@ -40,7 +40,6 @@
       uploadCroppedImage() {
         var formData = new FormData();
         this.myCroppa.generateBlob((blob) => {
-          // console.log(blob)
           formData.append("pic", blob);
           axiosInst.post("/api/upload/pic/" + this.person._key, formData)
             .then(resp => {

@@ -11,7 +11,13 @@
         <img v-if="person.pic"
           width="250px"
           :src="'/static/upload/' + person._key + '/' + person.pic" alt="pic" class="mb-2"
-        />        
+        />
+        <a v-if="person.editable"
+           @click.stop="$refs.croppaUpload.openCroppaDialog"
+        >
+          Сменить фото
+        </a>
+
         <div class="mb-2">
           <v-btn small round color="success" :to="`/tree/${person._key}`">ДРЕВО</v-btn>
         </div>
@@ -24,9 +30,9 @@
             {{person.addedBy.name}}
             {{person.addedBy.surname}}
           </v-btn>
-        </div>        
+        </div>
         <br />
-        <div v-if="person.editable">          
+        <div v-if="person.editable">
           <v-btn flat outline small @click.prevent="deletePerson">Удалить</v-btn>          <!-- todo: скрыть в подменю -->
           <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
           <br>
@@ -51,17 +57,17 @@
         <v-card-text>
           <person-fields :person="person" :info="true"></person-fields>
         </v-card-text>
-        
+
         <v-card-actions>
           <v-btn @click.stop="updatePerson" class="primary"
           :loading="loading">
-            Сохранить            
+            Сохранить
           </v-btn>
           <v-btn class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
+
     <v-dialog v-if="person" v-model="inviteDialog" max-width="600px"
     :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card>
@@ -83,13 +89,15 @@
         <v-card-actions>
           <v-btn @click.stop="submitInviteForm" class="primary"
           :loading="loading" :disabled="!!alertText">
-            Пригласить            
+            Пригласить
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn @click.stop="inviteDialog=false">Отмена</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <image-upload-croppa ref="croppaUpload" :person="person"></image-upload-croppa>
 
   </v-container>
 </template>
@@ -107,7 +115,7 @@ export default {
       email: null,
       alertText: null
     }
-  },  
+  },
   computed: {
     user () {return this.$store.state.user},
     person () {return this.$store.state.person},
@@ -115,10 +123,10 @@ export default {
     rules () {return this.$store.state.rules}
   },
   methods: {
-    loadProfile () {      
+    loadProfile () {
       axiosInst.get(`/api/person/profile/${this.$route.params.key}`)
       .then(resp => {
-          this.$store.commit('setPerson', resp.data.profile)          
+          this.$store.commit('setPerson', resp.data.profile)
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
     deletePerson () {
@@ -130,11 +138,11 @@ export default {
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
 	  },
-    updatePerson () {      
+    updatePerson () {
       axiosInst.post(`/api/person/update/${this.person._key}`, {
         person: this.person
       })
-      .then((resp) => {        
+      .then((resp) => {
         this.editDialog = false
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
     },
@@ -143,7 +151,7 @@ export default {
         axiosInst.post(`/api/user/invite/${this.person._key}`, {
           email: this.email
         })
-        .then((resp) => {        
+        .then((resp) => {
           this.alertText = 'Приглашение отправлено'
         }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
