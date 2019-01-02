@@ -6,14 +6,14 @@
         <h3> для: {{person.surname}} {{person.name}} {{person.midname}}</h3>
         <br/>
         <v-form ref="addPersonForm" v-model="valid">
-          <v-checkbox :label="labelAdopted" v-model="relation.adopted" color="primary"></v-checkbox>          
+          <v-checkbox :label="labelAdopted" v-model="relation.adopted" color="primary"></v-checkbox>
 
           <person-fields :person="newPerson"></person-fields>
 
           <v-btn @click.stop="submitAddPerson" class="primary"
 					       :disabled="loading" :loading="loading"
           >
-						Добавить {{reltype | translate('v')}}						
+						Добавить {{reltype | translate('v')}}
 					</v-btn>
         </v-form>
       </v-flex>
@@ -41,7 +41,7 @@ export default {
     }
   },
   computed: {
-    person () {return this.$store.state.person},    
+    person () {return this.$store.state.person},
     loading () {return this.$store.state.loading},
     rules () {return this.$store.state.rules},
     labelAdopted () {
@@ -55,13 +55,14 @@ export default {
   },
   methods: {
     submitAddPerson () {
-      if (this.$refs.addPersonForm.validate()) {      
+      if (this.$refs.addPersonForm.validate()) {
         axiosInst.post(`/api/person/${this.person._key}/add/${this.reltype}`, {
           personData: this.newPerson,
           relation: this.relation
         })
         .then(resp => {
-          this.$router.push('/tree/' + resp.data.newPersonKey);
+          // this.$router.push('/tree/' + resp.data.newPersonKey);
+          this.$router.push('/tree/' + this.person._key);
         })
         .catch(error => {this.$store.dispatch('axiosErrorHandle', error)})
       }
