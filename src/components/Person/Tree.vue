@@ -115,9 +115,9 @@ export default {
             addedBy: item.edge.addedBy,
             adopted: item.edge.adopted,
             color: {  // adopted arrow color
-              color: item.edge.adopted === 1 ? '#18bc9c' : undefined,
-              highlight: item.edge.adopted === 1 ? '#18bc9c' : undefined,
-              hover: item.edge.adopted === 1 ? '#18bc9c' : undefined
+              color: item.edge.adopted ? '#18bc9c' : undefined,
+              highlight: item.edge.adopted ? '#18bc9c' : undefined,
+              hover: item.edge.adopted ? '#18bc9c' : undefined
             },
           });
           edgesIds.push(item.edge._id)
@@ -144,9 +144,9 @@ export default {
             addedBy: item.edge.addedBy,
             adopted: item.edge.adopted,
             color: {  // adopted arrow color
-              color: item.edge.adopted === 1 ? '#18bc9c' : undefined,
-              highlight: item.edge.adopted === 1 ? '#18bc9c' : undefined,
-              hover: item.edge.adopted === 1 ? '#18bc9c' : undefined
+              color: item.edge.adopted ? '#18bc9c' : undefined,
+              highlight: item.edge.adopted ? '#18bc9c' : undefined,
+              hover: item.edge.adopted ? '#18bc9c' : undefined
             },
           });
           edgesIds.push(item.edge._id)
@@ -172,9 +172,9 @@ export default {
             addedBy: item.edge.addedBy,
             adopted: item.edge.adopted,
             color: { // adopted arrow color
-              color: item.edge.adopted === 1 ? '#18bc9c' : undefined,
-              highlight: item.edge.adopted === 1 ? '#18bc9c' : undefined,
-              hover: item.edge.adopted === 1 ? '#18bc9c' : undefined
+              color: item.edge.adopted ? '#18bc9c' : undefined,
+              highlight: item.edge.adopted ? '#18bc9c' : undefined,
+              hover: item.edge.adopted ? '#18bc9c' : undefined
             }
           });
           edgesIds.push(item.edge._id)

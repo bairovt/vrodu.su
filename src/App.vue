@@ -83,7 +83,7 @@
         <v-card-text>
           <v-alert type="error" :value="true">
             {{error.text}}
-          </v-alert>          
+          </v-alert>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -104,7 +104,7 @@
         leftBarItems: [
           {icon: 'supervisor_account', title: 'Рода', url: '/rod/all'},
           {icon: 'search', title: 'Поиск', url: '/person/find'},
-          {icon: 'add_circle', title: 'Создать', url: '/person/create', allowed: ['manager']}          
+          {icon: 'add_circle', title: 'Создать', url: '/person/create', allowed: ['manager']}
         ]
       }
     },
