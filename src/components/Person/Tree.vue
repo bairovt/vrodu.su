@@ -54,6 +54,7 @@ export default {
     return {
       predki: null,
       potomki: null,
+      siblings: null,
       visContainer: '',  //document.getElementById('rod_tree'),
       edgeDialog: false,
       edge: null
@@ -68,17 +69,18 @@ export default {
     },
     personForRel () {return this.$store.state.personForRel},
     visData: function(){
-      // provide the data in the vis format
       const treeData = {nodes: [], edges: []};
-      if (this.person === null || this.predki === null || this.potomki === null) return treeData;
+      if (this.person === null || this.predki === null || this.potomki === null) {
+        return treeData;
+      }
 
       // nodesIds, edgesIds - массивы для проверки уникальности nodes и edges в treeData.
       // Для избежания ошибок дублирования vis в случае откл. uniqueVertices: "global" на сервере
       // когда идет кровосмешение
       // Error: Cannot add item: item with id Persons/50799218 already exists
       // Error: Cannot add item: item with id child/50799770 already exists
-      const nodesIds = [] // для сбора id, для исключения повторов
-      const edgesIds = [] // для сбора id, для исключения повторов
+      const nodesIds = []
+      const edgesIds = []
 
       treeData.nodes.push({
 	      id: this.person._id,
@@ -86,8 +88,8 @@ export default {
 	      title: surName(this.person),
 	      shape: this.person.pic ? 'circularImage' : 'icon',
 	      image: this.person.pic ? '/static/upload/' + this.person._key + '/' + this.person.pic : undefined,
-        icon: {face: 'FontAwesome', code: '\uf2be', size: 50, color: this.person.gender == 0 ? womenColor : menColor},
-        color: {border: this.person.gender == 0 ? womenColor : menColor},  // arrows color
+        icon: {face: 'FontAwesome', code: '\uf2be', size: 50, color: this.person.gender === 0 ? womenColor : menColor},
+        color: {border: this.person.gender === 0 ? womenColor : menColor},  // arrows color
         borderWidth: 5,
         // group: this.person.gender, // bug: why group settings are prior over the node's?
       });
@@ -108,13 +110,43 @@ export default {
         if (edgesIds.indexOf(item.edge._id) === -1) { // добавляем без повторов
           treeData.edges.push({
             id: item.edge._id,
-            from: item.edge._from, to: item.edge._to,
+            from: item.edge._from,
+            to: item.edge._to,
             addedBy: item.edge.addedBy,
             adopted: item.edge.adopted,
             color: {  // adopted arrow color
-              color: item.edge.adopted == 1 ? '#18bc9c' : undefined,
-              highlight: item.edge.adopted == 1 ? '#18bc9c' : undefined,
-              hover: item.edge.adopted == 1 ? '#18bc9c' : undefined
+              color: item.edge.adopted === 1 ? '#18bc9c' : undefined,
+              highlight: item.edge.adopted === 1 ? '#18bc9c' : undefined,
+              hover: item.edge.adopted === 1 ? '#18bc9c' : undefined
+            },
+          });
+          edgesIds.push(item.edge._id)
+        }
+      });
+
+      this.siblings.map(item => {
+        if (nodesIds.indexOf(item.person._id) === -1) { // добавляем без повторов
+          treeData.nodes.push({
+  	        id: item.person._id,
+            label: surName(item.person),
+            // title: surName(item.person) + ', ' + predokRelation(item),
+            shape: item.person.pic ? 'circularImage' : 'icon',
+            image: item.person.pic ? '/static/upload/' + item.person._key + '/' + item.person.pic : undefined,
+  	        group: item.person.gender
+          });
+          nodesIds.push(item.person._id)
+        }
+        if (edgesIds.indexOf(item.edge._id) === -1) { // добавляем без повторов
+          treeData.edges.push({
+            id: item.edge._id,
+            from: item.edge._from,
+            to: item.edge._to,
+            addedBy: item.edge.addedBy,
+            adopted: item.edge.adopted,
+            color: {  // adopted arrow color
+              color: item.edge.adopted === 1 ? '#18bc9c' : undefined,
+              highlight: item.edge.adopted === 1 ? '#18bc9c' : undefined,
+              hover: item.edge.adopted === 1 ? '#18bc9c' : undefined
             },
           });
           edgesIds.push(item.edge._id)
@@ -140,9 +172,9 @@ export default {
             addedBy: item.edge.addedBy,
             adopted: item.edge.adopted,
             color: { // adopted arrow color
-              color: item.edge.adopted == 1 ? '#18bc9c' : undefined,
-              highlight: item.edge.adopted == 1 ? '#18bc9c' : undefined,
-              hover: item.edge.adopted == 1 ? '#18bc9c' : undefined
+              color: item.edge.adopted === 1 ? '#18bc9c' : undefined,
+              highlight: item.edge.adopted === 1 ? '#18bc9c' : undefined,
+              hover: item.edge.adopted === 1 ? '#18bc9c' : undefined
             }
           });
           edgesIds.push(item.edge._id)
@@ -156,12 +188,13 @@ export default {
 	  'visData': 'renderTree'
   },
   methods: {
-    loadData () {      
+    loadData () {
       axiosInst.get(`/api/person/${this.$route.params.key}/predki-potomki`)
       .then(resp => {
           this.$store.commit('setPerson', resp.data.person)
           this.predki = resp.data.predki;
-          this.potomki = resp.data.potomki;          
+          this.potomki = resp.data.potomki;
+          this.siblings = resp.data.siblings;
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
 	  renderTree () { // initialize vis network!
@@ -190,10 +223,10 @@ export default {
       network.unselectAll()
       this.edgeDialog = false
     },
-    deleteChildEdge () {      
+    deleteChildEdge () {
       axiosInst.delete(`/api/child/${keyFromId(this.edge.id)}`)
       .then(resp => {
-        console.log('child edge deleted')        
+        console.log('child edge deleted')
         network.deleteSelected()
         router.push('/tree/' + resp.data.parent_key)
         this.closeEdgeDialog()
