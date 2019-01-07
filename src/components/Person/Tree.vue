@@ -129,7 +129,7 @@ export default {
           treeData.nodes.push({
   	        id: item.person._id,
             label: surName(item.person),
-            // title: surName(item.person) + ', ' + predokRelation(item),
+            title: surName(item.person) + ', ' + (item.person.gender === 1 ? 'брат' : 'сестра'),
             shape: item.person.pic ? 'circularImage' : 'icon',
             image: item.person.pic ? '/static/upload/' + item.person._key + '/' + item.person.pic : undefined,
   	        group: item.person.gender
