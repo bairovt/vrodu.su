@@ -35,8 +35,18 @@
         <div v-if="person.editable">
           <v-btn flat outline small @click.prevent="deletePerson">Удалить</v-btn>          <!-- todo: скрыть в подменю -->
           <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
-          <br>
-          <v-btn v-if="user.hasRoles(['manager'])" small @click.stop="inviteDialog=true">Пригластиь</v-btn>
+        </div>
+        <div>
+          <span v-if="person.user === null">
+            <v-btn v-if="user.hasRoles(['manager'])" small @click.stop="inviteDialog=true">
+            <!--<v-btn small @click.stop="inviteDialog=true">-->
+              Пригластиь
+            </v-btn>
+            <span v-else></span>
+          </span>
+          <span v-else>
+            <strong>Пользователь</strong>
+          </span>
         </div>
       </v-flex>
 
