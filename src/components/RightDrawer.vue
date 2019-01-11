@@ -17,6 +17,12 @@
         <div v-else-if="person.editable">
           <v-btn @click.stop="$refs.croppaUpload.openCroppaDialog">Загрузить фото</v-btn>
         </div>
+        <!--<span v-if="person.shortest.length > 1">родственник</span>-->
+        <a v-if="person.shortest.length > 1"
+           @click.stop="showShortestTree = true"
+        >
+          родственник
+        </a>
       </v-flex>
       <v-flex class="mb-2">
         <div>
@@ -93,6 +99,10 @@ export default {
     relateDialog: {
       get () {return this.$store.state.relateDialog},
       set (newval) {this.$store.state.relateDialog = newval}
+    },
+    showShortestTree: {
+      get () {return this.$store.state.showShortestTree},
+      set (newval) {this.$store.state.showShortestTree = newval}
     },
     user () {return this.$store.state.user},
     person () {return this.$store.state.person},

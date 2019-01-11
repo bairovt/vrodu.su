@@ -12,11 +12,12 @@ export const store = new Vuex.Store({
     user: null,
     person: null,
     rods: [],
-    loading: false,    
+    loading: false,
     error: null,
     rightDrawer: false,
     personForRel: null,
     relateDialog: false,
+    showShortestTree: false,
     rules: {
       required: (v) => !!v || 'Обязательное поле',
       email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid'
@@ -44,7 +45,7 @@ export const store = new Vuex.Store({
       }
     },
     setPerson (state, payload) {state.person = payload},
-    setPersonPic (state, payload) {state.person.pic = payload},    
+    setPersonPic (state, payload) {state.person.pic = payload},
     setLoading (state) {state.loading = true},
     resetLoading (state) {state.loading = false},
     setError (state, payload) {
@@ -91,9 +92,9 @@ export const store = new Vuex.Store({
             router.replace('/404')
             break
           default:            // should never get this
-            commit('setError', {appError, defText: 'Ошибка сервера', dialog: true})            
+            commit('setError', {appError, defText: 'Ошибка сервера', dialog: true})
         }
-      } else {        
+      } else {
         // Something happened in setting up the request that triggered an Error (when cancel too)
         console.error('Something happened in setting up the request: ' + error);
       }

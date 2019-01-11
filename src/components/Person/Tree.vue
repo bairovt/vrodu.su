@@ -67,8 +67,12 @@ export default {
       get () {return this.$store.state.relateDialog},
       set (newval) {this.$store.state.relateDialog = newval}
     },
+    showShortestTree: {
+      get () {return this.$store.state.showShortestTree},
+      set (newval) {this.$store.state.showShortestTree = newval}
+    },
     personForRel () {return this.$store.state.personForRel},
-    visData: function(){
+    visData: function() {
       const treeData = {nodes: [], edges: []};
       if (this.person === null || this.predki === null || this.potomki === null) {
         return treeData;
@@ -81,6 +85,38 @@ export default {
       // Error: Cannot add item: item with id child/50799770 already exists
       const nodesIds = []
       const edgesIds = []
+
+      if (this.showShortestTree) {
+        this.person.shortest.map(item => {
+          if (nodesIds.indexOf(item.person._id) === -1) { // добавляем без повторов
+            treeData.nodes.push({
+              id: item.person._id,
+              label: surName(item.person),
+              // title: surName(item.person) + ', ' + predokRelation(item),
+              shape: item.person.pic ? 'circularImage' : 'icon',
+              image: item.person.pic ? '/static/upload/' + item.person._key + '/' + item.person.pic : undefined,
+              group: item.person.gender
+            });
+            nodesIds.push(item.person._id)
+          }
+          if (item.edge && (edgesIds.indexOf(item.edge._id) === -1)) { // добавляем без повторов
+            treeData.edges.push({
+              id: item.edge._id,
+              from: item.edge._from,
+              to: item.edge._to,
+              addedBy: item.edge.addedBy,
+              adopted: item.edge.adopted,
+              color: {  // adopted arrow color
+                color: item.edge.adopted ? '#18bc9c' : undefined,
+                highlight: item.edge.adopted ? '#18bc9c' : undefined,
+                hover: item.edge.adopted ? '#18bc9c' : undefined
+              },
+            });
+            edgesIds.push(item.edge._id)
+          }
+        });
+        return treeData;
+      }
 
       treeData.nodes.push({
 	      id: this.person._id,
@@ -189,6 +225,7 @@ export default {
   },
   methods: {
     loadData () {
+      this.showShortestTree = false;
       axiosInst.get(`/api/person/${this.$route.params.key}/predki-potomki`)
       .then(resp => {
           this.$store.commit('setPerson', resp.data.person)
@@ -202,8 +239,8 @@ export default {
       // отключение физики при большом количестве потомков для ускорения отрисовки
       if (this.potomki.length > 100) visOptions.physics.enabled = false
       else visOptions.physics.enabled = true
-
-      network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
+      const visData = this.visData;
+      network = new vis.Network(document.getElementById('rod_tree'), visData, visOptions);
       network.on("selectNode", function (props) {
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
         let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
