@@ -242,6 +242,7 @@ export default {
       const visData = this.visData;
       network = new vis.Network(document.getElementById('rod_tree'), visData, visOptions);
       network.on("selectNode", function (props) {
+        // this.showShortestTree = false;
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
         let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
         router.push('/tree/' + person_key)    // id: Persons/BairovTumenG

@@ -18,11 +18,18 @@
           <v-btn @click.stop="$refs.croppaUpload.openCroppaDialog">Загрузить фото</v-btn>
         </div>
         <!--<span v-if="person.shortest.length > 1">родственник</span>-->
-        <a v-if="person.shortest.length > 1"
-           @click.stop="showShortestTree = true"
-        >
-          родственник
-        </a>
+        <div>
+          <a v-if="(person.shortest.length > 1) && !showShortestTree"
+             @click.stop="showShortestTree = true"
+          >
+            родство
+          </a>
+          <a v-else
+             @click.stop="showShortestTree = false"
+          >
+            древо
+          </a>
+        </div>
       </v-flex>
       <v-flex class="mb-2">
         <div>
