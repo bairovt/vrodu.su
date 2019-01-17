@@ -10,6 +10,7 @@ import AddPerson from '@/components/Person/AddPerson'
 import Signin from '@/components/User/Signin'
 import Signup from '@/components/User/Signup'
 import notFound from '@/components/notFound'
+import GraphTask from '@/components/Tasks/GraphTask'
 
 Vue.use(Router)
 
@@ -24,9 +25,11 @@ export default new Router({
     {path: '/person/find', name: 'SearchPersons', component: SearchPersons},
     {path: '/person/create', name: 'CreatePerson', component: CreatePerson},  // manager role only, todo: forbid for others
     {path: '/tree/:key', name: 'Tree', component: Tree},
-    {path: '/person/:key/add/:reltype', name: 'AddPerson', component: AddPerson,
+        {path: '/person/:key/add/:reltype', name: 'AddPerson', component: AddPerson,
       props: true},
-    {path: '*', component: notFound}
+    {path: '*', component: notFound},
+
+    {path: '/tasks/:key', name: 'GraphTask', component: GraphTask},
   ],
   mode: 'history'
 })
