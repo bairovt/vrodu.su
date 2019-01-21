@@ -13,7 +13,7 @@
         <br />
         <span v-for="rod in rods" :key="rod._id" class="pa-2">
           <!-- <router-link :to="`/rod/${rod._key}`">{{ rod.name }} <span class="small">{{ rod.count }}</span></router-link> -->
-          <v-btn round :to="`/rod/${rod._key}`">{{ rod.name }}</v-btn>
+          <v-btn round :to="`/rod/${rod._key}`">{{ rod.name }}&nbsp;<small>{{rod.count}}</small></v-btn>
         </span>
       </v-flex>
     </v-layout>
