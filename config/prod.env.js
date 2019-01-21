@@ -1,5 +1,5 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  API_URL: '"https://omog.info"'
+  API_URL: '"https://omog.me"'
 }
