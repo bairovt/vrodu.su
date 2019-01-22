@@ -47,7 +47,7 @@
         <div >дев. фамилия: {{person.maidenName}}</div>
       </v-flex>
       <v-flex v-if="person.rod" class="mb-2">
-          Род: <v-btn small round :to="`/rod/${person.rod.split('/')[1]}`">{{person.rod | rodName}}</v-btn>
+          Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>
       </v-flex>
 
       <v-flex class="mb-2">

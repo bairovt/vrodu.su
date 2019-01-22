@@ -22,7 +22,7 @@
           <v-btn small round color="success" :to="`/tree/${person._key}`">ДРЕВО</v-btn>
         </div>
         <div v-if="person.rod">
-          Род: <v-btn small round :to="`/rod/${person.rod.split('/')[1]}`">{{person.rod | rodName}}</v-btn>
+          Род: <v-btn small round :to="`/rod/${person.rod._key}`">{{person.rod.name}}</v-btn>
         </div>
         <div class="pt-2 pb-2">
           <span>Добавил(а):</span>

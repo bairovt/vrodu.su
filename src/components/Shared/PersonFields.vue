@@ -71,7 +71,23 @@
       }
     },
     computed: {
-      rods () {return this.$store.state.rods},
+      rods () { // todo: refactor select to fetch rods from server by typing
+        const flatRods = [];
+        for (let rod of this.$store.state.rods) {
+          flatRods.push({
+            name: rod.name,
+            _id: rod._id
+          });
+          for (let subrod of rod.subrods) {
+            flatRods.push({
+              name: subrod.name,
+              _id: subrod._id
+            });
+          }
+        }
+        return flatRods;
+        // return this.$store.state.rods;
+      },
       rules () {return this.$store.state.rules}
     }
   }

@@ -11,7 +11,7 @@ export const store = new Vuex.Store({
   state: {
     user: null,
     person: null,
-    rods: [],
+    rods: [], // 2-level nested rods (1-st level 'subethnos')
     loading: false,
     error: null,
     rightDrawer: false,
