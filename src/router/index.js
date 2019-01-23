@@ -9,6 +9,7 @@ import CreatePerson from '@/components/Person/CreatePerson'
 import AddPerson from '@/components/Person/AddPerson'
 import Signin from '@/components/User/Signin'
 import Signup from '@/components/User/Signup'
+import Stat from '@/components/Stat'
 import notFound from '@/components/notFound'
 
 Vue.use(Router)
@@ -26,6 +27,7 @@ export default new Router({
     {path: '/tree/:key', name: 'Tree', component: Tree},
     {path: '/person/:key/add/:reltype', name: 'AddPerson', component: AddPerson,
       props: true},
+    {path: '/stat', component: Stat},
     {path: '*', component: notFound}
   ],
   mode: 'history'
