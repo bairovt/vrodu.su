@@ -24,11 +24,12 @@
           >
             родство
           </a>
-          <a v-else
+          <a v-else-if="(person.shortest.length > 1) && showShortestTree"
              @click.stop="showShortestTree = false"
           >
             древо
           </a>
+          <span v-else></span>
         </div>
       </v-flex>
       <v-flex class="mb-2">
