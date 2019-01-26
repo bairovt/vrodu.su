@@ -226,9 +226,9 @@ export default {
   methods: {
     loadData () {
       this.showShortestTree = false;
-      axiosInst.get(`/api/person/${this.$route.params.key}/predki-potomki`)
+      axiosInst.get(`/api/person/${this.$route.params.key}/tree`)
       .then(resp => {
-          this.$store.commit('setPerson', resp.data.person)
+          this.$store.commit('setPerson', resp.data.profile)
           this.predki = resp.data.predki;
           this.potomki = resp.data.potomki;
           this.siblings = resp.data.siblings;
