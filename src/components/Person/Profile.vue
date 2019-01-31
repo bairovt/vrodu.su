@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row wrap v-if="person">
+    <v-layout row wrap v-if="person._key">
       <v-flex xs12 class="mb-3">
         <h3>Профиль</h3>
         <h2><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></h2>
@@ -61,7 +61,7 @@
       </v-flex>
     </v-layout>
 
-    <v-dialog v-if="person" v-model="editDialog" max-width="600px"
+    <v-dialog v-if="person._key" v-model="editDialog" max-width="600px"
     :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card>
         <v-card-text>
@@ -78,7 +78,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-if="person" v-model="inviteDialog" max-width="600px"
+    <v-dialog v-if="person._key" v-model="inviteDialog" max-width="600px"
     :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card>
         <v-card-title>

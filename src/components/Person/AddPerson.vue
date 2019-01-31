@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout row>
-      <v-flex v-if="person" xs12 sm6 offset-sm3>
+      <v-flex v-if="person._key" xs12 sm6 offset-sm3>
         <h1 style="font-size: medium">Добавить <strong>{{reltype | translate('v')}}</strong> для:</h1>
         <p style="font-size: large"><strong>{{person.surname}} {{person.name}} {{person.midname}}</strong></p>
         <v-form ref="addPersonForm" v-model="valid">

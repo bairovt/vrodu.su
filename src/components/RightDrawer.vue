@@ -8,7 +8,7 @@
     v-model="rightDrawer"
     :disable-route-watcher="$vuetify.breakpoint.smAndUp"
   >
-    <v-layout column v-if="person" class="pa-2">
+    <v-layout column v-if="person._key" class="pa-2">
       <v-flex class="text-xs-center">
         <img v-if="person.pic"
           width="200px"
@@ -19,13 +19,13 @@
         </div>
         <!--<span v-if="person.shortest.length > 1">родственник</span>-->
         <div>
-          <a v-if="(person.shortest.length > 1) && !showShortestTree"
-             @click.stop="showShortestTree = true"
+          <a v-if="(person.commonAncestorId) && !showCommonAncestorPath"
+             @click.stop="showCommonAncestorPath = true"
           >
             родство
           </a>
-          <a v-else-if="(person.shortest.length > 1) && showShortestTree"
-             @click.stop="showShortestTree = false"
+          <a v-else-if="(person.commonAncestorId) && showCommonAncestorPath"
+             @click.stop="showCommonAncestorPath = false"
           >
             древо
           </a>
@@ -102,15 +102,15 @@ export default {
   computed: {
     rightDrawer: {
       get () {return this.$store.state.rightDrawer},
-      set (newval) {this.$store.state.rightDrawer = newval}
+      set (newValue) {this.$store.state.rightDrawer = newValue}
     },
     relateDialog: {
       get () {return this.$store.state.relateDialog},
-      set (newval) {this.$store.state.relateDialog = newval}
+      set (newValue) {this.$store.state.relateDialog = newValue}
     },
-    showShortestTree: {
-      get () {return this.$store.state.showShortestTree},
-      set (newval) {this.$store.state.showShortestTree = newval}
+    showCommonAncestorPath: {
+      get () {return this.$store.state.showCommonAncestorPath},
+      set (newValue) {this.$store.state.showCommonAncestorPath = newValue}
     },
     user () {return this.$store.state.user},
     person () {return this.$store.state.person},

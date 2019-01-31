@@ -10,14 +10,17 @@ export const store = new Vuex.Store({
   // strict: process.env.NODE_ENV !== 'production',
   state: {
     user: null,
-    person: null,
+    person: {
+      _key: null,
+      commonAncestorId: null,
+    },
     rods: [], // 2-level nested rods (1-st level 'subethnos')
     loading: false,
     error: null,
     rightDrawer: false,
     personForRel: null,
     relateDialog: false,
-    showShortestTree: false,
+    showCommonAncestorPath: false,
     rules: {
       required: (v) => !!v || 'Обязательное поле',
       email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid'

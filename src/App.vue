@@ -58,7 +58,7 @@
           <v-icon>search</v-icon>
           <span class="menu-title">Поиск</span>
         </v-btn>
-        <v-btn flat v-if="person" :to="`/profile/${person._key}`">
+        <v-btn flat v-if="person._key" :to="`/profile/${person._key}`">
           <v-icon>face</v-icon>
           <span class="hidden-xs-only menu-title">{{person.name}}</span>
         </v-btn>
@@ -113,12 +113,12 @@
       person () {return this.$store.state.person},
       rightDrawer: {
         get () {return this.$store.state.rightDrawer},
-        set (newval) {this.$store.commit('setRightDrawer', newval)}
+        set (newValue) {this.$store.commit('setRightDrawer', newValue)}
       },
       error () {return this.$store.state.error},
       errorDialog: {
         get () {return this.$store.getters.errorDialog},
-        set (newval) {this.$store.commit('clearError')}
+        set (newValue) {this.$store.commit('clearError')}
       }
     },
     methods: {
