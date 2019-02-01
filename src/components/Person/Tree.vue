@@ -10,7 +10,7 @@
     </v-layout>
     <!-- set relation dialog -->
     <v-dialog v-model="relateDialog" max-width="500px">
-      <relate-dialog v-if="personForRel" v-on:related="loadData">
+      <relate-dialog v-if="personForRel" v-on:related="fetchTree">
       </relate-dialog>
     </v-dialog>
     <!-- when clicked on edge -->
@@ -50,7 +50,7 @@ let network;
 
 export default {
   name: 'Tree',
-  data () {
+  data() {
     return {
       predki: null,
       potomki: null,
@@ -61,20 +61,20 @@ export default {
     }
   },
   computed: {
-    person () {return this.$store.state.person},
-    loading () {return this.$store.state.loading},
+    person() {return this.$store.state.person},
+    loading() {return this.$store.state.loading},
     relateDialog: {
-      get () {return this.$store.state.relateDialog},
+      get() {return this.$store.state.relateDialog},
       set (newValue) {this.$store.state.relateDialog = newValue}
     },
-    showCommonAncestorPath: {
-      get () {return this.$store.state.showCommonAncestorPath},
-      set (newValue) {this.$store.state.showCommonAncestorPath = newValue}
+    commonAncestorPath: {
+      get() {return this.$store.state.commonAncestorPath},
+      set (newValue) {this.$store.commit('setCommonAncestorPath', newValue)}
     },
-    personForRel () {return this.$store.state.personForRel},
-    visData: function() {
+    personForRel() {return this.$store.state.personForRel},
+    treeData() {
       const treeData = {nodes: [], edges: []};
-      if (this.person === null || this.predki === null || this.potomki === null) {
+      if (!this.person._key || this.predki === null || this.potomki === null) {
         return treeData;
       }
 
@@ -85,38 +85,6 @@ export default {
       // Error: Cannot add item: item with id child/50799770 already exists
       const nodesIds = []
       const edgesIds = []
-
-      // if (this.showCommonAncestorPath) {
-      //   this.person.shortest.map(item => {
-      //     if (nodesIds.indexOf(item.person._id) === -1) { // добавляем без повторов
-      //       treeData.nodes.push({
-      //         id: item.person._id,
-      //         label: surName(item.person),
-      //         // title: surName(item.person) + ', ' + predokRelation(item),
-      //         shape: item.person.pic ? 'circularImage' : 'icon',
-      //         image: item.person.pic ? '/static/upload/' + item.person._key + '/' + item.person.pic : undefined,
-      //         group: item.person.gender
-      //       });
-      //       nodesIds.push(item.person._id)
-      //     }
-      //     if (item.edge && (edgesIds.indexOf(item.edge._id) === -1)) { // добавляем без повторов
-      //       treeData.edges.push({
-      //         id: item.edge._id,
-      //         from: item.edge._from,
-      //         to: item.edge._to,
-      //         addedBy: item.edge.addedBy,
-      //         adopted: item.edge.adopted,
-      //         color: {  // adopted arrow color
-      //           color: item.edge.adopted ? '#18bc9c' : undefined,
-      //           highlight: item.edge.adopted ? '#18bc9c' : undefined,
-      //           hover: item.edge.adopted ? '#18bc9c' : undefined
-      //         },
-      //       });
-      //       edgesIds.push(item.edge._id)
-      //     }
-      //   });
-      //   return treeData;
-      // }
 
       treeData.nodes.push({
 	      id: this.person._id,
@@ -217,32 +185,91 @@ export default {
         }
       });
       return treeData;
+    },
+    pathData() {
+      const pathData = {nodes: [], edges: []};
+      if (!this.person._key || this.commonAncestorPath === null) {
+        return pathData;
+      }
+      const nodesIds = []
+      const edgesIds = []
+
+      if (this.commonAncestorPath) {
+        this.commonAncestorPath.nodes.map(person => {
+          if (nodesIds.indexOf(person._id) === -1) { // добавляем без повторов
+            pathData.nodes.push({
+              id: person._id,
+              label: surName(person),
+              // title: surName(person) + ', ' + predokRelation(item),
+              shape: person.pic ? 'circularImage' : 'icon',
+              image: person.pic ? '/static/upload/' + person._key + '/' + person.pic : undefined,
+              group: person.gender
+            });
+            nodesIds.push(person._id)
+          }
+        });
+        this.commonAncestorPath.edges.map(edge => {
+          if (edgesIds.indexOf(edge._id) === -1) { // добавляем без повторов
+            pathData.edges.push({
+              id: edge._id,
+              from: edge._from,
+              to: edge._to,
+              addedBy: edge.addedBy,
+              adopted: edge.adopted,
+              color: {  // adopted arrow color
+                color: edge.adopted ? '#18bc9c' : undefined,
+                highlight: edge.adopted ? '#18bc9c' : undefined,
+                hover: edge.adopted ? '#18bc9c' : undefined
+              },
+            });
+            edgesIds.push(edge._id)
+          }
+        });
+        return pathData;
+      }
     }
   },
   watch: {
-    '$route': 'loadData',
-	  'visData': 'renderTree'
+    '$route': 'fetchTree',
+    // '$route': 'prepareToRenderTree',
+	  'treeData': 'renderTree',
+	  'pathData': 'renderTree'
   },
   methods: {
-    loadData () {
-      this.showCommonAncestorPath = false;
+    // prepareToRenderTree() {
+    //
+    // },
+    fetchTree() {
+      this.commonAncestorPath = null;
       axiosInst.get(`/api/person/${this.$route.params.key}/tree`)
       .then(resp => {
-          this.$store.commit('setPerson', resp.data.profile)
-          this.predki = resp.data.predki;
-          this.potomki = resp.data.potomki;
-          this.siblings = resp.data.siblings;
+        this.$store.commit('setPerson', resp.data.profile)
+        this.predki = resp.data.predki;
+        this.potomki = resp.data.potomki;
+        this.siblings = resp.data.siblings;
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
-	  renderTree () { // initialize vis network!
+	  renderTree() { // initialize vis network!
       // let start = Date.now()
       // отключение физики при большом количестве потомков для ускорения отрисовки
-      if (this.potomki.length > 100) visOptions.physics.enabled = false
-      else visOptions.physics.enabled = true
-      const visData = this.visData;
+      if (this.potomki && this.potomki.length > 100) {
+        visOptions.physics.enabled = false;
+      } else {
+        visOptions.physics.enabled = true;
+      }
+      let visData;
+      switch (this.$route.query.view) {
+        case 'path':
+        // case 'COMMON_ANCESTOR_PATH':
+          visData = this.pathData;
+          break;
+        default:
+          visData = this.treeData;
+          break;
+      }
       network = new vis.Network(document.getElementById('rod_tree'), visData, visOptions);
       network.on("selectNode", function (props) {
-        // this.showCommonAncestorPath = false;
+        // this.commonAncestorPath = false;
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
         let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
         router.push('/tree/' + person_key)    // id: Persons/BairovTumenG
@@ -257,11 +284,11 @@ export default {
       //   console.log('render time: ' + (Date.now() - start)) // log render time
       // })
 	  },
-    closeEdgeDialog () {
+    closeEdgeDialog() {
       network.unselectAll()
       this.edgeDialog = false
     },
-    deleteChildEdge () {
+    deleteChildEdge() {
       axiosInst.delete(`/api/child/${keyFromId(this.edge.id)}`)
       .then(resp => {
         console.log('child edge deleted')
@@ -271,8 +298,8 @@ export default {
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
     }
   },
-  created () {
-    this.loadData()
+  created() {
+    this.fetchTree()
   },
 	filters: {
     predokRelation,

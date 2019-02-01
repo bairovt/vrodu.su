@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
     user: null,
     person: {
       _key: null,
-      commonAncestorId: null,
+      commonAncestorKey: null,
     },
     rods: [], // 2-level nested rods (1-st level 'subethnos')
     loading: false,
@@ -20,7 +20,7 @@ export const store = new Vuex.Store({
     rightDrawer: false,
     personForRel: null,
     relateDialog: false,
-    showCommonAncestorPath: false,
+    commonAncestorPath: null,
     rules: {
       required: (v) => !!v || 'Обязательное поле',
       email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid'
@@ -59,7 +59,8 @@ export const store = new Vuex.Store({
     clearError (state) {state.error = null},
     setRightDrawer (state, payload) {state.rightDrawer = payload},
     setPersonForRel (state, payload) {state.personForRel = payload},
-    setRods (state, payload) {state.rods = payload}
+    setRods (state, payload) {state.rods = payload},
+    setCommonAncestorPath(state, payload) {state.commonAncestorPath = payload}
   },
   actions: {
     axiosErrorHandle({commit, dispatch}, error) {
@@ -120,6 +121,13 @@ export const store = new Vuex.Store({
       axiosInst.get('/api/rod/all') // загрузка всех родов при создании App
         .then(resp => {
           commit('setRods', resp.data.rods);
+        })
+        .catch(error => {dispatch('axiosErrorHandle', error)});
+    },
+    fetchCommonAncestorPath ({commit, dispatch}) {
+      axiosInst.get(`/api/person/${this.state.person._key}/common_ancestor_path/${this.state.person.commonAncestorKey}`)
+        .then(resp => {
+          commit('setCommonAncestorPath', resp.data.path);
         })
         .catch(error => {dispatch('axiosErrorHandle', error)});
     }

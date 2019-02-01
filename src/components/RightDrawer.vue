@@ -17,18 +17,19 @@
         <div v-else-if="person.editable">
           <v-btn @click.stop="$refs.croppaUpload.openCroppaDialog">Загрузить фото</v-btn>
         </div>
-        <!--<span v-if="person.shortest.length > 1">родственник</span>-->
         <div>
-          <a v-if="(person.commonAncestorId) && !showCommonAncestorPath"
-             @click.stop="showCommonAncestorPath = true"
+          <router-link
+            v-if="person.commonAncestorKey && $route.query.view !== 'path'"
+            :to="`/tree/${person._key}?view=path`" class=""
           >
             родство
-          </a>
-          <a v-else-if="(person.commonAncestorId) && showCommonAncestorPath"
-             @click.stop="showCommonAncestorPath = false"
+          </router-link>
+          <router-link
+            v-else-if="person.commonAncestorKey && $route.query.view === 'path'"
+            :to="`/tree/${person._key}`" class=""
           >
             древо
-          </a>
+          </router-link>
           <span v-else></span>
         </div>
       </v-flex>
@@ -101,21 +102,20 @@ export default {
   name: 'RightDrawer',
   computed: {
     rightDrawer: {
-      get () {return this.$store.state.rightDrawer},
-      set (newValue) {this.$store.state.rightDrawer = newValue}
+      get() {return this.$store.state.rightDrawer},
+      set(newValue) {this.$store.state.rightDrawer = newValue}
     },
     relateDialog: {
-      get () {return this.$store.state.relateDialog},
-      set (newValue) {this.$store.state.relateDialog = newValue}
+      get() {return this.$store.state.relateDialog},
+      set(newValue) {this.$store.state.relateDialog = newValue}
     },
-    showCommonAncestorPath: {
-      get () {return this.$store.state.showCommonAncestorPath},
-      set (newValue) {this.$store.state.showCommonAncestorPath = newValue}
+    commonAncestorPath() {
+      return this.$store.state.commonAncestorPath
     },
-    user () {return this.$store.state.user},
-    person () {return this.$store.state.person},
-    personForRel () {return this.$store.state.personForRel},
-    isPersonPickedForRel () {
+    user() {return this.$store.state.user},
+    person() {return this.$store.state.person},
+    personForRel() {return this.$store.state.personForRel},
+    isPersonPickedForRel() {
       const personForRel = this.$store.state.personForRel
       if (personForRel) {
         return this.person._id === personForRel._id
@@ -124,9 +124,14 @@ export default {
     }
   },
   methods: {
-    pickForRel () {
+    pickForRel() {
       this.$store.commit('setPersonForRel', this.person)
     },
+    showCommonAncestorPath() {
+      if (!this.commonAncestorPath) {
+        this.$store.dispatch('fetchCommonAncestorPath');
+      }
+    }
   }
 }
 </script>
