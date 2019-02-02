@@ -62,6 +62,10 @@ export default {
   },
   computed: {
     person() {return this.$store.state.person},
+    tree: {
+      get() {return this.$store.state.tree},
+      set (newValue) {this.$store.state.tree = newValue}
+    },
     loading() {return this.$store.state.loading},
     relateDialog: {
       get() {return this.$store.state.relateDialog},
@@ -74,7 +78,7 @@ export default {
     personForRel() {return this.$store.state.personForRel},
     treeData() {
       const treeData = {nodes: [], edges: []};
-      if (!this.person._key || this.predki === null || this.potomki === null) {
+      if (!this.person._key || this.tree.predki === null || this.tree.potomki === null) {
         return treeData;
       }
 
@@ -99,7 +103,7 @@ export default {
       });
       nodesIds.push(this.person._id)
 
-      this.predki.map(item => {
+      this.tree.predki.map(item => {
         if (nodesIds.indexOf(item.person._id) === -1) { // добавляем без повторов
           treeData.nodes.push({
   	        id: item.person._id,
@@ -128,7 +132,7 @@ export default {
         }
       });
 
-      this.siblings.map(item => {
+      this.tree.siblings.map(item => {
         if (nodesIds.indexOf(item.person._id) === -1) { // добавляем без повторов
           treeData.nodes.push({
   	        id: item.person._id,
@@ -157,7 +161,7 @@ export default {
         }
       });
 
-      this.potomki.map(item => {
+      this.tree.potomki.map(item => {
         if (nodesIds.indexOf(item.person._id) === -1) { // добавляем в treeData.nodes если person._id еще не добавлен
           treeData.nodes.push({
   	        id: item.person._id,
@@ -244,9 +248,7 @@ export default {
       axiosInst.get(`/api/person/${this.$route.params.key}/tree`)
       .then(resp => {
         this.$store.commit('setPerson', resp.data.profile)
-        this.predki = resp.data.predki;
-        this.potomki = resp.data.potomki;
-        this.siblings = resp.data.siblings;
+        this.tree = resp.data.tree;
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
 	  renderTree() { // initialize vis network!

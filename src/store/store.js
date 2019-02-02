@@ -14,6 +14,11 @@ export const store = new Vuex.Store({
       _key: null,
       commonAncestorKey: null,
     },
+    tree: {
+      predki: null,
+      potomki: null,
+      siblings: null
+    },
     rods: [], // 2-level nested rods (1-st level 'subethnos')
     loading: false,
     error: null,
