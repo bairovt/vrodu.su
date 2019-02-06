@@ -109,8 +109,12 @@ export const store = new Vuex.Store({
       }
     },
     logout ({commit}) {
+      const person = {
+        _key: null,
+          commonAncestorKey: null,
+      }
       commit('setUser', null)
-      commit('setPerson', null)
+      commit('setPerson', person)
       window.localStorage.removeItem('authToken')
       router.push('/signin')
     },
