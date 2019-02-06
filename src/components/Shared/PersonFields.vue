@@ -4,6 +4,7 @@
 
     <v-text-field
         name="name" label="Имя" type="text"
+        :autofocus="true"
         v-model="person.name" :rules="[rules.required]" required>
     </v-text-field>
 
