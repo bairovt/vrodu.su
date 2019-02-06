@@ -52,10 +52,7 @@ export default {
   name: 'Tree',
   data() {
     return {
-      predki: null,
-      potomki: null,
-      siblings: null,
-      visContainer: '',  //document.getElementById('rod_tree'),
+      visContainer: '',
       edgeDialog: false,
       edge: null
     }
@@ -231,18 +228,29 @@ export default {
         });
         return pathData;
       }
+    },
+    visData() {
+      switch (this.$route.query.view) {
+        case 'path':
+          return this.pathData;
+        default:
+          return this.treeData;
+      }
     }
   },
   watch: {
-    '$route': 'fetchTree',
-    // '$route': 'prepareToRenderTree',
-	  'treeData': 'renderTree',
-	  'pathData': 'renderTree'
+    '$route': 'fetchTreeOrPath',
+	  'visData': 'renderTree',
   },
   methods: {
-    // prepareToRenderTree() {
-    //
-    // },
+    fetchTreeOrPath() {
+      switch (this.$route.query.view) {
+        case 'path':
+          return this.fetchCommonAncestorPath();
+        default:
+          return this.fetchTree();
+      }
+    },
     fetchTree() {
       this.commonAncestorPath = null;
       axiosInst.get(`/api/person/${this.$route.params.key}/tree`)
@@ -251,6 +259,13 @@ export default {
         this.tree = resp.data.tree;
       }).catch(error => {this.$store.dispatch('axiosErrorHandle', error)});
 		},
+    fetchCommonAncestorPath() {
+      axiosInst.get(`/api/person/${this.$route.params.key}/common_ancestor_path/${this.person.commonAncestorKey}`)
+        .then(resp => {
+          this.$store.commit('setCommonAncestorPath', resp.data.path);
+        })
+        .catch(error => {dispatch('axiosErrorHandle', error)});
+    },
 	  renderTree() { // initialize vis network!
       // let start = Date.now()
       // отключение физики при большом количестве потомков для ускорения отрисовки
@@ -259,19 +274,8 @@ export default {
       } else {
         visOptions.physics.enabled = true;
       }
-      let visData;
-      switch (this.$route.query.view) {
-        case 'path':
-        // case 'COMMON_ANCESTOR_PATH':
-          visData = this.pathData;
-          break;
-        default:
-          visData = this.treeData;
-          break;
-      }
-      network = new vis.Network(document.getElementById('rod_tree'), visData, visOptions);
-      network.on("selectNode", function (props) {
-        // this.commonAncestorPath = false;
+      network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
+      network.on("selectNode", (props) => {
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
         let person_key = nodeId.split('/')[1];  // node.id -> person._key (Persons/BairovTumenG -> BairovTumenG);
         router.push('/tree/' + person_key)    // id: Persons/BairovTumenG

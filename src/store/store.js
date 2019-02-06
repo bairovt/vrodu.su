@@ -33,8 +33,7 @@ export const store = new Vuex.Store({
   },
   getters: {
     errorDialog (state) {
-      if (state.error && state.error.dialog) return true
-      else return false
+      return !!(state.error && state.error.dialog);
     }
   },
   mutations: {
@@ -126,13 +125,6 @@ export const store = new Vuex.Store({
       axiosInst.get('/api/rod/all') // загрузка всех родов при создании App
         .then(resp => {
           commit('setRods', resp.data.rods);
-        })
-        .catch(error => {dispatch('axiosErrorHandle', error)});
-    },
-    fetchCommonAncestorPath ({commit, dispatch}) {
-      axiosInst.get(`/api/person/${this.state.person._key}/common_ancestor_path/${this.state.person.commonAncestorKey}`)
-        .then(resp => {
-          commit('setCommonAncestorPath', resp.data.path);
         })
         .catch(error => {dispatch('axiosErrorHandle', error)});
     }

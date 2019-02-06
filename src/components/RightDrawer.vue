@@ -126,11 +126,6 @@ export default {
   methods: {
     pickForRel() {
       this.$store.commit('setPersonForRel', this.person)
-    },
-    showCommonAncestorPath() {
-      if (!this.commonAncestorPath) {
-        this.$store.dispatch('fetchCommonAncestorPath');
-      }
     }
   }
 }
