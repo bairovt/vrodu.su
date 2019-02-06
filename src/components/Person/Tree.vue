@@ -242,18 +242,18 @@ export default {
   },
   watch: {
     '$route': 'fetchTree',
-    'treeView': 'fetchTreeOrPath',
+    'treeView': 'switchView',
 	  'visData': 'renderTree',
   },
   methods: {
-    fetchTreeOrPath() {
+    switchView() {
       switch (this.treeView) {
         case 'path':
           return this.fetchCommonAncestorPath();
         case 'tree':
-          return this.fetchTree();
+          return this.renderTree();
         default:
-          return this.fetchTree();
+          return this.renderTree();
       }
     },
     fetchTree() {
@@ -275,11 +275,8 @@ export default {
 	  renderTree() { // initialize vis network!
       // let start = Date.now()
       // отключение физики при большом количестве потомков для ускорения отрисовки
-      if (this.tree.potomki && this.tree.potomki.length > 100) {
-        visOptions.physics.enabled = false;
-      } else {
-        visOptions.physics.enabled = true;
-      }
+      // if (this.tree.potomki && this.tree.potomki.length > 100) {
+      visOptions.physics.enabled = this.visData.nodes.length <= 100;
       network = new vis.Network(document.getElementById('rod_tree'), this.visData, visOptions);
       network.on("selectNode", (props) => {
         let nodeId = props.nodes[0] // edge's _from, _to in form of 'Persons/BairovTumenG'
