@@ -38,7 +38,7 @@
         </div>
         <div>
           <span v-if="person.user === null">
-            <v-btn v-if="user.hasRoles(['manager'])" small @click.stop="inviteDialog=true">
+            <v-btn v-if="user.hasRoles(['manager', 'inviter'])" small @click.stop="inviteDialog=true">
             <!--<v-btn small @click.stop="inviteDialog=true">-->
               Пригластиь
             </v-btn>
