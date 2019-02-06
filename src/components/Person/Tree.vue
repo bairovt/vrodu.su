@@ -65,6 +65,10 @@ export default {
   },
   computed: {
     person() {return this.$store.state.person},
+    treeView: {
+      get() {return this.$store.state.treeView},
+      set(newValue) {this.$store.state.treeView = newValue}
+    },
     loading() {return this.$store.state.loading},
     relateDialog: {
       get() {return this.$store.state.relateDialog},
@@ -228,7 +232,7 @@ export default {
       }
     },
     visData() {
-      switch (this.$route.query.view) {
+      switch (this.treeView) {
         case 'path':
           return this.pathData;
         default:
@@ -237,19 +241,23 @@ export default {
     }
   },
   watch: {
-    '$route': 'fetchTreeOrPath',
+    '$route': 'fetchTree',
+    'treeView': 'fetchTreeOrPath',
 	  'visData': 'renderTree',
   },
   methods: {
     fetchTreeOrPath() {
-      switch (this.$route.query.view) {
+      switch (this.treeView) {
         case 'path':
           return this.fetchCommonAncestorPath();
+        case 'tree':
+          return this.fetchTree();
         default:
           return this.fetchTree();
       }
     },
     fetchTree() {
+      this.treeView = 'tree';
       this.commonAncestorPath = null;
       axiosInst.get(`/api/person/${this.$route.params.key}/tree`)
       .then(resp => {
@@ -267,7 +275,7 @@ export default {
 	  renderTree() { // initialize vis network!
       // let start = Date.now()
       // отключение физики при большом количестве потомков для ускорения отрисовки
-      if (this.potomki && this.potomki.length > 100) {
+      if (this.tree.potomki && this.tree.potomki.length > 100) {
         visOptions.physics.enabled = false;
       } else {
         visOptions.physics.enabled = true;

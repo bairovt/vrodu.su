@@ -18,18 +18,18 @@
           <v-btn @click.stop="$refs.croppaUpload.openCroppaDialog">Загрузить фото</v-btn>
         </div>
         <div>
-          <router-link
-            v-if="person.commonAncestorKey && $route.query.view !== 'path'"
-            :to="`/tree/${person._key}?view=path`" class=""
+          <a href=""
+            v-if="person.commonAncestorKey && treeView !== 'path'"
+            @click.prevent.stop="treeView = 'path'" class=""
           >
             родство
-          </router-link>
-          <router-link
-            v-else-if="person.commonAncestorKey && $route.query.view === 'path'"
-            :to="`/tree/${person._key}`" class=""
+          </a>
+          <a href=""
+            v-else-if="person.commonAncestorKey && treeView === 'path'"
+            @click.prevent.stop="treeView = 'tree'" class=""
           >
             древо
-          </router-link>
+          </a>
           <span v-else></span>
         </div>
       </v-flex>
@@ -118,6 +118,10 @@ export default {
         return this.person._id === personForRel._id
       }
       return false
+    },
+    treeView: {
+      get() {return this.$store.state.treeView},
+      set(newValue) {this.$store.state.treeView = newValue}
     }
   },
   methods: {

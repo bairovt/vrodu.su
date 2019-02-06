@@ -7,13 +7,13 @@ import axiosInst from '@/utils/axios-instance'
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
-  // strict: process.env.NODE_ENV !== 'production',
   state: {
     user: null,
     person: {
       _key: null,
       commonAncestorKey: null,
     },
+    treeView: 'tree', // 'path'
     rods: [], // 2-level nested rods (1-st level 'subethnos')
     loading: false,
     error: null,
