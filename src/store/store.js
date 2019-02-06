@@ -14,18 +14,12 @@ export const store = new Vuex.Store({
       _key: null,
       commonAncestorKey: null,
     },
-    tree: {
-      predki: null,
-      potomki: null,
-      siblings: null
-    },
     rods: [], // 2-level nested rods (1-st level 'subethnos')
     loading: false,
     error: null,
     rightDrawer: false,
     personForRel: null,
     relateDialog: false,
-    commonAncestorPath: null,
     rules: {
       required: (v) => !!v || 'Обязательное поле',
       email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid'
@@ -64,7 +58,6 @@ export const store = new Vuex.Store({
     setRightDrawer (state, payload) {state.rightDrawer = payload},
     setPersonForRel (state, payload) {state.personForRel = payload},
     setRods (state, payload) {state.rods = payload},
-    setCommonAncestorPath(state, payload) {state.commonAncestorPath = payload}
   },
   actions: {
     axiosErrorHandle({commit, dispatch}, error) {

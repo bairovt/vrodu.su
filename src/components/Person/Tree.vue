@@ -54,23 +54,21 @@ export default {
     return {
       visContainer: '',
       edgeDialog: false,
-      edge: null
+      edge: null,
+      tree: {
+        predki: null,
+        potomki: null,
+        siblings: null
+      },
+      commonAncestorPath: null,
     }
   },
   computed: {
     person() {return this.$store.state.person},
-    tree: {
-      get() {return this.$store.state.tree},
-      set (newValue) {this.$store.state.tree = newValue}
-    },
     loading() {return this.$store.state.loading},
     relateDialog: {
       get() {return this.$store.state.relateDialog},
       set (newValue) {this.$store.state.relateDialog = newValue}
-    },
-    commonAncestorPath: {
-      get() {return this.$store.state.commonAncestorPath},
-      set (newValue) {this.$store.commit('setCommonAncestorPath', newValue)}
     },
     personForRel() {return this.$store.state.personForRel},
     treeData() {
@@ -262,7 +260,7 @@ export default {
     fetchCommonAncestorPath() {
       axiosInst.get(`/api/person/${this.$route.params.key}/common_ancestor_path/${this.person.commonAncestorKey}`)
         .then(resp => {
-          this.$store.commit('setCommonAncestorPath', resp.data.path);
+          this.commonAncestorPath = resp.data.path;
         })
         .catch(error => {dispatch('axiosErrorHandle', error)});
     },

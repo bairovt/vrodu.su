@@ -109,9 +109,6 @@ export default {
       get() {return this.$store.state.relateDialog},
       set(newValue) {this.$store.state.relateDialog = newValue}
     },
-    commonAncestorPath() {
-      return this.$store.state.commonAncestorPath
-    },
     user() {return this.$store.state.user},
     person() {return this.$store.state.person},
     personForRel() {return this.$store.state.personForRel},
